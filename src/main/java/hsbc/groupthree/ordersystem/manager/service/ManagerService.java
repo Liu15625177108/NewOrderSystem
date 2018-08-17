@@ -1,5 +1,8 @@
 package hsbc.groupthree.ordersystem.manager.service;
 
+import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
+
 /**
  * @ClassName ManagerService
  * @Author:Jerry.Liu;
@@ -9,4 +12,5 @@ package hsbc.groupthree.ordersystem.manager.service;
  */
 public interface ManagerService {
     public boolean login(String workerNum,String password);
+    public ResultInfo findByworkerNum(String workerNum);
 }
