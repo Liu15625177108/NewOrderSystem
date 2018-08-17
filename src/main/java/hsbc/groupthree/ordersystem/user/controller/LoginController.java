@@ -1,8 +1,8 @@
 package hsbc.groupthree.ordersystem.user.controller;
 
-import hsbc.team03.ordersystem.loginregister.resultview.ResultView;
-import hsbc.team03.ordersystem.loginregister.security.JwtTool;
-import hsbc.team03.ordersystem.loginregister.services.LoginServicesImpl;
+import hsbc.groupthree.ordersystem.commons.security.JwtTool;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
+import hsbc.groupthree.ordersystem.user.service.LoginServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +34,12 @@ public class LoginController {
 
     /**
      * @param username, password, request
-     * @return ResultView
+     * @return ResultInfo
      * @description user login api
      */
     @GetMapping("/dologin")
-    public ResultView login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
-        ResultView resultView = new ResultView();
+    public ResultInfo login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
+        ResultInfo resultView = new ResultInfo();
         String mes = loginServices.loginJudge(username,password);
         resultView.setMsg(mes);
         if("OK".equals(mes)){

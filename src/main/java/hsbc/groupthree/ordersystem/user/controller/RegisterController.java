@@ -1,9 +1,9 @@
 package hsbc.groupthree.ordersystem.user.controller;
 
-import hsbc.team03.ordersystem.loginregister.pojo.UserInfo;
-import hsbc.team03.ordersystem.loginregister.resultview.ResultView;
-import hsbc.team03.ordersystem.loginregister.services.RegisterServicesImpl;
-import hsbc.team03.ordersystem.loginregister.utils.SendSmsUtil;
+
+import hsbc.groupthree.ordersystem.result.ResultInfo;
+import hsbc.groupthree.ordersystem.user.entity.UserInfo;
+import hsbc.groupthree.ordersystem.user.service.RegisterServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -39,12 +39,12 @@ public class RegisterController {
      * @Description send message to phone
      */
     @GetMapping("/phone-number")
-    public ResultView sendVerifyMessage(@RequestParam("phone-number") String phoneNumber, HttpServletResponse response) {
+    public ResultInfo sendVerifyMessage(@RequestParam("phone-number") String phoneNumber, HttpServletResponse response) {
         String rand = SendSmsUtil.createRandNum();
         SendSmsUtil.sendMsgTo(phoneNumber, rand);
         Cookie cookie = new Cookie("code", SendSmsUtil.sigMD5(rand));
         response.addCookie(cookie);
-        ResultView resultView = new ResultView();
+        ResultInfo resultView = new ResultInfo();
         resultView.setCode(200);
         resultView.setMsg("message sent");
 
@@ -60,9 +60,9 @@ public class RegisterController {
      * @Description verify the code from user
      */
     @GetMapping("/verify-code")
-    public ResultView verifyCode(@RequestParam("verifyCode") String code, HttpServletRequest request,
+    public ResultInfo verifyCode(@RequestParam("verifyCode") String code, HttpServletRequest request,
                                  HttpServletResponse response) {
-        ResultView<String> resultView = new ResultView<>();
+        ResultInfo<String> resultView = new ResultInfo<>();
         String aName = "code";
         String codes = null;
         Cookie[] cookies = request.getCookies();
@@ -90,8 +90,8 @@ public class RegisterController {
      * @Description check if the username available
      */
     @GetMapping("/username-check")
-    public ResultView usernameCheck(@RequestParam("username") String username) {
-        ResultView resultView = new ResultView();
+    public ResultInfo usernameCheck(@RequestParam("username") String username) {
+        ResultInfo resultView = new ResultInfo();
         UserInfo list = registerServices.findUserByUsername(username);
         if (list == null) {
             resultView.setCode(200);
@@ -106,12 +106,12 @@ public class RegisterController {
 
     /**
      * @param :userInfo, request
-     * @return ResultView
+     * @return ResultInfo
      * @Description input register message of user
      */
     @PostMapping("/login-message")
-    public ResultView loginMessage(@RequestBody @Validated UserInfo userInfo, BindingResult bindingResult) {
-        ResultView resultView = new ResultView();
+    public ResultInfo loginMessage(@RequestBody @Validated UserInfo userInfo, BindingResult bindingResult) {
+        ResultInfo resultView = new ResultInfo();
         if (bindingResult.hasErrors()) {
             List<ObjectError> errors = bindingResult.getAllErrors();
             String err = "";
