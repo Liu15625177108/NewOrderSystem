@@ -8,24 +8,24 @@ package hsbc.groupthree.ordersystem.result;
  * @Date 2018/8/17 10:46
  */
 public class ResultInfo <T>{
-    private String code;                    // the return code.
+    private Integer code;                    // the return code.
     private String msg;                     // the return msg;
     private T data;                         //the return data
 
 
     public  ResultInfo(){}
 
-    public ResultInfo(String code, String msg, T data) {
+    public ResultInfo(Integer code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
