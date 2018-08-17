@@ -1,6 +1,9 @@
 package hsbc.groupthree.ordersystem.order.controller;
 
+import hsbc.groupthree.ordersystem.order.service.OrderService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
+import hsbc.groupthree.ordersystem.product.service.ProductService;
+import hsbc.groupthree.ordersystem.result.ResultViewService;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -22,11 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/order")
 public class OrderController {
     @Autowired
-    private OrdersService orderService;
+    private OrderService orderService;
     @Autowired
     private UserService userService;
     @Autowired
-    private ProductsService productsService;
+    private ProductService productsService;
     @Autowired
     private ResultViewService resultViewService;
 //    private ResultViewService resultViewService = new ResultViewServiceImpl();
@@ -69,22 +73,6 @@ public class OrderController {
             return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(27);
-    }
-
-    /**
-     * @Author Chen
-     * @Description //TODO test method
-     * @Date 15:29 2018/8/14
-     * @Param []
-     * @return java.lang.Object
-     **/
-    @GetMapping(value = "/t1")
-    public @ResponseBody
-    Object test1() {
-        TestInfo testInfo = new TestInfo();
-        testInfo.setTestId(11);
-        testInfo.setCode(1);
-        return null;
     }
 
     /**

@@ -10,12 +10,15 @@
  */
 package hsbc.groupthree.ordersystem.order.service;
 
+import hsbc.groupthree.ordersystem.commons.utils.CommonsUtils;
+import hsbc.groupthree.ordersystem.commons.utils.DataUtils;
 import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.order.repository.OrderRepository;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
@@ -27,8 +30,15 @@ import java.util.Date;
  * @create 2018/8/17
  * @since 1.0.0
  */
+@Service
 public class OrderServiceImpl implements OrderService{
 
+    @Autowired
+    private CommonsUtils commonsUtils;
+    
+    @Autowired
+    private DataUtils dataUtils;
+    
     @Autowired
     private OrderRepository orderRepository;
 
@@ -45,10 +55,10 @@ public class OrderServiceImpl implements OrderService{
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized  boolean insertOrder(ProductInfo productInfo, UserInfo userInfo) {
-        OrderInfo ordersInfo = new OrderInfo(CommonsUtils.getUUID(), productInfo.getProductName(),
+        OrderInfo ordersInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
                 productInfo.getProductNumber(), userInfo.getUserName(), userInfo.getUserPhone(),
                 userInfo.getUserAddress(), productInfo.getProductPrice(), 1,
-                DataUtils.getCurrentTime(), getOrderPrice(productInfo));
+                dataUtils.getCurrentTime(), getOrderPrice(productInfo));
         orderRepository.save(ordersInfo);
         double userMoney = userInfo.getUserMoney() - getOrderPrice(productInfo);
 //        int i=1/0;
