@@ -1,4 +1,4 @@
-package hsbc.groupthree.ordersystem.user.controller;
+package hsbc.groupthree.ordersystem.commons.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

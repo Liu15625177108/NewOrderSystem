@@ -52,9 +52,29 @@ public class UserInfo implements Serializable {
     private double balance;
 
     @Email
-    private String Email;
+    private String email;
 
     private String phone;
+
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
+    }
+
+    private String payPassword;
 
     @CreatedDate
     private Date createTime;
@@ -62,7 +82,7 @@ public class UserInfo implements Serializable {
     @LastModifiedDate
     private Date lastmodifiedTime;
 
-    public UserInfo(String userId, @NotNull @Size(min = 6, max = 20) String username, @NotNull @Size(min = 6) String password, @NotNull String realName, int gender, @DecimalMax("99") int age, String position, String income, double balance, @javax.validation.constraints.Email String email, String phone, Date createTime, Date lastmodifiedTime) {
+    public UserInfo(String userId, @NotNull @Size(min = 6, max = 20) String username, @NotNull @Size(min = 6) String password, @NotNull String realName, int gender, @DecimalMax("99") int age, String position, String income, double balance, @Email String email, String phone, String address, String payPassword, Date createTime, Date lastmodifiedTime) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -72,8 +92,10 @@ public class UserInfo implements Serializable {
         this.position = position;
         this.income = income;
         this.balance = balance;
-        Email = email;
+        this.email = email;
         this.phone = phone;
+        this.address = address;
+        this.payPassword = payPassword;
         this.createTime = createTime;
         this.lastmodifiedTime = lastmodifiedTime;
     }
@@ -154,11 +176,11 @@ public class UserInfo implements Serializable {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPhone() {

@@ -2,7 +2,7 @@ package hsbc.groupthree.ordersystem.user.service;
 
 
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
-import hsbc.groupthree.ordersystem.user.repository.UserInfoRepository;
+import hsbc.groupthree.ordersystem.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServicesImpl implements LoginServices {
 
-    private final UserInfoRepository userInfoRepository;
+    private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public LoginServicesImpl(UserInfoRepository userInfoRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userInfoRepository = userInfoRepository;
+    public LoginServicesImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -35,7 +35,7 @@ public class LoginServicesImpl implements LoginServices {
      */
     @Override
     public UserInfo findUserByUsername(String username) {
-        return userInfoRepository.findOneByUsername(username);
+        return userRepository.findOneByUsername(username);
     }
 
     /**
@@ -45,7 +45,7 @@ public class LoginServicesImpl implements LoginServices {
      *
     */
     public String getUserIdByUsername(String username){
-        UserInfo userInfo = userInfoRepository.findOneByUsername(username);
+        UserInfo userInfo = userRepository.findOneByUsername(username);
         if(userInfo == null){
             return null;
         }

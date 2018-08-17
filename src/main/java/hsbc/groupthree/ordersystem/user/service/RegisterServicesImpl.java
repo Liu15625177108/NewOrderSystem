@@ -1,8 +1,9 @@
 package hsbc.groupthree.ordersystem.user.service;
 
 
+import hsbc.groupthree.ordersystem.commons.utils.CommonsUtils;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
-import hsbc.groupthree.ordersystem.user.repository.UserInfoRepository;
+import hsbc.groupthree.ordersystem.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,14 @@ import java.util.List;
 @Service
 public class RegisterServicesImpl implements RegisterServices {
 
-    private final UserInfoRepository userInfoRepository;
+    private final UserRepository userRepository;
+
+    private final CommonsUtils commonsUtils;
 
     @Autowired
-    public RegisterServicesImpl(UserInfoRepository userInfoRepository) {
-        this.userInfoRepository = userInfoRepository;
+    public RegisterServicesImpl(UserRepository userRepository, CommonsUtils commonsUtils) {
+        this.userRepository = userRepository;
+        this.commonsUtils = commonsUtils;
     }
 
     /**
@@ -34,7 +38,7 @@ public class RegisterServicesImpl implements RegisterServices {
      */
     @Override
     public List<UserInfo> findAllUser() {
-        return userInfoRepository.findAll();
+        return userRepository.findAll();
     }
 
     /**
@@ -45,7 +49,7 @@ public class RegisterServicesImpl implements RegisterServices {
      */
     @Override
     public UserInfo findUserByUsername(String username) {
-        return userInfoRepository.findOneByUsername(username);
+        return userRepository.findOneByUsername(username);
 
     }
 
@@ -58,12 +62,12 @@ public class RegisterServicesImpl implements RegisterServices {
     @Override
     public boolean addUser(UserInfo userInfo) {
         try {
-            userInfo.setUserId(GenerateId.getUUID());
+            userInfo.setUserId(commonsUtils.getUUID());
             userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
             Date date = new Date();
             userInfo.setCreateTime(date);
             userInfo.setLastmodifiedTime(date);
-            userInfoRepository.save(userInfo);
+            userRepository.save(userInfo);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
