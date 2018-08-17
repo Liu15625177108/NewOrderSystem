@@ -1,11 +1,28 @@
 package hsbc.groupthree.ordersystem.product.service;
 
+import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+
 /**
- * @ClassName ProductService
- * @Author:Jerry.Liu;
- * @Description://TODO
- * @Package hsbc.groupthree.ordersystem.product.service
- * @Date 2018/8/16 23:19
+ * @Author:Evan
+ * @Date:2018/8/2 14:47
+ * @Describe：
+ * @Return:
+ * @Param:
  */
-public class ProductService {
+public interface ProductService {
+    /**
+     * @return :list
+     * @Description: get the all products
+     * @Author: @Evan
+     * @CreateDate: 2018/8/5 22:16
+     * @UpdateDate: 2018/8/5 22:16
+     * @Version: 1.0
+     */
+
+    Page<ProductInfo> getProductListByPage(int page, String productType, int count, Sort sort);
+
 }
