@@ -1,5 +1,4 @@
 package hsbc.groupthree.ordersystem.product.service;
-
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +55,15 @@ public class ProductServiceImpl implements ProductService {
 
 //        Page<Product> products= productRepository.findAll();
 
+    }
+
+    @Override
+    public ProductInfo getProductInfoByProductId(String productId) {
+        return productRepository.findByProductId(productId);
+    }
+
+    @Override
+    public List<ProductInfo> findByProductCodeOrProductName(String productCode, String productName) {
+        return productRepository.findByProductCodeOrProductName(productCode,productName);
     }
 }

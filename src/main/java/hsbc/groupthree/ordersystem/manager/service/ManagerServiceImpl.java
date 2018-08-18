@@ -166,5 +166,10 @@ public class ManagerServiceImpl implements ManagerService {
         return productTypeRepository.findAll();
     }
 
+    @Override
+    public List<ProductInfo> findByProductCodeOrProductName(String productCode,String productName) {
+        return managerRepository.findByProductCodeOrProductName(productCode,productName);
+    }
+
 
 }

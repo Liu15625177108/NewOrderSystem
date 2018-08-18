@@ -47,4 +47,15 @@ public interface ManagerService {
    boolean modifyProduct(ProductInfo product, MultipartFile file) throws IOException;
 
     List<ProductTypeInfo> getProductType();
+
+    /**
+     *
+     * @param productCode
+     * @param productName
+     * @return
+     */
+    List<ProductInfo> findByProductCodeOrProductName(String productCode,String productName);
+
+
+
 }

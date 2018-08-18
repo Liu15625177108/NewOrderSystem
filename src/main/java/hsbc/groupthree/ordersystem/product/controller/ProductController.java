@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * @ClassName ProductController
  * @Author:Jerry.Liu;
@@ -58,5 +60,11 @@ public class ProductController {
         Page<ProductInfo> products = productService.getProductListByPage(pageNum,productType,dataCount, sort);
 
         return products;
+    }
+
+    @PostMapping("/findProduct/byProductCodeOrProductName")
+    public List<ProductInfo> findByProductCodeOrProductName(String productCode, String productName) {
+        List<ProductInfo> productList = productService.findByProductCodeOrProductName(productCode,productName);
+        return productList;
     }
 }

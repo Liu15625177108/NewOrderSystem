@@ -1,10 +1,9 @@
 package hsbc.groupthree.ordersystem.commons.utils;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
-
+import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 /**
  * @Author:Evan
  * @Date:2018/8/4 10:23
@@ -12,6 +11,7 @@ import java.util.Date;
  * @Return:
  * @Param:
  */
+@Component
 public class DataUtils {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -45,10 +45,12 @@ public class DataUtils {
     /**
      * @return String Time
      * @method
-     * @author @Evan
+     * @author @Evan @Chen
      * @version
      * @date 2018/8/6 14:07
-     */
+     **/
+
+
     public String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
         String time = sdf.format(new Date());

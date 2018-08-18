@@ -25,4 +25,21 @@ public interface ProductService {
 
     Page<ProductInfo> getProductListByPage(int page, String productType, int count, Sort sort);
 
+    /**
+     * @Author Chen
+     * @Description //TODO
+     * @Date 14:18 2018/8/17
+     * @Param [productId]
+     * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
+     **/
+    ProductInfo getProductInfoByProductId(String productId);
+    /**
+     *
+     * @param productCode
+     * @param productName
+     * @return
+     */
+    List<ProductInfo> findByProductCodeOrProductName(String productCode, String productName);
+
+
 }

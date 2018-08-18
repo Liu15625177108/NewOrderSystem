@@ -119,4 +119,10 @@ public class ManagerController {
         List<ProductTypeInfo> list=managerService.getProductType();
         return list;
     }
+    @PostMapping("/manager/findProduct/byProductCodeOrProductName")
+    public List<ProductInfo> findByProductCodeOrProductName(String productCode,String productName) {
+        List<ProductInfo> productList = managerService.findByProductCodeOrProductName(productCode,productName);
+        return productList;
+    }
+
 }
