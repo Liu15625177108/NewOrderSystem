@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.springframework.stereotype.Component;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  * @Author:Evan
  * @Date:2018/8/4 10:23
@@ -28,6 +32,7 @@ public class DataUtils {
         return date;
     }
 
+
     public boolean compareCurrentTimeAndDueDate(ProductInfo product) {
         boolean tag = true;
         /*当前时间*/
@@ -42,6 +47,7 @@ public class DataUtils {
         return tag;
     }
 
+
     /**
      * @return String Time
      * @method
@@ -51,13 +57,13 @@ public class DataUtils {
      **/
 
 
-    public String getCurrentTime() {
+    public  String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
         String time = sdf.format(new Date());
         return time;
     }
 
-    public Date getSystemTime() {
+    public  Date getSystemTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return new Date();
     }

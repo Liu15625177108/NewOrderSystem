@@ -6,6 +6,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
+import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 /**
  * @ClassName ProductRepository
  * @Author:Evan
@@ -14,6 +17,7 @@ import java.util.List;
  * @Date 2018/8/16 23:21
  */
 public interface ProductRepository extends JpaRepository<ProductInfo,String> {
+<<<<<<< HEAD
 
     List<ProductInfo> findByStatus(int i);
 
@@ -27,6 +31,8 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      */
     Page<ProductInfo> findAll(Pageable pageable);
 
+=======
+>>>>>>> dc75e86d3178cb9b8c79c698dfa81f194bcfd35a
     /**
      * @Author Chen
      * @Description //TODO get ProductInfo by ProductId
@@ -35,6 +41,7 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      **/
     ProductInfo findByProductId(String productId);
+<<<<<<< HEAD
 
 
     /**
@@ -47,4 +54,6 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
 
 
 
+=======
+>>>>>>> dc75e86d3178cb9b8c79c698dfa81f194bcfd35a
 }
