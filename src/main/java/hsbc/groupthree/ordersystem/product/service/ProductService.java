@@ -1,13 +1,11 @@
 package hsbc.groupthree.ordersystem.product.service;
 
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
-<<<<<<< HEAD
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-=======
->>>>>>> dc75e86d3178cb9b8c79c698dfa81f194bcfd35a
+
 
 /**
  * @Author:Evan
@@ -17,7 +15,7 @@ import java.util.List;
  * @Param:
  */
 public interface ProductService {
-<<<<<<< HEAD
+
     /**
      * @return :list
      * @Description: get the all products
@@ -28,22 +26,16 @@ public interface ProductService {
      */
 
     Page<ProductInfo> getProductListByPage(int page, String productType, int count, Sort sort);
-
-    /**
-     * @Author Chen
-     * @Description //TODO
-=======
     
     /**
      * @Author Chen
-     * @Description //TODO 
->>>>>>> dc75e86d3178cb9b8c79c698dfa81f194bcfd35a
+     * @Description //TODO
      * @Date 14:18 2018/8/17
      * @Param [productId]
      * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      **/
     ProductInfo getProductInfoByProductId(String productId);
-<<<<<<< HEAD
+
     /**
      *
      * @param productCode
@@ -52,7 +44,4 @@ public interface ProductService {
      */
     List<ProductInfo> findByProductCodeOrProductName(String productCode, String productName);
 
-
-=======
->>>>>>> dc75e86d3178cb9b8c79c698dfa81f194bcfd35a
 }

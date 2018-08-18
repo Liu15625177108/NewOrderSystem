@@ -15,17 +15,17 @@ import org.springframework.stereotype.Service;
  * @Created: 2018年08月03日 10:32:43
  **/
 @Service
-public class LoginServicesImpl implements LoginServices {
+public class LoginServicesImpl  {
 
-    private final UserRepository userRepository;
+//    private final UserRepository userRepository;
+//
+//    private final BCryptPasswordEncoder passwordEncoder;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    public LoginServicesImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+//    @Autowired
+//    public LoginServicesImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+//        this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     /**
      * @Description to get a user by username
@@ -33,10 +33,10 @@ public class LoginServicesImpl implements LoginServices {
      * @return hsbc.team03.ordersystem.loginregister.pojo.UserInfo
      *
      */
-    @Override
-    public UserInfo findUserByUsername(String username) {
-        return userRepository.findOneByUsername(username);
-    }
+//    @Override
+//    public UserInfo findUserByUsername(String username) {
+//        return userRepository.findOneByUsername(username);
+//    }
 
     /**
      *  to get user id by using username
@@ -44,13 +44,13 @@ public class LoginServicesImpl implements LoginServices {
      * @return java.lang.String
      *
     */
-    public String getUserIdByUsername(String username){
-        UserInfo userInfo = userRepository.findOneByUsername(username);
-        if(userInfo == null){
-            return null;
-        }
-        return userInfo.getUserId();
-    }
+//    public String getUserIdByUsername(String username){
+//        UserInfo userInfo = userRepository.findOneByUsername(username);
+//        if(userInfo == null){
+//            return null;
+//        }
+//        return userInfo.getUserId();
+//    }
 
     /**
      *  judge if login successful
@@ -58,16 +58,16 @@ public class LoginServicesImpl implements LoginServices {
      * @return java.lang.String
      *
     */
-    public String loginJudge(String username,String password){
-        String result="";
-        UserInfo userInfo = findUserByUsername(username);
-        if(userInfo == null){
-            result = "user not exist";
-        } else if(passwordEncoder.matches(password,userInfo.getPassword())){
-            result = "OK";
-        } else {
-            result = "wrong password";
-        }
-        return result;
-    }
+//    public String loginJudge(String username,String password){
+//        String result="";
+//        UserInfo userInfo = findUserByUsername(username);
+//        if(userInfo == null){
+//            result = "user not exist";
+//        } else if(passwordEncoder.matches(password,userInfo.getPassword())){
+//            result = "OK";
+//        } else {
+//            result = "wrong password";
+//        }
+//        return result;
+//    }
 }
