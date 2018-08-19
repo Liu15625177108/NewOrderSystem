@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,10 +36,10 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private CommonsUtils commonsUtils;
-    
+
     @Autowired
     private DataUtils dataUtils;
-    
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -55,12 +56,11 @@ public class OrderServiceImpl implements OrderService{
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized  boolean insertOrder(ProductInfo productInfo, UserInfo userInfo) {
-        OrderInfo ordersInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
-                productInfo.getProductNumber(), userInfo.getUserName(), userInfo.getUserPhone(),
-                userInfo.getUserAddress(), productInfo.getProductPrice(), 1,
-                dataUtils.getCurrentTime(), getOrderPrice(productInfo));
-        orderRepository.save(ordersInfo);
-        double userMoney = userInfo.getUserMoney() - getOrderPrice(productInfo);
+        OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
+                userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
+                1, dataUtils.getCurrentTime(), getOrderPrice(productInfo));
+        orderRepository.save(orderInfo);
+        double userMoney = userInfo.getBalance() - getOrderPrice(productInfo);
 //        int i=1/0;
         //to reduce money
         userRepository.updateUserInfoByUserId(userInfo.getUserId(), userMoney);
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService{
      **/
     @Override
     public double getOrderPrice(ProductInfo productInfo) {
-        double orderPice = productInfo.getProductNumber() * productInfo.getProductPrice();
+        double orderPice =  productInfo.getProductPrice();
         return orderPice;
     }
 
@@ -89,11 +89,11 @@ public class OrderServiceImpl implements OrderService{
      **/
     @Override
     public boolean determineTime(String orderId) {
-        OrdersInfo ordersInfo = ordersRepository.findByorderId(orderId);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        OrderInfo orderInfo = orderRepository.findByorderId(orderId);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
         try {
             //get order time
-            Date date = simpleDateFormat.parse(ordersInfo.getStartTime());
+            Date date = simpleDateFormat.parse(orderInfo.getStartTime());
             //get current time to reduce 7 days
             Date nowDate = new Date();
             Date beforeDate = new Date(nowDate.getTime() - (long)7 * 24 * 60 * 60 * 1000);
@@ -114,8 +114,8 @@ public class OrderServiceImpl implements OrderService{
      * @Param [orderId]
      **/
     @Override
-    public OrdersInfo getOrderInfoByOrderId(String orderId) {
-        return ordersRepository.findByorderId(orderId);
+    public OrderInfo getOrderInfoByOrderId(String orderId) {
+        return orderRepository.findByorderId(orderId);
     }
 
     /**
@@ -128,13 +128,13 @@ public class OrderServiceImpl implements OrderService{
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateOrderStatus(String orderId) {
-        OrderInfo ordersInfo=ordersRepository.findByorderId(orderId);
-        ordersInfo.setOrderStatus(2);
-        ordersRepository.save(ordersInfo);
+        OrderInfo orderInfo=orderRepository.findByorderId(orderId);
+        orderInfo.setOrderStatus(2);
+        orderRepository.save(orderInfo);
         //get userinfo by username in order to rollback money
-        UserInfo userInfo=userRepository.findByUserName(ordersInfo.getUserName());
-        double nowMoney=userInfo.getUserMoney();
-        userInfo.setUserMoney(nowMoney+ordersInfo.getTotalMoney());
+        UserInfo userInfo=userRepository.findOneByUsername(orderInfo.getUserName());
+        double nowMoney=userInfo.getBalance();
+        userInfo.setBalance(nowMoney+orderInfo.getTotalMoney());
         userRepository.save(userInfo);
         return false;
     }

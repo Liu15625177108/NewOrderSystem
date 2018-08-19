@@ -78,16 +78,14 @@ public class OrderInfo {
 
     public OrderInfo(){}
 
-    public OrderInfo(String orderId, String productName, int productNumber, String userName,
-                      String userPhone, String userAddress, double productPrice, int orderStatus,
-                      String startTime,double totalMoney) {
+    public OrderInfo(String orderId, String productName, String userName,
+                     String userPhone, String userAddress, int orderStatus,
+                     String startTime,double totalMoney) {
         this.orderId = orderId;
         this.productName = productName;
-        this.productNumber = productNumber;
         this.userName = userName;
         this.userPhone = userPhone;
         this.userAddress = userAddress;
-        this.productPrice = productPrice;
         this.orderStatus = orderStatus;
         this.startTime = startTime;
         this.totalMoney = totalMoney;

@@ -29,7 +29,8 @@ import org.springframework.stereotype.Component;
 public class OrderView {
     @Autowired
     private  CommonsUtils commonsUtils;
-    
+    @Autowired
+    private  DataUtils dataUtils;
     /**
      * @Author Chen
      * @Description //TODO  get orderInfo
@@ -38,10 +39,9 @@ public class OrderView {
      * @return hsbc.team03.ordersystem.toorder.product.OrdersInfo
      **/
     public OrderInfo getOrderInfo(ProductInfo productInfo, UserInfo userInfo){
-        OrderInfo orderInfo=new OrdersInfo(commonsUtils.getUUID(),productInfo.getProductName(),
-                productInfo.getProductNumber(),userInfo.getUserName(),userInfo.getUserPhone(),
-                userInfo.getUserAddress(),productInfo.getProductPrice(),1, DataUtils.getCurrentTime(),
-                productInfo.getProductNumber()*productInfo.getProductPrice());
+        OrderInfo orderInfo=new OrderInfo(commonsUtils.getUUID(),productInfo.getProductName(),
+                userInfo.getUsername(),userInfo.getPhone(), userInfo.getAddress(),
+                1,dataUtils.getCurrentTime(), productInfo.getProductPrice());
         return  orderInfo;
     }
 }

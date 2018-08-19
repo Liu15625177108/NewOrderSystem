@@ -33,10 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(OrderController.class)
 @Slf4j
 public class OrderControllerTest {
+    private DataUtils dataUtils=new DataUtils();
+    private CommonsUtils commonsUtils=new CommonsUtils();
     @Autowired
     private MockMvc mvc;
-    
-    private CommonsUtils commonsUtils=new CommonsUtils();
     @MockBean
     private OrderService orderService;
     @MockBean
@@ -50,14 +50,12 @@ public class OrderControllerTest {
         UserInfo userInfo = new UserInfo(commonsUtils.getUUID(), "Chen",
                 100000, "123", "11111111111",
                 "岗顶");
-        ProductInfo productInfo = new ProductInfo("11", 3,
+        ProductInfo productInfo = new ProductInfo("11",
                 100, "信用卡");
-        OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(),
-                productInfo.getProductName(), productInfo.getProductNumber(),
-                userInfo.getUserName(), userInfo.getUserPhone(),
-                userInfo.getUserAddress(), productInfo.getProductPrice(),
-                1,DataUtils.getCurrentTime(),productInfo.getProductNumber() *
-                productInfo.getProductPrice());
+        OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(),productInfo.getProductName(),
+                userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
+                1, dataUtils.getCurrentTime(),productInfo.getProductPrice()
+        );
         ResultInfo resultView = new ResultInfo<OrderInfo>(200, "success", orderInfo);
 
 
@@ -78,7 +76,7 @@ public class OrderControllerTest {
 //                .content(jsonString)
                 .requestAttr("userId", "111")
 //                .sessionAttr("userId", "111")
-                .param("productId","11")
+                .param("productCode","11")
                 .param("payPassword", "123"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(); //return response's value
@@ -100,7 +98,7 @@ public class OrderControllerTest {
         given(this.orderService.updateOrderStatus(eq("01"))).willReturn(true);
 
         String result = this.mvc.perform(post("/order/tocancelorder")
-                .param("orderId", "01"))
+                .param("orderId", "11"))
                 .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

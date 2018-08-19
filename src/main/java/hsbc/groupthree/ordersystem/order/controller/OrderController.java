@@ -4,6 +4,7 @@ import hsbc.groupthree.ordersystem.order.service.OrderService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.service.ProductService;
 import hsbc.groupthree.ordersystem.result.ResultViewService;
+import hsbc.groupthree.ordersystem.result.ResultViewServiceImpl;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +32,9 @@ public class OrderController {
     private UserService userService;
     @Autowired
     private ProductService productsService;
-    @Autowired
-    private ResultViewService resultViewService;
-//    private ResultViewService resultViewService = new ResultViewServiceImpl();
+    //    @Autowired
+//    private ResultViewService resultViewService;
+    private ResultViewService resultViewService = new ResultViewServiceImpl();
 
 //    @GetMapping(value = "/toshoworder")
 //    public Object showOrder(@RequestParam("productId")String productId){
@@ -49,20 +50,20 @@ public class OrderController {
      **/
     @PostMapping(value = "/toorder")
     public @ResponseBody
-    Object toOrder(@RequestParam("productId")String productId, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
+    Object toOrder(@RequestParam("productCode") String productCode, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         System.out.println(payPassword);
-        ProductInfo productInfo = productsService.getProductInfoByProductId(productId);
+        ProductInfo productInfo = productsService.getProductInfoByProductId(productCode);
         String userId = (String) request.getAttribute("userId");
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
-        if(userInfo!=null){
-            System.out.println(userInfo.getUserName()+"++");
+        if (userInfo != null) {
+            System.out.println(userInfo.getUsername() + "++");
             System.out.println(productInfo.getProductName());
         }
         //To compare userMoney and orderPrice
-        if (userService.toValidateMoney(userInfo,productInfo)) {
+        if (userService.toValidateMoney(userInfo, productInfo)) {
             //to check userPayPassword
             if (userService.toValidatePayPassword(userInfo, payPassword)) {
                 if (orderService.insertOrder(productInfo, userInfo)) {
@@ -76,15 +77,15 @@ public class OrderController {
     }
 
     /**
+     * @return java.lang.Object
      * @Author Chen
      * @Description //TODO to cancel order
      * @Date 15:28 2018/8/4
      * @Param [orderId]
-     * @return java.lang.Object
      **/
     @PostMapping(value = "/tocancelorder")
     public @ResponseBody
-    Object toCancelOrder(@RequestParam("orderId") String orderId,HttpServletResponse response,HttpServletRequest request) {
+    Object toCancelOrder(@RequestParam("orderId") String orderId, HttpServletResponse response, HttpServletRequest request) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         if (orderId != null && !orderId.equals("")) {
