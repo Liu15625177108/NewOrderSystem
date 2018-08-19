@@ -21,9 +21,8 @@ public class SystemLogController {
 
     @Autowired
     SystemLogService systemLogService;
-    @RequestMapping(value = "/export/systemlog",method = RequestMethod.POST)
-    public String getSystemLogList( HttpServletResponse response) {
-        int n=20;
+    @RequestMapping(value = "/export/systemlog", method = { RequestMethod.GET,RequestMethod.POST })
+    public String outputSystemLogList(int n,HttpServletResponse response) {
         String str = systemLogService.getSystemLog(n, response);
         return str;
     }
