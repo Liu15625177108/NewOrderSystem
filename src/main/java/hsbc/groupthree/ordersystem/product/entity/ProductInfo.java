@@ -62,6 +62,12 @@ public class ProductInfo {
     public ProductInfo() {
     }
 
+    public ProductInfo(String productCode, double productPrice, String productName) {
+        this.productCode = productCode;
+        this.productPrice = productPrice;
+        this.productName = productName;
+    }
+
     public String getId() {
         return id;
     }

@@ -19,6 +19,7 @@ import java.util.List;
  **/
 @Repository
 public interface UserRepository extends JpaRepository<UserInfo, String> {
+    
     List<UserInfo> findByUsername(String username);
 
     UserInfo findOneByUsername(String username);
@@ -31,7 +32,7 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
      * @return void
      **/
     @Modifying
-    @Query("update UserInfo u set u.userMoney = ?2 where u.userId=?1")
-    void updateUserInfoByUserId( String userId,double userMoney);
-    UserInfo findByUserName (String userName);
+    @Query("update UserInfo u set u.balance = ?2 where u.userId=?1")
+    void updateUserInfoByUserId( String userId,double balance);
+
 }

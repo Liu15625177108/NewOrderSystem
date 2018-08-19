@@ -25,7 +25,7 @@ public class ResultInfo <T>{
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

@@ -102,6 +102,18 @@ public class UserInfo implements Serializable {
 
     public UserInfo() {
     }
+    
+
+    public UserInfo(String userId, String username,
+                    double balance, String payPassword,
+                    String phone, String address) {
+        this.userId = userId;
+        this.username = username;
+        this.balance = balance;
+        this.payPassword = payPassword;
+        this.phone = phone;
+        this.address = address;
+    }
 
     public String getUserId() {
         return userId;

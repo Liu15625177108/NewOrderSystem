@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
      **/
     @Override
     public boolean toValidateMoney(UserInfo userInfo, ProductInfo productInfo) {
-        if (userInfo.getUserMoney() > productInfo.getProductNumber() * productInfo.getProductPrice()) {
+        if (userInfo.getBalance() >  productInfo.getProductPrice()) {
             return true;
         }
         return false;
