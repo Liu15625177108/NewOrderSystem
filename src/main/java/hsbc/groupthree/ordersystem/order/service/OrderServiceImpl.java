@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public boolean determineTime(String orderId) {
         OrderInfo orderInfo = orderRepository.findByorderId(orderId);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
         try {
             //get order time
             Date date = simpleDateFormat.parse(orderInfo.getStartTime());

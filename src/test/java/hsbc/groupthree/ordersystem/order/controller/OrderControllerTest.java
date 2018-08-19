@@ -98,7 +98,7 @@ public class OrderControllerTest {
         given(this.orderService.updateOrderStatus(eq("01"))).willReturn(true);
 
         String result = this.mvc.perform(post("/order/tocancelorder")
-                .param("orderId", "01"))
+                .param("orderId", "11"))
                 .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
