@@ -137,9 +137,9 @@ public class OrderController {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (userName != null){
-            return this.orderService.findAllOrder(userName);
+            return orderService.findAllOrder(userName);
         }else{
-            return this.resultViewService.ResultErrorView(34);
+            return resultViewService.ResultErrorView(34);
         }
     }
 
