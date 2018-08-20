@@ -1,8 +1,5 @@
 package hsbc.groupthree.ordersystem.manager.service;
-import hsbc.groupthree.ordersystem.commons.utils.CommonTool;
-import hsbc.groupthree.ordersystem.commons.utils.DataCheckTool;
-import hsbc.groupthree.ordersystem.commons.utils.DataUtils;
-import hsbc.groupthree.ordersystem.commons.utils.UUIDUtils;
+import hsbc.groupthree.ordersystem.commons.utils.*;
 import hsbc.groupthree.ordersystem.manager.repository.ManagerRepository;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
@@ -18,9 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,17 +31,19 @@ public class ManagerServiceImpl implements ManagerService {
     private final SystemLogRepository systemLogRepository;
     private final ManagerRepository managerRepository;
     private final DataCheckTool dataCheckTool;
+    private final PageableTool pageableTool;
     CommonTool commonTool = new CommonTool();
 
     /**
      * the ManagerServiceImpl constructor  is to init managerRepository
      */
     @Autowired
-    public ManagerServiceImpl(ProductTypeRepository productTypeRepository, ManagerRepository managerRepository, SystemLogRepository systemLogRepository, DataCheckTool dataCheckTool) {
+    public ManagerServiceImpl(ProductTypeRepository productTypeRepository, ManagerRepository managerRepository, SystemLogRepository systemLogRepository, DataCheckTool dataCheckTool, PageableTool pageableTool) {
         this.productTypeRepository = productTypeRepository;
         this.managerRepository = managerRepository;
         this.systemLogRepository = systemLogRepository;
         this.dataCheckTool = dataCheckTool;
+        this.pageableTool = pageableTool;
     }
 
     /**
@@ -58,21 +55,7 @@ public class ManagerServiceImpl implements ManagerService {
      */
     @Override
     public Page<ProductInfo> getProductListByPage(int page, String productType, int count, Sort sort) {
-        Specification<ProductInfo> specification = new Specification<ProductInfo>() {
-            @Override
-            public Predicate toPredicate(Root<ProductInfo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<Predicate>();
-                Path<Long> status = root.get("status");
-                Predicate predicate = criteriaBuilder.equal(status, 1);
-                predicates.add(predicate);
-                Path<Long> path = root.get("productType");
-                Predicate predicate1 = criteriaBuilder.equal(path, productType);
-                predicates.add(predicate1);
-                return criteriaBuilder.and(predicates
-                        .toArray(new Predicate[] {}));
-            }
-        };
-
+        Specification<ProductInfo> specification=pageableTool.specifucation(productType);
         Pageable pageable = PageRequest.of(page, count, sort);
         return managerRepository.findAll(specification, pageable);
     }
