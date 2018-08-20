@@ -1,5 +1,8 @@
 package hsbc.groupthree.ordersystem.manager.repository;
 
+import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +51,8 @@ public interface ManagerRepository extends JpaRepository<ProductInfo, String> {
      * @return
      */
     List<ProductInfo> findByProductCodeOrProductName(String productCode,String productName);
+
+
 
 
 }

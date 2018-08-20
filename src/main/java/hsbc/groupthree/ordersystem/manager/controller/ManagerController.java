@@ -13,6 +13,18 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.List;
 
+import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
+import hsbc.groupthree.ordersystem.manager.service.ManagerService;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ClassName ManagerController
  * @Author:Jerry.Liu;
@@ -24,10 +36,33 @@ import java.util.List;
 public class ManagerController {
     @Autowired
     private ManagerService managerService;
-
     public ManagerController(ManagerService managerService) {
         this.managerService = managerService;
     }
+
+
+
+    /**
+    *@Author Jerry.Liu
+    *@Description://TODO
+    *@Parameter [workerNum, passwod, httpServletResponse]
+    *@Date:16:42 2018/8/20
+    *@Package: hsbc.groupthree.ordersystem.manager.controller
+    */
+    @RequestMapping("manager/login")
+    public ResultInfo login(@RequestParam(value = "workernum",required = true)String workerNum,
+                            @RequestParam(value ="password" ,required = true)String passwod, HttpServletResponse httpServletResponse){
+
+        httpServletResponse.addHeader("Access-Control-Allow-Origin","*");
+        httpServletResponse.addHeader("Access-Control-Allow-Headers","Origin,X-Requespted-With,Content-Type,Accept");
+                if(managerService.login(workerNum,passwod)==true) {
+                    return managerService.findByworkerNum(workerNum);
+                }
+                return new ResultInfo(500,"fial",null);
+    }
+
+
+
     /**
      * @Description:
      * @Author: @Evan
