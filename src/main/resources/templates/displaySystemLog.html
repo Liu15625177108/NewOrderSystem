@@ -405,6 +405,35 @@
             })
         }
 
+        $scope.OutputSystemLog = function () {
+            var mychoose;
+            var MySelect;
+            var checkvale = "undefined";
+            MySelect = $("#MySelect").val();
+            checkvale = $('input:radio:checked').val();
+            console.log(checkvale)
+            if (checkvale != "undefined") {
+                mychoose = checkvale;
+            }
+            if (MySelect != "") {
+                mychoose = MySelect;
+            }
+            if (MySelect != "" && checkvale != "undefined") {
+                alert("只能选择一个日期")
+                return
+            }
+            if (MySelect == "" && checkvale == "undefined") {
+                alert("请选择一个日期")
+                return
+            }
+            Number(mychoose)
+            var data = new Object;
+            data.n = mychoose;
+            $("#infoModal").hidden;
+            window.open("http://localhost/export/systemlog?n=" + mychoose + "")
+
+        }
+
         //根据选择的数据显示数量，从新获取数据
         $scope.getDataNumberOrProductType = function () {
             var productType = $("#productType").find("option:selected").text();//选中的文本

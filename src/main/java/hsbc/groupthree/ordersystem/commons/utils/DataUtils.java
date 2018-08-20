@@ -4,10 +4,6 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.springframework.stereotype.Component;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 /**
  * @Author:Evan
  * @Date:2018/8/4 10:23
@@ -51,7 +47,7 @@ public class DataUtils {
     /**
      * @return String Time
      * @method
-     * @author @Evan @Chen
+     * @author @Evan
      * @version
      * @date 2018/8/6 14:07
      **/

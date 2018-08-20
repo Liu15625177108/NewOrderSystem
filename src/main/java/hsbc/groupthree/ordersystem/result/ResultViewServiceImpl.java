@@ -46,6 +46,33 @@ public class ResultViewServiceImpl implements ResultViewService {
         }else if(i==14){
             ResultInfo resultView=new ResultInfo<String>(401,"error",ResultEnum.ORDER_STATUS_ERROR.getMessage());
             return resultView;
+
+
+            //Alan add some status below
+        }else if (i == 13){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.ORDERDETAIL_NOT_EXIST.getMessage());
+            return resultView;
+        }else if (i == 12){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.ORDER_NOT_EXIST.getMessage());
+            return resultView;
+        }else if (i == 16){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.ORDER_DETAIL_EMPTY.getMessage());
+            return resultView;
+        }else if (i == 19){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.ORDER_OWNER_ERROR.getMessage());
+            return resultView;
+        }else if (i == 31){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.LACK_OF_ORDERID.getMessage());
+            return resultView;
+        }else if (i == 32){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.LACK_OF_USERID.getMessage());
+            return resultView;
+        }else if (i == 33){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.ORDERID_REQUIRED.getMessage());
+            return resultView;
+        }else if (i == 34){
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.USERID_REQUIRED.getMessage());
+            return resultView;
         }
 
 
@@ -60,6 +87,13 @@ public class ResultViewServiceImpl implements ResultViewService {
         }else if(i==23){
             ResultInfo resultView=new ResultInfo<String>(200,"success",ResultEnum.ORDER_FINISH_SUCCESS.getMessage());
             return resultView;
+
+
+
+            //Alan add some status below
+        }else if (i == 30){
+            ResultInfo resultView = new ResultInfo<String>(200,"success",ResultEnum.ORDER_SHOW_SUCCESS.getMessage());
+            return  resultView;
         }
         return null;
     }

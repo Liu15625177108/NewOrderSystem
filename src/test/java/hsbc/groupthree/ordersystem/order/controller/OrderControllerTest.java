@@ -53,7 +53,7 @@ public class OrderControllerTest {
         ProductInfo productInfo = new ProductInfo("11",
                 100, "信用卡");
         OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(),productInfo.getProductName(),
-                 userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(), 
+                 userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
                  1, dataUtils.getCurrentTime(),productInfo.getProductPrice()
                  );
         ResultInfo resultView = new ResultInfo<OrderInfo>(200, "success", orderInfo);
@@ -92,7 +92,7 @@ public class OrderControllerTest {
         OrdersInfo orderInfo=new OrdersInfo("01","信用卡",
                 12,"Chen","12313212312",
                 "岗顶",1000.0,1,bt);
-        
+
         given(this.orderService.getOrderInfoByOrderId(eq("123"))).willReturn(orderInfo);*/
         given(this.orderService.determineTime(eq("01"))).willReturn(true);
         given(this.orderService.updateOrderStatus(eq("01"))).willReturn(true);
@@ -104,4 +104,17 @@ public class OrderControllerTest {
                 .andReturn().getResponse().getContentAsString();
         System.out.println(result);
     }
+
+    @Test
+    public void testFindOrderById()throws Exception{
+
+        //还没整合过来
+    }
+    @Test
+    public void testShowAllOrderOfUser() throws Exception{
+
+        //还没整合过来
+    }
+
+
 }

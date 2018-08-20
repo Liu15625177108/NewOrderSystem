@@ -98,4 +98,48 @@ public class OrderController {
         }
         return resultViewService.ResultErrorView(29);
     }
+
+
+    /**
+     * @Method findOrderById
+     * @Description //TODO   这是根据订单号来找订单，先用着中文注释，之后再改
+     * @Author Alan Ruan
+     * @Date 2018/08/20 11:51:55
+     * @Param [orderId]
+     * @Return java.lang.Object
+     */
+    @GetMapping(value = "/findorder")
+    public Object findOrderById(@RequestParam (defaultValue = "orderId")
+                                   String orderId, HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        if (orderId == null && orderId.equals("")){
+            return resultViewService.ResultErrorView(31);
+        }else if (orderId != null){
+            return orderService.getOrderInfoByOrderId(orderId);
+        }
+        return resultViewService.ResultErrorView(33);
+    }
+
+    /**
+     * @Method showAllOrderOfUser
+     * @Description //TODO 这是根据用户名字列出所有用户订单,List
+     * @Author Alan Ruan
+     * @Date 2018/08/20 12:05:06
+     * @Param [userId]
+     * @Return java.lang.Object
+     */
+    @GetMapping(value = "/showuserorder")
+    public Object showAllOrderOfUser(@RequestParam(defaultValue = "userName")
+                                     String userName, HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        if (userName == null && userName.equals("")){
+            return resultViewService.ResultErrorView(32);
+        }else if (userName != null){
+            return orderService.findAllOrder(userName);
+        }
+        return resultViewService.ResultErrorView(34);
+    }
+
 }
