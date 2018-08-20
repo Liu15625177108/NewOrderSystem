@@ -34,4 +34,19 @@ public class ManagerServiceImpl implements ManagerService {
         return new ResultInfo(200,"success",managerInfo);
     }
 
+    @Override
+    public ResultInfo findAllOrder() {
+        return null;
+    }
+
+    @Override
+    public ResultInfo findOrderByUsername() {
+        return null;
+    }
+
+    @Override
+    public ResultInfo findOrderByDate() {
+        return null;
+    }
+
 }

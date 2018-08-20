@@ -11,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date 2018/8/16 23:20
  */
 public interface ManagerRepository extends JpaRepository<ManagerInfo,String> {
-    public  ManagerInfo findOneByWorkerNum(String workerNum);
+    public ManagerInfo findOneByWorkerNum(String workerNum);
 }

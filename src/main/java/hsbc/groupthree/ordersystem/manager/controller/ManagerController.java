@@ -1,5 +1,6 @@
 package hsbc.groupthree.ordersystem.manager.controller;
 
+import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
 import hsbc.groupthree.ordersystem.manager.service.ManagerService;
 import hsbc.groupthree.ordersystem.result.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName ManagerController
@@ -33,5 +36,18 @@ public class ManagerController {
                 }
                 return new ResultInfo(500,"fial",null);
     }
+
+//    @RequestMapping("/order/list")
+//    public List<ManagerInfo> orderList(){
+//        List<ManagerInfo> managerInfoList=new ArrayList<ManagerInfo>();
+//        ManagerInfo m1=new ManagerInfo();
+//        m1.setWorkerNum("1233");
+//        m1.setWorkerName("aa");
+//        m1.setWorkerDepartment("dev");
+//        for(int i=0;i<30;i++) {
+//            managerInfoList.add(m1);
+//        }
+//        return  managerInfoList;
+//     }
 
 }
