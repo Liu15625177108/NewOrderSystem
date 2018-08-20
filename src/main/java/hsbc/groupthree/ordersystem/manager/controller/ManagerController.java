@@ -25,7 +25,13 @@ public class ManagerController {
     @RequestMapping("/login")
     public ResultInfo login(@RequestParam(value = "workernum",required = true)String workerNum,
                             @RequestParam(value ="password" ,required = true)String passwod, HttpServletResponse httpServletResponse){
-        return null;
+
+        httpServletResponse.addHeader("Access-Control-Allow-Origin","*");
+        httpServletResponse.addHeader("Access-Control-Allow-Headers","Origin,X-Requespted-With,Content-Type,Accept");
+                if(managerService.login(workerNum,passwod)==true) {
+                    return managerService.findByworkerNum(workerNum);
+                }
+                return new ResultInfo(500,"fial",null);
     }
 
 }

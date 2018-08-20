@@ -21,7 +21,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public boolean login(String workerNum, String password) {
         ManagerInfo managerInfo=managerRepository.findOneByWorkerNum(workerNum);
-        if(managerInfo.getLoginPassword().equals(password)) {
+        if(managerInfo!=null&&managerInfo.getLoginPassword().equals(password)) {
             return true;
         }
         return false;
