@@ -8,7 +8,6 @@ import hsbc.groupthree.ordersystem.product.service.ProductService;
 import hsbc.groupthree.ordersystem.result.ResultInfo;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.service.UserService;
-
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +20,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -108,12 +110,86 @@ public class OrderControllerTest {
     @Test
     public void testFindOrderById()throws Exception{
 
-        //还没整合过来
+        OrderInfo orderInfo = new OrderInfo();
+
+        orderInfo.setOrderId("A11");
+        orderInfo.setOrderStatus(1);
+        orderInfo.setProductName("龙卡VIP");
+        orderInfo.setProductNumber(2);
+        orderInfo.setProductPrice(6.66);
+        orderInfo.setUserName("小鑫");
+        orderInfo.setUserAddress("华南师范大学西三425");
+        orderInfo.setStartTime("2015年");
+        orderInfo.setUserPhone("1234这是电话4321");
+        orderInfo.setTotalMoney(13.32);
+
+        given(this.orderService.getOrderInfoByOrderId("A11")).willReturn(orderInfo);
+
+        log.info(orderInfo.toString());
+
+        String result = this.mvc.perform(get("/order/findorder?orderId=A11").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(10))
+                //.andExpect(content().string("还没写"))
+                .andReturn().getResponse().getContentAsString();
+        log.info(result);
     }
+
     @Test
     public void testShowAllOrderOfUser() throws Exception{
 
-        //还没整合过来
+        OrderInfo orderInfo = new OrderInfo();
+        OrderInfo orderInfo1 = new OrderInfo();
+        OrderInfo orderInfo2 = new OrderInfo();
+
+        List<OrderInfo> orderInfoList = new ArrayList<>();
+
+        orderInfo.setOrderId("A11");
+        orderInfo.setOrderStatus(1);
+        orderInfo.setProductName("龙卡VIP");
+        orderInfo.setProductNumber(2);
+        orderInfo.setProductPrice(6.66);
+        orderInfo.setUserName("小鑫");
+        orderInfo.setUserAddress("华南师范大学西三425");
+        orderInfo.setStartTime("2015年");
+        orderInfo.setUserPhone("1234这是电话4321");
+        orderInfo.setTotalMoney(13.32);
+
+        orderInfo1.setOrderId("B11");
+        orderInfo1.setOrderStatus(1);
+        orderInfo1.setProductName("黑卡VIP");
+        orderInfo1.setProductNumber(1);
+        orderInfo1.setProductPrice(6.66);
+        orderInfo1.setUserName("小鑫");
+        orderInfo1.setUserAddress("华南师范大学西三425");
+        orderInfo1.setStartTime("2015年");
+        orderInfo1.setUserPhone("1234这是电话4321");
+        orderInfo1.setTotalMoney(6.66);
+
+        orderInfo2.setOrderId("C11");
+        orderInfo2.setOrderStatus(1);
+        orderInfo2.setProductName("Super VIP");
+        orderInfo2.setProductNumber(2);
+        orderInfo2.setProductPrice(6.66);
+        orderInfo2.setUserName("小鑫");
+        orderInfo2.setUserAddress("华南师范大学西三425");
+        orderInfo2.setStartTime("2015年");
+        orderInfo2.setUserPhone("1234这是电话4321");
+        orderInfo2.setTotalMoney(13.32);
+
+        orderInfoList.add(orderInfo);
+        orderInfoList.add(orderInfo1);
+        orderInfoList.add(orderInfo2);
+
+        given(this.orderService.findAllOrder("小鑫")).willReturn(orderInfoList);
+
+        log.info(orderInfoList.toString());
+
+        String result  = this.mvc.perform(get("/order/showuserorder?userName=小鑫").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+               // .andExpect(content().string("还没写"))
+                .andReturn().getResponse().getContentAsString();
+
+        log.info(result);
     }
 
 

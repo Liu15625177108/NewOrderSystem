@@ -110,15 +110,16 @@ public class OrderController {
      */
     @GetMapping(value = "/findorder")
     public Object findOrderById(@RequestParam (defaultValue = "orderId")
-                                   String orderId, HttpServletResponse response){
+                                   String orderId, HttpServletResponse response,HttpServletRequest request){
+
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        if (orderId == null && orderId.equals("")){
-            return resultViewService.ResultErrorView(31);
-        }else if (orderId != null){
+
+        if (orderId != null){
             return orderService.getOrderInfoByOrderId(orderId);
+        }else {
+            return resultViewService.ResultErrorView(33);
         }
-        return resultViewService.ResultErrorView(33);
     }
 
     /**
@@ -131,15 +132,15 @@ public class OrderController {
      */
     @GetMapping(value = "/showuserorder")
     public Object showAllOrderOfUser(@RequestParam(defaultValue = "userName")
-                                     String userName, HttpServletResponse response){
+                                     String userName, HttpServletResponse response,HttpServletRequest request){
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        if (userName == null && userName.equals("")){
-            return resultViewService.ResultErrorView(32);
-        }else if (userName != null){
-            return orderService.findAllOrder(userName);
+
+        if (userName != null){
+            return this.orderService.findAllOrder(userName);
+        }else{
+            return this.resultViewService.ResultErrorView(34);
         }
-        return resultViewService.ResultErrorView(34);
     }
 
 }

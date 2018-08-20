@@ -63,11 +63,11 @@ public enum ResultEnum {
 
     LACK_OF_ORDERID(31,"没有提供订单号"),
 
-    LACK_OF_USERID(32, "没有提供用户ID"),
+    LACK_OF_USERNAME(32, "没有提供用户名"),
 
     ORDERID_REQUIRED(33,"请提供订单号"),
 
-    USERID_REQUIRED(34, "请提供用户ID")
+    USERNAME_REQUIRED(34, "请提供用户名")
 
 
 

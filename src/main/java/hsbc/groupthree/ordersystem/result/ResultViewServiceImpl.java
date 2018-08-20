@@ -65,13 +65,13 @@ public class ResultViewServiceImpl implements ResultViewService {
             ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.LACK_OF_ORDERID.getMessage());
             return resultView;
         }else if (i == 32){
-            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.LACK_OF_USERID.getMessage());
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.LACK_OF_USERNAME.getMessage());
             return resultView;
         }else if (i == 33){
             ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.ORDERID_REQUIRED.getMessage());
             return resultView;
         }else if (i == 34){
-            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.USERID_REQUIRED.getMessage());
+            ResultInfo resultView = new ResultInfo<String>(401,"error",ResultEnum.USERNAME_REQUIRED.getMessage());
             return resultView;
         }
 
@@ -87,7 +87,6 @@ public class ResultViewServiceImpl implements ResultViewService {
         }else if(i==23){
             ResultInfo resultView=new ResultInfo<String>(200,"success",ResultEnum.ORDER_FINISH_SUCCESS.getMessage());
             return resultView;
-
 
 
             //Alan add some status below
