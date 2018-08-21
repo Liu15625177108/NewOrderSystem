@@ -71,4 +71,7 @@ public interface OrderService {
     List<OrderInfo> findAllOrder(String userName);
 
 
+    List<OrderInfo> findOrderByDate(String date);
+
+
 }

@@ -10,7 +10,6 @@ import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,7 @@ import java.util.List;
  * @Date 2018/8/16 23:16
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping(value = "/order")
 public class OrderController {
     @Autowired
@@ -134,11 +133,11 @@ public class OrderController {
      * @Return java.lang.Object
      */
     @GetMapping(value = "/showuserorder")
-    public List<OrderInfo> showAllOrderOfUser(@RequestParam(value = "userName",defaultValue = "小鑫")String userName,
-                                              HttpServletResponse response, HttpServletRequest request){
+    public List<OrderInfo> showAllOrderOfUser(@RequestParam(value = "userName",defaultValue = "小鑫")
+                                               String userName, HttpServletResponse response, HttpServletRequest request){
 
-//        response.addHeader("Access-Control-Allow-Origin", "*");
-//        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (userName != null){
             System.out.println(orderService.findAllOrder(userName).toString());
@@ -146,6 +145,43 @@ public class OrderController {
         }
         return null;
 //        return resultViewService.ResultErrorView(34);
+
     }
 
+
+    /**
+     * @Method findOrderByDate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/21 17:02:35
+     * @Param [startTime, response, request]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @GetMapping("/findorderbydate")
+    public List<OrderInfo> findOrderByDate(@RequestParam(value = "startTime",defaultValue = "20180821")String startTime,
+                                           HttpServletResponse response, HttpServletRequest request){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (startTime != null){
+            System.out.println(orderService.findOrderByDate(startTime));
+            return orderService.findOrderByDate(startTime);
+        }
+        return null;
+    }
+
+
+    /**
+     * @Method show
+     * @Description //TODO    this is just a test , 之后再删掉
+     * @Author Alan Ruan
+     * @Date 2018/08/21 16:50:34
+     * @Param []
+     * @Return java.lang.String
+     */
+    @RequestMapping("/sayhello")
+    public  @ResponseBody
+    String show(){
+        return  "hello";
+    }
 }

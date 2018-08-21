@@ -217,4 +217,17 @@ public class OrderServiceImpl implements OrderService{
         return orderInfoList;
 
     }
+
+    /**
+     * @Method findOrderByDate
+     * @Description //TODO  get orderinfo by date
+     * @Author Alan Ruan
+     * @Date 2018/08/21 16:49:53
+     * @Param [date]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findOrderByDate(String date){
+        return orderRepository.findAllByStartTime(date);
+    }
 }

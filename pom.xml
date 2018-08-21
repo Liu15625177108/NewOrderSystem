@@ -71,7 +71,7 @@
             <!--<artifactId>spring-boot-starter-security</artifactId>-->
         <!--</dependency>-->
 
-        为了测试自己的先把security注释掉了，不然会拦截
+        <!--为了测试自己的先把security注释掉了，不然会拦截-->
 
         <!--<dependency>-->
             <!--<groupId>org.springframework.security</groupId>-->
