@@ -50,11 +50,11 @@ public class OrderController {
      **/
     @PostMapping(value = "/toorder")
     public @ResponseBody
-    Object toOrder(@RequestParam("productId") String productCode, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
+    Object toOrder(@RequestParam("productCode") String productCode, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         System.out.println(payPassword);
-        ProductInfo productInfo = productsService.getProductInfoByProductId(productCode);
+        ProductInfo productInfo = productsService.getProductInfoByProductCode(productCode);
         String userId = (String) request.getAttribute("userId");
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
@@ -62,19 +62,22 @@ public class OrderController {
             System.out.println(userInfo.getUsername() + "++");
             System.out.println(productInfo.getProductName());
         }
-        //To compare userMoney and orderPrice
-        if (userService.toValidateMoney(userInfo, productInfo)) {
-            //to check userPayPassword
-            if (userService.toValidatePayPassword(userInfo, payPassword)) {
-                if (orderService.insertOrder(productInfo, userInfo)) {
-                    return resultViewService.ResultSuccess(23);
+        if(payPassword!=null&&!payPassword.equals("")) {
+            //To compare userMoney and orderPrice
+            if (userService.toValidateMoney(userInfo, productInfo)) {
+                //to check userPayPassword
+                if (userService.toValidatePayPassword(userInfo, payPassword)) {
+                    if (orderService.insertOrder(productInfo, userInfo)) {
+                        return resultViewService.ResultSuccess(23);
+                    }
+                    return resultViewService.ResultErrorView(14);
                 }
-                return resultViewService.ResultErrorView(14);
+                return resultViewService.ResultErrorView(26);
             }
-            return resultViewService.ResultErrorView(26);
+            return resultViewService.ResultErrorView(27);
         }
-        return resultViewService.ResultErrorView(27);
-    }
+        return resultViewService.ResultErrorView(30);
+        }
 
     /**
      * @return java.lang.Object

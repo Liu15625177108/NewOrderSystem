@@ -34,7 +34,7 @@ public interface ProductService {
      * @Param [productId]
      * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      **/
-    ProductInfo getProductInfoByProductId(String productId);
+    ProductInfo getProductInfoByProductCode(String productCode);
 
     /**
      *

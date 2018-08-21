@@ -15,8 +15,12 @@ import hsbc.groupthree.ordersystem.commons.utils.DataUtils;
 import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.order.repository.OrderRepository;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
+import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
+import hsbc.groupthree.ordersystem.product.repository.ProductRepository;
+import hsbc.groupthree.ordersystem.product.repository.ProductTypeRepository;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.repository.UserRepository;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description〈the impl of ordersevice〉
@@ -46,6 +51,12 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    ProductTypeRepository productTypeRepository;
+
     /**
      * @return java.lang.Object
      * @Author Chen
@@ -58,7 +69,8 @@ public class OrderServiceImpl implements OrderService{
     public synchronized  boolean insertOrder(ProductInfo productInfo, UserInfo userInfo) {
         OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
                  userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(), 
-                1, dataUtils.getCurrentTime(), getOrderPrice(productInfo));
+                1, dataUtils.getCurrentTime(),productInfo.getProductDuedate(),
+                getOrderPrice(productInfo),productInfo.getProductCode());
         orderRepository.save(orderInfo);
         double userMoney = userInfo.getBalance() - getOrderPrice(productInfo);
 //        int i=1/0;
@@ -138,5 +150,56 @@ public class OrderServiceImpl implements OrderService{
         userRepository.save(userInfo);
         return false;
     }
+    /**
+     * @return boolean
+     * @Author Chen
+     * @Description //TODO get all orderinfo
+     * @Date 11:39 2018/8/10
+     * @Param [OrderId]
+     **/
+    @Override
+    public List<OrderInfo> findAll() {
+        return orderRepository.findAll();
+    }
 
+    /**
+     * @return void
+     * @Author Chen
+     * @Description //TODO to account by time
+     * @Date 11:39 2018/8/10
+     * @Param [OrderId]
+     **/
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void timeAccount(String orderId) {
+        OrderInfo orderInfo=orderRepository.findByorderId(orderId);
+        orderInfo.setOrderStatus(3);
+        orderRepository.save(orderInfo);
+        //get productinfo by productcode
+        ProductInfo productInfo=productRepository.findByProductCode(orderInfo.getProductCode());
+        ProductTypeInfo productTypeInfo=productTypeRepository.findByProductType(productInfo.getProductType());
+        //get userinfo by username in order to rollback money
+        UserInfo userInfo=userRepository.findOneByUsername(orderInfo.getUserName());
+        double nowMoney=userInfo.getBalance();
+        String rate=productTypeInfo.getRate();
+
+            rate=rate.replace("%","");
+            Double r=Double.valueOf(rate)/100;
+            System.out.print(r);
+
+        double accountMoney=r*orderInfo.getTotalMoney()+orderInfo.getTotalMoney();
+        userInfo.setBalance(nowMoney+orderInfo.getTotalMoney());
+        userRepository.save(userInfo);
+    }
+
+    /**
+     * @return void
+     * @Author Chen
+     * @Description //TODO test
+     * @Date 11:39 2018/8/10
+     * @Param
+     **/
+    @Test
+    public void test1(){
+    }
 }

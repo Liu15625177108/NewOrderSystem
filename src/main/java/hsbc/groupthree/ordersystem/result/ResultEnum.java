@@ -57,7 +57,8 @@ public enum ResultEnum {
     ORDER_CANCEL_FAIL(28,"订单取消失败,超过七天"),
     
     SELECT_NOT_ENOUGH(29,"至少选择一项"),
-    
+
+    PAY_PASSWORD_NULL(30,"支付密码不能为空")
     
     ;
 

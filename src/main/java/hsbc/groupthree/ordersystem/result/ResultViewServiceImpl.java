@@ -46,8 +46,10 @@ public class ResultViewServiceImpl implements ResultViewService {
         }else if(i==14){
             ResultInfo resultView=new ResultInfo<String>(401,"error",ResultEnum.ORDER_STATUS_ERROR.getMessage());
             return resultView;
+        }else if(i==30) {
+            ResultInfo resultView = new ResultInfo<String>(401, "error", ResultEnum.PAY_PASSWORD_NULL.getMessage());
+            return resultView;
         }
-
 
         return null;
     }

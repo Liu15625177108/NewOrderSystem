@@ -20,9 +20,7 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
 
     List<ProductInfo> findByStatus(int i);
 
-    default Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable) {
-        return null;
-    }
+     Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable);
 
     /**
      * @param pageable
