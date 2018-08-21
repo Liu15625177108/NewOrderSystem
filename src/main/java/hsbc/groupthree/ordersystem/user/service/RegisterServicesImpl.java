@@ -5,7 +5,7 @@ import hsbc.groupthree.ordersystem.commons.utils.CommonsUtils;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -63,7 +63,7 @@ public class RegisterServicesImpl implements RegisterServices {
     public boolean addUser(UserInfo userInfo) {
         try {
             userInfo.setUserId(commonsUtils.getUUID());
-            userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
+           // userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
             Date date = new Date();
             userInfo.setCreateTime(date);
             userInfo.setLastmodifiedTime(date);

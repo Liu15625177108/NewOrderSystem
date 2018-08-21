@@ -1,5 +1,6 @@
 package hsbc.groupthree.ordersystem.order.controller;
 
+import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.order.service.OrderService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.service.ProductService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @ClassName OrderController
@@ -109,13 +111,14 @@ public class OrderController {
      * @Return java.lang.Object
      */
     @GetMapping(value = "/findorder")
-    public Object findOrderById(@RequestParam (defaultValue = "orderId")
+    public Object findOrderById(@RequestParam (value = "orderId",defaultValue = "A11")
                                    String orderId, HttpServletResponse response,HttpServletRequest request){
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (orderId != null){
+            System.out.println(orderService.getOrderInfoByOrderId(orderId).toString());
             return orderService.getOrderInfoByOrderId(orderId);
         }else {
             return resultViewService.ResultErrorView(33);
@@ -131,16 +134,18 @@ public class OrderController {
      * @Return java.lang.Object
      */
     @GetMapping(value = "/showuserorder")
-    public Object showAllOrderOfUser(@RequestParam(defaultValue = "userName")
-                                     String userName, HttpServletResponse response,HttpServletRequest request){
+    public List<OrderInfo> showAllOrderOfUser(@RequestParam(value = "userName",defaultValue = "小鑫")String userName,
+                                              HttpServletResponse response, HttpServletRequest request){
+
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (userName != null){
+            System.out.println(orderService.findAllOrder(userName).toString());
             return orderService.findAllOrder(userName);
-        }else{
-            return resultViewService.ResultErrorView(34);
         }
+        return null;
+//        return resultViewService.ResultErrorView(34);
     }
 
 }

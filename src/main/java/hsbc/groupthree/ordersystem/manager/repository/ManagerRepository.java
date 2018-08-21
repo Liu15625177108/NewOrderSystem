@@ -50,4 +50,6 @@ public interface ManagerRepository extends JpaRepository<ProductInfo, String> {
     List<ProductInfo> findByProductCodeOrProductName(String productCode,String productName);
 
 
+
+
 }

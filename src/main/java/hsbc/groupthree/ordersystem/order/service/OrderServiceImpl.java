@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -116,7 +117,24 @@ public class OrderServiceImpl implements OrderService{
      **/
     @Override
     public OrderInfo getOrderInfoByOrderId(String orderId) {
-        return orderRepository.findByorderId(orderId);
+
+        //return orderRepository.findByorderId(orderId);
+        //因为远程库还没有数据，所以先造一些数据吧
+
+        OrderInfo orderInfo = new OrderInfo();
+
+        orderInfo.setOrderId("A11");
+        orderInfo.setOrderStatus(1);
+        orderInfo.setProductName("龙卡VIP");
+        orderInfo.setProductNumber(2);
+        orderInfo.setProductPrice(6.66);
+        orderInfo.setUserName("小鑫");
+        orderInfo.setUserAddress("华南师范大学西三425");
+        orderInfo.setStartTime("2015年");
+        orderInfo.setUserPhone("1234这是电话4321");
+        orderInfo.setTotalMoney(13.32);
+
+        return orderInfo;
     }
 
     /**
@@ -150,6 +168,53 @@ public class OrderServiceImpl implements OrderService{
      */
     @Override
     public List<OrderInfo> findAllOrder(String userName){
-        return orderRepository.findAllByUserName(userName);
+//        return orderRepository.findAllByUserName(userName);
+        //因为远程库还没有数据，所以先造一些数据吧
+
+        OrderInfo orderInfo = new OrderInfo();
+        OrderInfo orderInfo1 = new OrderInfo();
+        OrderInfo orderInfo2 = new OrderInfo();
+
+        List<OrderInfo> orderInfoList = new ArrayList<>();
+
+        orderInfo.setOrderId("A11");
+        orderInfo.setOrderStatus(1);
+        orderInfo.setProductName("龙卡VIP");
+        orderInfo.setProductNumber(2);
+        orderInfo.setProductPrice(6.66);
+        orderInfo.setUserName("小鑫");
+        orderInfo.setUserAddress("华南师范大学西三425");
+        orderInfo.setStartTime("2015年");
+        orderInfo.setUserPhone("1234这是电话4321");
+        orderInfo.setTotalMoney(13.32);
+
+        orderInfo1.setOrderId("B11");
+        orderInfo1.setOrderStatus(1);
+        orderInfo1.setProductName("黑卡VIP");
+        orderInfo1.setProductNumber(1);
+        orderInfo1.setProductPrice(6.66);
+        orderInfo1.setUserName("小鑫");
+        orderInfo1.setUserAddress("华南师范大学西三425");
+        orderInfo1.setStartTime("2015年");
+        orderInfo1.setUserPhone("1234这是电话4321");
+        orderInfo1.setTotalMoney(6.66);
+
+        orderInfo2.setOrderId("C11");
+        orderInfo2.setOrderStatus(1);
+        orderInfo2.setProductName("Super VIP");
+        orderInfo2.setProductNumber(2);
+        orderInfo2.setProductPrice(6.66);
+        orderInfo2.setUserName("小鑫");
+        orderInfo2.setUserAddress("华南师范大学西三425");
+        orderInfo2.setStartTime("2015年");
+        orderInfo2.setUserPhone("1234这是电话4321");
+        orderInfo2.setTotalMoney(13.32);
+
+        orderInfoList.add(orderInfo);
+        orderInfoList.add(orderInfo1);
+        orderInfoList.add(orderInfo2);
+
+        return orderInfoList;
+
     }
 }

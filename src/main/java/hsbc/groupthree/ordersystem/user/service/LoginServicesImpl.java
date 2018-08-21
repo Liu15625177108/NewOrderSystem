@@ -1,11 +1,9 @@
 package hsbc.groupthree.ordersystem.user.service;
 
 
-import hsbc.groupthree.ordersystem.user.entity.UserInfo;
-import hsbc.groupthree.ordersystem.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @Package: hsbc_team_3.ordersystem.loginregister
