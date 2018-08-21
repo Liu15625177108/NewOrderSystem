@@ -37,10 +37,6 @@ public class OrderController {
 //    private ResultViewService resultViewService;
     private ResultViewService resultViewService = new ResultViewServiceImpl();
 
-//    @GetMapping(value = "/toshoworder")
-//    public Object showOrder(@RequestParam("productId")String productId){
-//        
-//    }
 
     /**
      * @return java.lang.Object
@@ -73,34 +69,14 @@ public class OrderController {
                     }
                     return resultViewService.ResultErrorView(14);
                 }
-                return resultViewService.ResultErrorView(26);
+                return resultViewService.ResultErrorView(27);
             }
-            return resultViewService.ResultErrorView(27);
+            return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(30);
         }
 
-//    /**
-//     * @return java.lang.Object
-//     * @Author Chen
-//     * @Description //TODO to cancel order
-//     * @Date 15:28 2018/8/4
-//     * @Param [orderId]
-//     **/
-//    @PostMapping(value = "/tocancelorder")
-//    public @ResponseBody
-//    Object toCancelOrder(@RequestParam("orderId") String orderId, HttpServletResponse response, HttpServletRequest request) {
-//        response.addHeader("Access-Control-Allow-Origin", "*");
-//        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//        if (orderId != null && !orderId.equals("")) {
-//            if (orderService.determineTime(orderId)) {
-//                orderService.updateOrderStatus(orderId);
-//                return resultViewService.ResultSuccess(22);
-//            }
-//            return resultViewService.ResultErrorView(28);
-//        }
-//        return resultViewService.ResultErrorView(29);
-//    }
+
 
     /**
      * @return java.lang.Object
@@ -118,14 +94,10 @@ public class OrderController {
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-//            if (orderService.determineTime(orderId)) {
-//                orderService.updateOrderStatus(orderId);
-//                return resultViewService.ResultSuccess(22);
-//            }
-//            return resultViewService.ResultErrorView(28);
             if(userService.toValidatePayPassword(userInfo, payPassword)){
                 return orderService.updateOrderStatus(orderId);
             }
+            return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(29);
     }

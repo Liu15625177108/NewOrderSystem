@@ -88,19 +88,12 @@ public class OrderControllerTest {
 
     @Test
     public void cancelOrder() throws Exception {
-    /*    String beginTime=new String("2018-08-7 10:22:22");
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date bt=sdf.parse(beginTime);
-        OrdersInfo orderInfo=new OrdersInfo("01","信用卡",
-                12,"Chen","12313212312",
-                "岗顶",1000.0,1,bt);
-        
-        given(this.orderService.getOrderInfoByOrderId(eq("123"))).willReturn(orderInfo);*/
         given(this.orderService.determineTime(eq("11"))).willReturn(true);
         given(this.orderService.updateOrderStatus(eq("11"))).willReturn(new ResultInfo());
 
         String result = this.mvc.perform(post("/order/tocancelorder")
-                .param("orderId", "11"))
+                .param("orderId", "11")
+                .param("payPassword", "1234567"))
                 .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
