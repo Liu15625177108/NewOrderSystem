@@ -42,7 +42,7 @@ public class OrderView {
         OrderInfo orderInfo=new OrderInfo(commonsUtils.getUUID(),productInfo.getProductName(),
                 userInfo.getUsername(),userInfo.getPhone(), userInfo.getAddress(),
                 1,dataUtils.getCurrentTime(),productInfo.getProductDuedate(),
-                productInfo.getProductPrice(),productInfo.getProductCode());
+                productInfo.getProductSelldata(),productInfo.getProductPrice(),productInfo.getProductCode());
         return  orderInfo;
     }
 }

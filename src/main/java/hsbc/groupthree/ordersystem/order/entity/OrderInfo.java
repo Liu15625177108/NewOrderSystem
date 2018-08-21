@@ -89,13 +89,19 @@ public class OrderInfo {
     @Column(nullable = true)
     @JsonProperty(value = "productCode")
     private String productCode;
+    /**
+     * the productCode
+     */
+    @Column(nullable = true)
+    @JsonProperty(value = "productSelldate")
+    private String productSelldate;
 
     public OrderInfo(){}
 
     public OrderInfo(String orderId, String productName, String userName,
                       String userPhone, String userAddress, int orderStatus,
-                      String startTime,String productDuelate,double totalMoney,
-                       String productCode ) {
+                      String startTime,String productDuelate,String productSelldate,
+                     double totalMoney, String productCode ) {
         this.orderId = orderId;
         this.productName = productName;
         this.userName = userName;
@@ -104,6 +110,7 @@ public class OrderInfo {
         this.orderStatus = orderStatus;
         this.startTime = startTime;
         this.productDuelate=productDuelate;
+        this.productSelldate=productSelldate;
         this.totalMoney = totalMoney;
         this.productCode=productCode;
     }

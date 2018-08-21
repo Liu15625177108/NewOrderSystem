@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
 
 /**
  * @ClassName OrderController
@@ -63,10 +64,10 @@ public class OrderController {
             System.out.println(productInfo.getProductName());
         }
         if(payPassword!=null&&!payPassword.equals("")) {
-            //To compare userMoney and orderPrice
-            if (userService.toValidateMoney(userInfo, productInfo)) {
-                //to check userPayPassword
-                if (userService.toValidatePayPassword(userInfo, payPassword)) {
+            //to check userPayPassword
+            if (userService.toValidatePayPassword(userInfo, payPassword)) {
+                //To compare userMoney and orderPrice
+                if ( userService.toValidateMoney(userInfo, productInfo)) {
                     if (orderService.insertOrder(productInfo, userInfo)) {
                         return resultViewService.ResultSuccess(23);
                     }
@@ -79,6 +80,28 @@ public class OrderController {
         return resultViewService.ResultErrorView(30);
         }
 
+//    /**
+//     * @return java.lang.Object
+//     * @Author Chen
+//     * @Description //TODO to cancel order
+//     * @Date 15:28 2018/8/4
+//     * @Param [orderId]
+//     **/
+//    @PostMapping(value = "/tocancelorder")
+//    public @ResponseBody
+//    Object toCancelOrder(@RequestParam("orderId") String orderId, HttpServletResponse response, HttpServletRequest request) {
+//        response.addHeader("Access-Control-Allow-Origin", "*");
+//        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//        if (orderId != null && !orderId.equals("")) {
+//            if (orderService.determineTime(orderId)) {
+//                orderService.updateOrderStatus(orderId);
+//                return resultViewService.ResultSuccess(22);
+//            }
+//            return resultViewService.ResultErrorView(28);
+//        }
+//        return resultViewService.ResultErrorView(29);
+//    }
+
     /**
      * @return java.lang.Object
      * @Author Chen
@@ -88,15 +111,21 @@ public class OrderController {
      **/
     @PostMapping(value = "/tocancelorder")
     public @ResponseBody
-    Object toCancelOrder(@RequestParam("orderId") String orderId, HttpServletResponse response, HttpServletRequest request) {
+    Object toCancelOrder(@RequestParam("orderId") String orderId, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) throws ParseException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        String userId = (String) request.getAttribute("userId");
+        System.out.println(userId);
+        UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if (orderService.determineTime(orderId)) {
-                orderService.updateOrderStatus(orderId);
-                return resultViewService.ResultSuccess(22);
+//            if (orderService.determineTime(orderId)) {
+//                orderService.updateOrderStatus(orderId);
+//                return resultViewService.ResultSuccess(22);
+//            }
+//            return resultViewService.ResultErrorView(28);
+            if(userService.toValidatePayPassword(userInfo, payPassword)){
+                return orderService.updateOrderStatus(orderId);
             }
-            return resultViewService.ResultErrorView(28);
         }
         return resultViewService.ResultErrorView(29);
     }

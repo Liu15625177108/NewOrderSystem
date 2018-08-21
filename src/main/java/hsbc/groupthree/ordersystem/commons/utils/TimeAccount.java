@@ -41,10 +41,10 @@ public class TimeAccount {
      * @return java.lang.Object
      * @Author Chen
      * @Description //TODO TO account money by scheduled
-     * @Date 5:53 2018/8/3  0 0 12 * * ?
+     * @Date 5:53 2018/8/3   /5 * * * * ?
      * @Param [ProductInfo productInfo,UserInfo userInfo]
      **/
-    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "0 0 12 * * ?")
     public void AccountMoney(){
         System.out.println("111");
         List<OrderInfo> orderInfoList=orderService.findAll();

@@ -58,8 +58,19 @@ public enum ResultEnum {
     
     SELECT_NOT_ENOUGH(29,"至少选择一项"),
 
-    PAY_PASSWORD_NULL(30,"支付密码不能为空")
-    
+    PAY_PASSWORD_NULL(30,"支付密码不能为空"),
+
+    CANCEL_REDUCE_30MONEY(300,"扣除30%的钱"),
+
+    CANCEL_REDUCE_25MONEY(250,"扣除25%的钱"),
+
+    CANCEL_REDUCE_20MONEY(200,"扣除20%的钱"),
+
+    CANCEL_REDUCE_15MONEY(150,"扣除15%的钱"),
+
+    CANCEL_REDUCE_10MONEY(100,"扣除10%的钱"),
+
+    CANCEL_REDUCE_5MONEY(50,"扣除5%的钱")
     ;
 
     private Integer code;

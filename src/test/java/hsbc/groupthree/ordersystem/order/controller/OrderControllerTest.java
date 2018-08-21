@@ -56,7 +56,7 @@ public class OrderControllerTest {
         OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
                 userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
                 1, dataUtils.getCurrentTime(), productInfo.getProductDuedate(),
-                productInfo.getProductPrice(), productInfo.getProductCode()
+                productInfo.getProductSelldata(), productInfo.getProductPrice(), productInfo.getProductCode()
         );
         ResultInfo resultView = new ResultInfo<OrderInfo>(200, "success", orderInfo);
 
@@ -78,7 +78,7 @@ public class OrderControllerTest {
 //                .content(jsonString)
                 .requestAttr("userId", "111")
 //                .sessionAttr("userId", "111")
-                .param("productCode", "11")
+                .param("productCode", "345563")
                 .param("payPassword", "123"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(); //return response's value
@@ -96,8 +96,8 @@ public class OrderControllerTest {
                 "岗顶",1000.0,1,bt);
         
         given(this.orderService.getOrderInfoByOrderId(eq("123"))).willReturn(orderInfo);*/
-        given(this.orderService.determineTime(eq("01"))).willReturn(true);
-        given(this.orderService.updateOrderStatus(eq("01"))).willReturn(true);
+        given(this.orderService.determineTime(eq("11"))).willReturn(true);
+        given(this.orderService.updateOrderStatus(eq("11"))).willReturn(new ResultInfo());
 
         String result = this.mvc.perform(post("/order/tocancelorder")
                 .param("orderId", "11"))
