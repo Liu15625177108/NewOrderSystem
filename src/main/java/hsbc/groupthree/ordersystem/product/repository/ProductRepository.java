@@ -18,24 +18,7 @@ import org.springframework.data.jpa.repository.Query;
  * @Date 2018/8/16 23:21
  */
 public interface ProductRepository extends JpaRepository<ProductInfo,String> {
-    /**
-     * @method findByStatus
-     * @descript it find product of its status of 1
-     * @param i
-     * @return
-     */
-    List<ProductInfo> findByStatus(int i);
 
-    /**
-     * @method findAll
-     * @param specification
-     * @param pageable
-     * @descript find by product's type and its status of 1
-     * @return
-     */
-    default Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable) {
-        return null;
-    }
 
     /**
      * @descript: find product of which its status 1 or 2
@@ -44,6 +27,11 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      */
     @Query(value = "SELECT * FROM product where status=?1 or status=?2",nativeQuery = true)
     List<ProductInfo> getProduct(int n,int m);
+
+
+    List<ProductInfo> findByStatus(int i);
+
+  Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable);
 
     /**
      * @param pageable
@@ -62,7 +50,7 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
     ProductInfo findByProductCode(String productCode);
     
     /**
-     * @descript find the product by its productCode of productName
+     *
      * @param productCode
      * @param productName
      * @return

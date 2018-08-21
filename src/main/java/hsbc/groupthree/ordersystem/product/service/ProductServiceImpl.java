@@ -33,7 +33,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductInfo> getProductListByPage(int page, String productType, int count, Sort sort) {
+
         Specification<ProductInfo> specification=pageableTool.specifucation(productType);
+
         Pageable pageable = PageRequest.of(page, count, sort);
         return productRepository.findAll(specification, pageable);
     }
