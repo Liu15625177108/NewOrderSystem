@@ -14,7 +14,6 @@ import java.util.Date;
 @Component
 public class DataUtils {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
     /**
      * Format time
      */
@@ -27,8 +26,6 @@ public class DataUtils {
         }
         return date;
     }
-
-
     public boolean compareCurrentTimeAndDueDate(ProductInfo product) {
         boolean tag = true;
         /*当前时间*/

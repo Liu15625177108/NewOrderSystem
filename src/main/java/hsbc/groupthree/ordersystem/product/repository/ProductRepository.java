@@ -4,10 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
-import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 /**
  * @ClassName ProductRepository
@@ -18,11 +17,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProductRepository extends JpaRepository<ProductInfo,String> {
 
+
+    /**
+     * @descript: find product of which its status 1 or 2
+     * @Method :findAllByStatus
+     * @return
+     */
+    @Query(value = "SELECT * FROM product where status=?1 or status=?2",nativeQuery = true)
+    List<ProductInfo> getProduct(int n,int m);
+
+
     List<ProductInfo> findByStatus(int i);
 
-    default Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable) {
-        return null;
-    }
+  Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable);
 
     /**
      * @param pageable
@@ -30,7 +37,7 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      */
     @Override
     Page<ProductInfo> findAll(Pageable pageable);
-    
+
     /**
      * @Author Chen
      * @Description //TODO get ProductInfo by ProductId
@@ -39,7 +46,7 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      **/
     ProductInfo findByProductCode(String productCode);
-    
+
     /**
      *
      * @param productCode
@@ -47,5 +54,5 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      * @return
      */
     List<ProductInfo> findByProductCodeOrProductName(String productCode, String productName);
-    
+
 }

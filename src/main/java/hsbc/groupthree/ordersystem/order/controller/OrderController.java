@@ -137,8 +137,8 @@ public class OrderController {
     public List<OrderInfo> showAllOrderOfUser(@RequestParam(value = "userName",defaultValue = "小鑫")String userName,
                                               HttpServletResponse response, HttpServletRequest request){
 
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//        response.addHeader("Access-Control-Allow-Origin", "*");
+//        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (userName != null){
             System.out.println(orderService.findAllOrder(userName).toString());
