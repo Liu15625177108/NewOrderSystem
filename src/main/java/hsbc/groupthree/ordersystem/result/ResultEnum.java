@@ -49,16 +49,28 @@ public enum ResultEnum {
     LOGIN_FAIL(25, "登录失败, 登录信息不正确"),
 
     LOGOUT_SUCCESS(26, "登出成功"),
-    
+
     PAY_PASSWORD_FAIL(26,"支付密码错误"),
-    
+
     MONEY_NOT_ENOUGH(27,"钱不足"),
-    
+
     ORDER_CANCEL_FAIL(28,"订单取消失败,超过七天"),
-    
+
     SELECT_NOT_ENOUGH(29,"至少选择一项"),
-    
-    
+
+    //Alan add some status below
+    ORDER_SHOW_SUCCESS(30, "订单展示如图示"),
+
+    LACK_OF_ORDERID(31,"没有提供订单号"),
+
+    LACK_OF_USERNAME(32, "没有提供用户名"),
+
+    ORDERID_REQUIRED(33,"请提供订单号"),
+
+    USERNAME_REQUIRED(34, "请提供用户名")
+
+
+
     ;
 
     private Integer code;

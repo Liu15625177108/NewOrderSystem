@@ -4,6 +4,8 @@ import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 
+import java.util.List;
+
 /**
  * @ClassName OrderService
  * @Author:Jerry.Liu;
@@ -50,11 +52,23 @@ public interface OrderService {
 
     /**
      * @Author Chen
-     * @Description //TODO 
+     * @Description //TODO
      * @Date 11:36 2018/8/10
      * @Param [orderId]
      * @return boolean
      **/
     boolean updateOrderStatus(String orderId);
+
+
+    /**
+     * @Method findAllOrder
+     * @Description //TODO  list all order of this user(through userName)
+     * @Author Alan Ruan
+     * @Date 2018/08/20 11:48:49
+     * @Param [userId]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    List<OrderInfo> findAllOrder(String userName);
+
 
 }

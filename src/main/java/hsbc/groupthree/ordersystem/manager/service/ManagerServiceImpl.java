@@ -1,9 +1,19 @@
 package hsbc.groupthree.ordersystem.manager.service;
+<<<<<<< HEAD
 import hsbc.groupthree.ordersystem.commons.utils.*;
+=======
+import hsbc.groupthree.ordersystem.commons.utils.CommonTool;
+import hsbc.groupthree.ordersystem.commons.utils.DataCheckTool;
+import hsbc.groupthree.ordersystem.commons.utils.DataUtils;
+import hsbc.groupthree.ordersystem.commons.utils.UUIDUtils;
+import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
+import hsbc.groupthree.ordersystem.manager.repository.ManagerLoginRepository;
+>>>>>>> 8e0c7a310960e78b965b8dfd31fcf71b3456ab26
 import hsbc.groupthree.ordersystem.manager.repository.ManagerRepository;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
 import hsbc.groupthree.ordersystem.product.repository.ProductTypeRepository;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
 import hsbc.groupthree.ordersystem.systemlog.entity.SystemLog;
 import hsbc.groupthree.ordersystem.systemlog.repository.SystemLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +29,11 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @Author:Evan
- * @Date:2018/8/2 14:49
- * @Describe：
- * @Return:
- * @Param:
+ * @ClassName ManagerServiceImpl
+ * @Author:Jerry.Liu;
+ * @Description://TODO
+ * @Package hsbc.groupthree.ordersystem.manager.service.Impl
+ * @Date 2018/8/17 11:34
  */
 @Service
 public class ManagerServiceImpl implements ManagerService {
@@ -45,6 +55,8 @@ public class ManagerServiceImpl implements ManagerService {
         this.dataCheckTool = dataCheckTool;
         this.pageableTool = pageableTool;
     }
+    @Autowired
+    private ManagerLoginRepository managerLoginRepository;
 
     /**
      * @Description: get products
@@ -154,5 +166,71 @@ public class ManagerServiceImpl implements ManagerService {
         return managerRepository.findByProductCodeOrProductName(productCode,productName);
     }
 
+
+    /**
+     *@Author Jerry.Liu
+     *@Description://TODO
+     *@Parameter [workerNum, password]
+     *@Date:16:46 2018/8/20
+     *@Package: hsbc.groupthree.ordersystem.manager.service
+     */
+    @Override
+    public boolean login(String workerNum, String password) {
+        ManagerInfo managerInfo=managerLoginRepository.findOneByWorkerNum(workerNum);
+        if(managerInfo!=null&&managerInfo.getLoginPassword().equals(password)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    /**
+    *@Author Jerry.Liu
+    *@Description://TODO
+    *@Parameter [workerNum]
+    *@Date:16:47 2018/8/20
+    *@Package: hsbc.groupthree.ordersystem.manager.service
+    */
+    public ResultInfo findByworkerNum(String workerNum) {
+        ManagerInfo managerInfo=new ManagerInfo();
+        managerInfo=managerLoginRepository.findOneByWorkerNum(workerNum);
+        return new ResultInfo(200,"success",managerInfo);
+    }
+
+    @Override
+    /**
+    *@Author Jerry.Liu
+    *@Description://TODO
+    *@Parameter []
+    *@Date:16:47 2018/8/20
+    *@Package: hsbc.groupthree.ordersystem.manager.service
+    */
+    public ResultInfo findAllOrder() {
+        return null;
+    }
+
+    @Override
+    /**
+    *@Author Jerry.Liu
+    *@Description://TODO
+    *@Parameter []
+    *@Date:16:47 2018/8/20
+    *@Package: hsbc.groupthree.ordersystem.manager.service
+    */
+    public ResultInfo findOrderByUsername(String userName) {
+        return null;
+    }
+
+    @Override
+    /**
+    *@Author Jerry.Liu
+    *@Description://TODO
+    *@Parameter []
+    *@Date:16:47 2018/8/20
+    *@Package: hsbc.groupthree.ordersystem.manager.service
+    */
+    public ResultInfo findOrderByDate(String date) {
+        return null;
+    }
 
 }

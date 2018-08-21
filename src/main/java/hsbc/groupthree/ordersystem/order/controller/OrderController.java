@@ -34,11 +34,12 @@ public class OrderController {
     private ProductService productsService;
 //    @Autowired
 //    private ResultViewService resultViewService;
+
     private ResultViewService resultViewService = new ResultViewServiceImpl();
 
 //    @GetMapping(value = "/toshoworder")
 //    public Object showOrder(@RequestParam("productId")String productId){
-//        
+//
 //    }
 
     /**
@@ -97,4 +98,49 @@ public class OrderController {
         }
         return resultViewService.ResultErrorView(29);
     }
+
+
+    /**
+     * @Method findOrderById
+     * @Description //TODO   这是根据订单号来找订单，先用着中文注释，之后再改
+     * @Author Alan Ruan
+     * @Date 2018/08/20 11:51:55
+     * @Param [orderId]
+     * @Return java.lang.Object
+     */
+    @GetMapping(value = "/findorder")
+    public Object findOrderById(@RequestParam (defaultValue = "orderId")
+                                   String orderId, HttpServletResponse response,HttpServletRequest request){
+
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (orderId != null){
+            return orderService.getOrderInfoByOrderId(orderId);
+        }else {
+            return resultViewService.ResultErrorView(33);
+        }
+    }
+
+    /**
+     * @Method showAllOrderOfUser
+     * @Description //TODO 这是根据用户名字列出所有用户订单,List
+     * @Author Alan Ruan
+     * @Date 2018/08/20 12:05:06
+     * @Param [userId]
+     * @Return java.lang.Object
+     */
+    @GetMapping(value = "/showuserorder")
+    public Object showAllOrderOfUser(@RequestParam(defaultValue = "userName")
+                                     String userName, HttpServletResponse response,HttpServletRequest request){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (userName != null){
+            return this.orderService.findAllOrder(userName);
+        }else{
+            return this.resultViewService.ResultErrorView(34);
+        }
+    }
+
 }

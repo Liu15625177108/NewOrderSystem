@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description〈the impl of ordersevice〉
@@ -36,10 +37,10 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private CommonsUtils commonsUtils;
-    
+
     @Autowired
     private DataUtils dataUtils;
-    
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -57,7 +58,7 @@ public class OrderServiceImpl implements OrderService{
     @Transactional(rollbackFor = Exception.class)
     public synchronized  boolean insertOrder(ProductInfo productInfo, UserInfo userInfo) {
         OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
-                 userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(), 
+                 userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
                 1, dataUtils.getCurrentTime(), getOrderPrice(productInfo));
         orderRepository.save(orderInfo);
         double userMoney = userInfo.getBalance() - getOrderPrice(productInfo);
@@ -139,4 +140,16 @@ public class OrderServiceImpl implements OrderService{
         return false;
     }
 
+    /**
+     * @Method findAllOrder
+     * @Description //TODO list all order of this user(through userName)
+     * @Author Alan Ruan
+     * @Date 2018/08/20 11:49:18
+     * @Param [userId]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findAllOrder(String userName){
+        return orderRepository.findAllByUserName(userName);
+    }
 }
