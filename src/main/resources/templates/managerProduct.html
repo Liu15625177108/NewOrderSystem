@@ -6,9 +6,9 @@
     <script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta productName="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta productName="description" content="CoreUI - Open Source Bootstrap Admin Template">
-    <meta productName="author" content="Łukasz Holeczek">
-    <meta productName="keyword"
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword"
           content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js">
     <link rel="shortcut icon" href="img/favicon.png">
     <title>HSBC后台产品管理</title>
@@ -894,9 +894,7 @@
             modal.find('.modal-body input#productDeadline').val(product[recipient].productDeadline)
             modal.find('.modal-body input#productDuedate').val(product[recipient].productDuedate)
             modal.find('.modal-body input#description').val(product[recipient].description)
-            // modal.find('.modal-body img#preview').attr("src",teachers[recipient].teacherImg);
             modal.find('.modal-body input#file').val("");
-            // modal.find('.modal-body input#teacherOldName').val(teachers[recipient].teacherName);
         } else {
             //清空模态框的数据
             modal.find('.modal-title').text('编辑产品')
