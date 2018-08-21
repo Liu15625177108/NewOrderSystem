@@ -1,14 +1,11 @@
 package hsbc.groupthree.ordersystem.manager.service;
-<<<<<<< HEAD
 import hsbc.groupthree.ordersystem.commons.utils.*;
-=======
 import hsbc.groupthree.ordersystem.commons.utils.CommonTool;
 import hsbc.groupthree.ordersystem.commons.utils.DataCheckTool;
 import hsbc.groupthree.ordersystem.commons.utils.DataUtils;
 import hsbc.groupthree.ordersystem.commons.utils.UUIDUtils;
 import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
 import hsbc.groupthree.ordersystem.manager.repository.ManagerLoginRepository;
->>>>>>> 8e0c7a310960e78b965b8dfd31fcf71b3456ab26
 import hsbc.groupthree.ordersystem.manager.repository.ManagerRepository;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
