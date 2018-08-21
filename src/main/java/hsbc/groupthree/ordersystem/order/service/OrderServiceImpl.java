@@ -169,81 +169,23 @@ public class OrderServiceImpl implements OrderService {
 //        userRepository.save(userInfo);
 //        return false;
 //    }
+
+    /**
+     * @return boolean
+     * @Author Chen
+     * @Description //TODO update OrderStatus to 2 and rollback money when cancel order
+     * @Date 11:39 2018/8/10
+     * @Param [OrderId]
+     **/
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo updateOrderStatus(String orderId) throws ParseException {
         OrderInfo orderInfo = orderRepository.findByorderId(orderId);
         orderInfo.setOrderStatus(2);
+        System.out.println(orderInfo.getProductSelldate()+"111");
         orderRepository.save(orderInfo);
-
-//        //get userinfo by username in order to rollback money
-//        UserInfo userInfo = userRepository.findOneByUsername(orderInfo.getUserName());
-//        double nowMoney = userInfo.getBalance();
-//        userInfo.setBalance(nowMoney + orderInfo.getTotalMoney());
-//        userRepository.save(userInfo);
-//        //time determine
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date date = simpleDateFormat.parse(orderInfo.getProductSelldate());
-//        //get current time
-//        Date nowDate = new Date();
-//        //get before time
-//        Date after15Dates = new Date(date.getTime() + (long) 15 * 24 * 60 * 60 * 1000);
-//        Date after30Dates = new Date(date.getTime() + (long) 30 * 24 * 60 * 60 * 1000);
-//        Date after45Dates = new Date(date.getTime() + (long) 45 * 24 * 60 * 60 * 1000);
-//        Date after60Dates = new Date(date.getTime() + (long) 60 * 24 * 60 * 60 * 1000);
-//        Date after75Dates = new Date(date.getTime() + (long) 75 * 24 * 60 * 60 * 1000);
-//
-//        if (nowDate.before(after15Dates)||nowDate.equals(after15Dates)) {
-//            // reduce 30%
-//            double reduceMoney=orderInfo.getTotalMoney()*0.30;
-//            userInfo.setBalance(nowMoney + reduceMoney);
-//            userRepository.save(userInfo);
-//        }else if(nowDate.before(after30Dates)||nowDate.equals(after30Dates)){
-//            // reduce 25%
-//            double reduceMoney=orderInfo.getTotalMoney()*0.25;
-//            userInfo.setBalance(nowMoney + reduceMoney);
-//            userRepository.save(userInfo);
-//        }else if(nowDate.before(after45Dates)||nowDate.equals(after45Dates)){
-//            //reduce 20%
-//            double reduceMoney=orderInfo.getTotalMoney()*0.20;
-//            userInfo.setBalance(nowMoney + reduceMoney);
-//            userRepository.save(userInfo);
-//        }else if(nowDate.before(after60Dates)||nowDate.equals(after60Dates)){
-//            //reduce 15%
-//            double reduceMoney=orderInfo.getTotalMoney()*0.15;
-//            userInfo.setBalance(nowMoney + reduceMoney);
-//            userRepository.save(userInfo);
-//        }else if(nowDate.before(after75Dates)||nowDate.equals(after75Dates)){
-//            //reduce 10%
-//            double reduceMoney=orderInfo.getTotalMoney()*0.10;
-//            userInfo.setBalance(nowMoney + reduceMoney);
-//            userRepository.save(userInfo);
-//        }else{
-//            //reduce 5%
-//            double reduceMoney=orderInfo.getTotalMoney()*0.05;
-//            userInfo.setBalance(nowMoney + reduceMoney);
-//            userRepository.save(userInfo);
-//        }
-        if(orderInfo==null){
-            System.out.println("orderInfo 为null");
-        }
+        System.out.println(orderInfo.getProductSelldate()+"222");
         return dataUtils.reduceMoneyByTime(orderInfo);
-
-//        OrderInfo orderInfo = orderRepository.findByorderId(orderId);
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-//        try {
-//            //get order time
-//            Date date = simpleDateFormat.parse(orderInfo.getStartTime());
-//            //get current time to reduce 7 days
-//            Date nowDate = new Date();
-//            Date beforeDate = new Date(nowDate.getTime() - (long)7 * 24 * 60 * 60 * 1000);
-//            if (beforeDate.before(date)) {
-//                return true;
-//            }
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
     }
 
     /**
