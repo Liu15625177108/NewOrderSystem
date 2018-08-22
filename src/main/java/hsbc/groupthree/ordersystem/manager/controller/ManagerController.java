@@ -1,6 +1,7 @@
 package hsbc.groupthree.ordersystem.manager.controller;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import hsbc.groupthree.ordersystem.commons.utils.JwtTool;
 import hsbc.groupthree.ordersystem.manager.service.ManagerService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
@@ -25,10 +26,14 @@ import java.util.List;
  */
 @RestController
 public class ManagerController {
+
+    private final JwtTool jwtTool;
+
+    private final ManagerService managerService;
     @Autowired
-    private ManagerService managerService;
-    public ManagerController(ManagerService managerService) {
+    public ManagerController(ManagerService managerService, JwtTool jwtTool) {
         this.managerService = managerService;
+        this.jwtTool = jwtTool;
     }
 
 
@@ -42,11 +47,15 @@ public class ManagerController {
     */
     @RequestMapping("manager/login")
     public ResultInfo login(@RequestParam(value = "workernum",required = true)String workerNum,
-                            @RequestParam(value ="password" ,required = true)String passwod, HttpServletResponse httpServletResponse){
+                            @RequestParam(value ="password" ,required = true)String passwod,
+                            HttpServletResponse httpServletResponse){
 
         httpServletResponse.addHeader("Access-Control-Allow-Origin","*");
         httpServletResponse.addHeader("Access-Control-Allow-Headers","Origin,X-Requespted-With,Content-Type,Accept");
-                if(managerService.login(workerNum,passwod)==true) {
+                if(managerService.login(workerNum,passwod)) {
+                    httpServletResponse.setHeader("Authorization", "Bearer " +
+                            jwtTool.generateToken(workerNum, workerNum));
+
                     return managerService.findByworkerNum(workerNum);
                 }
                 return new ResultInfo(500,"fial",null);
@@ -54,18 +63,18 @@ public class ManagerController {
 
 
 
-    /**
-     * @Description:
-     * @Author: @Evan
-     * @CreateDate: 2018/8/5 21:56
-     * @UpdateDate: 2018/8/5 21:56
-     * @Version: 1.0
-     */
-    @RequestMapping(value = "/manager-index", method = RequestMethod.GET)
-    public ModelAndView managerIndexPage() {
-        ModelAndView modelAndView = new ModelAndView("managerProduct.html");
-        return modelAndView;
-    }
+//    /**
+//     * @Description:
+//     * @Author: @Evan
+//     * @CreateDate: 2018/8/5 21:56
+//     * @UpdateDate: 2018/8/5 21:56
+//     * @Version: 1.0
+//     */
+//    @RequestMapping(value = "/manager-index", method = RequestMethod.GET)
+//    public ModelAndView managerIndexPage() {
+//        ModelAndView modelAndView = new ModelAndView("managerProduct.html");
+//        return modelAndView;
+//    }
 
 
     /**

@@ -29,6 +29,9 @@ public class JwtAthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUserInfoServicesImpl jwtUserInfoServices;
 
+    @Autowired
+    private JwtManagerServiceImpl jwtManagerService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -42,9 +45,12 @@ public class JwtAthenticationFilter extends OncePerRequestFilter {
             final String authToken = authheader.replace("Bearer ", "");
             String username = jwtTool.getUsernameFromToken(authToken);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-                /** to get the detail of the user and validate*/
-                UserDetails userDetails = jwtUserInfoServices.loadUserByUsername(username);
+                UserDetails userDetails=null;
+                if(request.getRequestURL().toString().contains("manager")) {
+                     userDetails= jwtManagerService.loadUserByUsername(username);
+                } else {
+                    userDetails = jwtUserInfoServices.loadUserByUsername(username);
+                }
                 if (jwtTool.validateToken(authToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

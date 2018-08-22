@@ -2,7 +2,6 @@ package hsbc.groupthree.ordersystem.commons.security;
 
 import hsbc.groupthree.ordersystem.user.entity.RoleInfo;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
-import hsbc.groupthree.ordersystem.user.repository.RoleInfoRepository;
 import hsbc.groupthree.ordersystem.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -5,7 +5,7 @@ import hsbc.groupthree.ordersystem.commons.utils.CommonsUtils;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,27 +19,27 @@ import java.util.List;
  * @Created: 2018年08月03日 10:36:04
  **/
 @Service
-public class RegisterServicesImpl  {
-//
-//    private final UserRepository userRepository;
-//
-//    private final CommonsUtils commonsUtils;
-//
-//    @Autowired
-//    public RegisterServicesImpl(UserRepository userRepository, CommonsUtils commonsUtils) {
-//        this.userRepository = userRepository;
-//        this.commonsUtils = commonsUtils;
-//    }
+public class RegisterServicesImpl implements RegisterServices {
+
+    private final UserRepository userRepository;
+
+    private final CommonsUtils commonsUtils;
+
+    @Autowired
+    public RegisterServicesImpl(UserRepository userRepository, CommonsUtils commonsUtils) {
+        this.userRepository = userRepository;
+        this.commonsUtils = commonsUtils;
+    }
 
     /**
      * @param : []
      * @return java.util.List<hsbc.team03.ordersystem.loginregister.pojo.UserInfo>
      * @Description to get all user implement
      */
-//    @Override
-//    public List<UserInfo> findAllUser() {
-//        return userRepository.findAll();
-//    }
+    @Override
+    public List<UserInfo> findAllUser() {
+        return userRepository.findAll();
+    }
 
     /**
      * @Description to get user by username
@@ -47,11 +47,11 @@ public class RegisterServicesImpl  {
      * @return java.util.List<hsbc.team03.ordersystem.loginregister.pojo.UserInfo>
      *
      */
-//    @Override
-//    public UserInfo findUserByUsername(String username) {
-//        return userRepository.findOneByUsername(username);
-//
-//    }
+    @Override
+    public UserInfo findUserByUsername(String username) {
+        return userRepository.findOneByUsername(username);
+
+    }
 
     /**
      *  to add a user
@@ -59,20 +59,20 @@ public class RegisterServicesImpl  {
      * @return boolean
      *
      */
-//    @Override
-//    public boolean addUser(UserInfo userInfo) {
-//        try {
-//            userInfo.setUserId(commonsUtils.getUUID());
-//           // userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
-//            Date date = new Date();
-//            userInfo.setCreateTime(date);
-//            userInfo.setLastmodifiedTime(date);
-//            userRepository.save(userInfo);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+    @Override
+    public boolean addUser(UserInfo userInfo) {
+        try {
+            userInfo.setUserId(commonsUtils.getUUID());
+            userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
+            Date date = new Date();
+            userInfo.setCreateTime(date);
+            userInfo.setLastmodifiedTime(date);
+            userRepository.save(userInfo);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

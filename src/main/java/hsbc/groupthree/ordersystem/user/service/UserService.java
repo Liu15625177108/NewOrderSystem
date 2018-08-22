@@ -38,12 +38,5 @@ public interface UserService {
      **/
     UserInfo getUserInfoByUserId(String userId);
 
-    /**
-     * @Author Chen
-     * @Description //TODO test
-     * @Date 14:24 2018/8/13
-     * @Param
-     * @return
-     **/
-    void addTest(UserInfo userInfo);
+
 }

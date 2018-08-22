@@ -22,7 +22,15 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
     
     List<UserInfo> findByUsername(String username);
 
+    /**
+     *  to get a user info by username
+     * @param : [username]
+     * @return hsbc.groupthree.ordersystem.user.entity.UserInfo
+     * @author :Jeff.Li
+    */
     UserInfo findOneByUsername(String username);
+
+
 
     /**
      * @Author Chen

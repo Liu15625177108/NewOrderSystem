@@ -8,6 +8,7 @@ import hsbc.groupthree.ordersystem.result.ResultViewService;
 import hsbc.groupthree.ordersystem.result.ResultViewServiceImpl;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.service.UserService;
+import hsbc.groupthree.ordersystem.user.service.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
     @Autowired
     private ProductService productsService;
 //    @Autowired
