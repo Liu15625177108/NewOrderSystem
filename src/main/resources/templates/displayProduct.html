@@ -16,16 +16,9 @@
     <link rel="stylesheet" href="assets/css/realia-blue.css" type="text/css" id="color-variant-default">
     <link rel="stylesheet" href="#" type="text/css" id="color-variant">
 
-    <!--<script src="vendors/js/bootstrap.min.js"></script>-->
-    <!--<script src="vendors/js/jquery.min.js"></script>-->
     <script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
-    <script src="js/angular-route.min.js"></script>
-
-    <title>Realia | HTML Template</title>
-    <script src="assets/js/jquery.js"></script>
+    <title>HSBC理财产品</title>
 </head>
-
-
 <body ng-app="myApp" ng-controller="customersCtrl">
 <div id="wrapper-outer">
     <div id="wrapper">
@@ -268,8 +261,10 @@
                                                             <span class="value" ng-bind="pro.productDuedate"></span>
                                                         </div>
                                                         <div style="float: right">
-                                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                                    data-target="#primaryModal" data-whatever="{{$index}}"><i
+                                                            <button type="button" class="btn btn-primary"
+                                                                    data-toggle="modal"
+                                                                    data-target="#primaryModal"
+                                                                    data-whatever="{{$index}}"><i
                                                                     class="fa fa-edit"></i>&nbsp;
                                                                 购买
                                                             </button>
@@ -508,7 +503,8 @@
     </div>
 
     <!--新增和编辑的模态框-->
-    <div class="modal fade" id="primaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    <div class="modal fade" id="primaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true"
          style="display: none;">
         <div class="modal-dialog modal-primary" role="document">
             <div class="modal-content">
@@ -534,7 +530,8 @@
                                     <span class="input-group-text">please input your pay password</span>
                                 </div>
                                 </br>
-                                <input type="password" id="paypassword" name="paypassword" ng-model="productCode" class="form-control" ng-minlength="6" ng-maxlength="6" required>
+                                <input type="password" id="paypassword" name="paypassword" ng-model="productCode"
+                                       class="form-control" ng-minlength="6" ng-maxlength="6" required>
                                 </br>
                             </div>
                         </div>
@@ -543,7 +540,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="save" ng-model="pageNumber" ng-click="saveProduct()">confirm</button>
+                <button class="btn btn-primary" id="save" ng-model="pageNumber" ng-click="saveProduct()">confirm
+                </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
             </div>
         </div>
@@ -551,18 +549,18 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<script src="vendors/js/jquery.min.js"></script>
-<script src="vendors/js/bootstrap.min.js"></script>
+
 <script>
     var totlePageNumber;//用来记录总共有多少页，进行翻页时，判断是否超出页数，如果超出页数，则不能翻页
     /*define of messageFunction*/
     /*error function*/
-    function warnMessage(msg){
+    function warnMessage(msg) {
         $.message({
             message: msg,
             type: 'warning'
         });
     }
+
     function errorMessage(msg) {
         $.message({
             message: msg,
@@ -603,7 +601,6 @@
             $scope.productsType = resp.data;
         })
 
-
         $scope.pageFunction = function (pageNumber) {
             if (pageNumber >= totlePageNumber) {
                 warnMessage("没有下一页了")
@@ -615,7 +612,7 @@
             }
             var productType = $("#productType").find("option:selected").text();//选中的文本
             var dataNumber = $("#dataNumber").find("option:selected").text();//选中的文本
-            var jsonData = {"pageNumber": pageNumber,productType:productType,dataNumber:dataNumber};
+            var jsonData = {"pageNumber": pageNumber, productType: productType, dataNumber: dataNumber};
             $http({
                 url: "/user/get/products",
                 method: "post",
@@ -645,17 +642,17 @@
 
 
         //查找产品
-        $scope.searchProduct=function () {
+        $scope.searchProduct = function () {
             var productCode;
             var productName;
-            var productCodeOrProductName=$("#productCodeOrProductName").val();
+            var productCodeOrProductName = $("#productCodeOrProductName").val();
             var reg = /^[0-9]+.?[0-9]*$/;
-            if (reg.test(productCodeOrProductName)){
-                productCode =productCodeOrProductName;
-            }else {
-                productName=productCodeOrProductName;
+            if (reg.test(productCodeOrProductName)) {
+                productCode = productCodeOrProductName;
+            } else {
+                productName = productCodeOrProductName;
             }
-            var jsonData={productCode:productCode,productName:productName}
+            var jsonData = {productCode: productCode, productName: productName}
             $http({
                 url: "/findProduct/byProductCodeOrProductName",
                 method: "post",
@@ -734,8 +731,8 @@
                 },
                 transformRequest: angular.identity
             }).then(function (result) {
-                 $("#primaryModal").modal('hide');
-                 alert("status: "+result.data.code+"  msg: "+result.data.msg+"  data: "+result.data.data)
+                $("#primaryModal").modal('hide');
+                alert("status: " + result.data.code + "  msg: " + result.data.msg + "  data: " + result.data.data)
 
             });
         }
