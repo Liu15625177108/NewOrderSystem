@@ -76,15 +76,4 @@ public class UserServiceImpl implements UserService {
         return userInfo;
     }
 
-    /**
-     * @return
-     * @Author Chen
-     * @Description //TODO test
-     * @Date 14:36 2018/8/13
-     * @Param
-     **/
-    @Override
-    public void addTest(UserInfo userInfo) {
-//        userRepository.save(userInfo);
-    }
 }

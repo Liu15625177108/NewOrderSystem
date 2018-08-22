@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+
+@SpringBootApplication/*(exclude = SecurityAutoConfiguration.class)*/
 
 /**open transaction*/
 @EnableTransactionManagement
