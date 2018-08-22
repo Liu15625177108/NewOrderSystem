@@ -3,6 +3,8 @@ package hsbc.groupthree.ordersystem.user.service;
 
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 
+import java.util.List;
+
 /**
  * @Package: hsbc_team_3.ordersystem.loginregister
  * @Program: ordersystem
