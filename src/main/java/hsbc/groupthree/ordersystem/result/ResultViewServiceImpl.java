@@ -26,7 +26,7 @@ public class ResultViewServiceImpl implements ResultViewService {
     /**
      * @return hsbc.team03.ordersystem.toorder.result.ResultView
      * @Author Chen
-     * @Description //TODO show resultView on the basi
+     * @Description //TODO show error resultView
      * @Date 11:29 2018/8/15
      * @Param [i]
      **/
@@ -81,6 +81,13 @@ public class ResultViewServiceImpl implements ResultViewService {
 
     }
 
+    /**
+     * @return hsbc.team03.ordersystem.toorder.result.ResultView
+     * @Author Chen
+     * @Description //TODO show success resultView
+     * @Date 11:29 2018/8/15
+     * @Param [i]
+     **/
     @Override
     public ResultInfo ResultSuccess(int i) {
 
