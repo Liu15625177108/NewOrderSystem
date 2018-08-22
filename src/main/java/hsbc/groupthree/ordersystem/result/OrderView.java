@@ -41,7 +41,8 @@ public class OrderView {
     public OrderInfo getOrderInfo(ProductInfo productInfo, UserInfo userInfo){
         OrderInfo orderInfo=new OrderInfo(commonsUtils.getUUID(),productInfo.getProductName(),
                 userInfo.getUsername(),userInfo.getPhone(), userInfo.getAddress(),
-                1,dataUtils.getCurrentTime(), productInfo.getProductPrice());
+                1,dataUtils.getCurrentTime(),productInfo.getProductDuedate(),
+                productInfo.getProductSelldata(),productInfo.getProductPrice(),productInfo.getProductCode());
         return  orderInfo;
     }
 }

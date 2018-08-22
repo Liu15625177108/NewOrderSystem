@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.List;
+
+import java.text.ParseException;
+
 
 /**
  * @ClassName OrderController
@@ -38,10 +42,6 @@ public class OrderController {
 
     private ResultViewService resultViewService = new ResultViewServiceImpl();
 
-//    @GetMapping(value = "/toshoworder")
-//    public Object showOrder(@RequestParam("productId")String productId){
-//
-//    }
 
     /**
      * @return java.lang.Object
@@ -52,11 +52,11 @@ public class OrderController {
      **/
     @PostMapping(value = "/toorder")
     public @ResponseBody
-    Object toOrder(@RequestParam("productId") String productCode, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
+    Object toOrder(@RequestParam("productCode") String productCode, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         System.out.println(payPassword);
-        ProductInfo productInfo = productsService.getProductInfoByProductId(productCode);
+        ProductInfo productInfo = productsService.getProductInfoByProductCode(productCode);
         String userId = (String) request.getAttribute("userId");
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
@@ -64,19 +64,24 @@ public class OrderController {
             System.out.println(userInfo.getUsername() + "++");
             System.out.println(productInfo.getProductName());
         }
-        //To compare userMoney and orderPrice
-        if (userService.toValidateMoney(userInfo, productInfo)) {
+        if(payPassword!=null&&!payPassword.equals("")) {
             //to check userPayPassword
             if (userService.toValidatePayPassword(userInfo, payPassword)) {
-                if (orderService.insertOrder(productInfo, userInfo)) {
-                    return resultViewService.ResultSuccess(23);
+                //To compare userMoney and orderPrice
+                if ( userService.toValidateMoney(userInfo, productInfo)) {
+                    if (orderService.insertOrder(productInfo, userInfo)) {
+                        return resultViewService.ResultSuccess(23);
+                    }
+                    return resultViewService.ResultErrorView(14);
                 }
-                return resultViewService.ResultErrorView(14);
+                return resultViewService.ResultErrorView(27);
             }
             return resultViewService.ResultErrorView(26);
         }
-        return resultViewService.ResultErrorView(27);
-    }
+        return resultViewService.ResultErrorView(30);
+        }
+
+
 
     /**
      * @return java.lang.Object
@@ -87,15 +92,17 @@ public class OrderController {
      **/
     @PostMapping(value = "/tocancelorder")
     public @ResponseBody
-    Object toCancelOrder(@RequestParam("orderId") String orderId, HttpServletResponse response, HttpServletRequest request) {
+    Object toCancelOrder(@RequestParam("orderId") String orderId, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) throws ParseException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        String userId = (String) request.getAttribute("userId");
+        System.out.println(userId);
+        UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if (orderService.determineTime(orderId)) {
-                orderService.updateOrderStatus(orderId);
-                return resultViewService.ResultSuccess(22);
+            if(userService.toValidatePayPassword(userInfo, payPassword)){
+                return orderService.updateOrderStatus(orderId);
             }
-            return resultViewService.ResultErrorView(28);
+            return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(29);
     }

@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
      * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      **/
     @Override
-    public ProductInfo getProductInfoByProductId(String productCode) {
+    public ProductInfo getProductInfoByProductCode(String productCode) {
         return productRepository.findByProductCode(productCode);
     }
 

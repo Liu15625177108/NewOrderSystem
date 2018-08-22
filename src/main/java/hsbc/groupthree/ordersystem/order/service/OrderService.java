@@ -2,7 +2,11 @@ package hsbc.groupthree.ordersystem.order.service;
 
 import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
+
+
+import java.text.ParseException;
 
 import java.util.List;
 
@@ -57,7 +61,25 @@ public interface OrderService {
      * @Param [orderId]
      * @return boolean
      **/
-    boolean updateOrderStatus(String orderId);
+    ResultInfo updateOrderStatus(String orderId) throws ParseException;
+
+    /**
+     * @Author Chen
+     * @Description //TODO
+     * @Date 11:36 2018/8/10
+     * @Param
+     * @return  List<OrderInfo>
+     **/
+    List<OrderInfo> findAll();
+
+    /**
+     * @Author Chen
+     * @Description //TODO time account
+     * @Date 11:36 2018/8/10
+     * @Param
+     * @return  List<OrderInfo>
+     **/
+   void timeAccount(String orderId);
 
 
     /**
@@ -71,6 +93,14 @@ public interface OrderService {
     List<OrderInfo> findAllOrder(String userName);
 
 
+    /**
+     * @Method findOrderByDate
+     * @Description //TODO  list all order by date
+     * @Author Alan Ruan
+     * @Date 2018/08/22 11:45:33
+     * @Param [date]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
     List<OrderInfo> findOrderByDate(String date);
 
 
