@@ -64,17 +64,17 @@ public class ResultViewServiceImpl implements ResultViewService {
                 resultView = new ResultInfo<String>(401, "error", ResultEnum.ORDER_OWNER_ERROR.getMessage());
                 return resultView;
             case 31:
-                resultView = new ResultInfo<String>(401, "error", ResultEnum.LACK_OF_ORDERID.getMessage());
-                return resultView;
-            case 32:
-                resultView = new ResultInfo<String>(401, "error", ResultEnum.LACK_OF_USERNAME.getMessage());
-                return resultView;
-            case 33:
-                resultView = new ResultInfo<String>(401, "error", ResultEnum.ORDERID_REQUIRED.getMessage());
-                return resultView;
-            case 34:
-                resultView = new ResultInfo<String>(401, "error", ResultEnum.USERNAME_REQUIRED.getMessage());
-                return resultView;
+//                resultView = new ResultInfo<String>(401, "error", ResultEnum.LACK_OF_ORDERID.getMessage());
+//                return resultView;
+//            case 32:
+//                resultView = new ResultInfo<String>(401, "error", ResultEnum.LACK_OF_USERNAME.getMessage());
+//                return resultView;
+//            case 33:
+//                resultView = new ResultInfo<String>(401, "error", ResultEnum.ORDERID_REQUIRED.getMessage());
+//                return resultView;
+//            case 34:
+//                resultView = new ResultInfo<String>(401, "error", ResultEnum.USERNAME_REQUIRED.getMessage());
+//                return resultView;
             default:
                 return  null;
         }
@@ -111,9 +111,9 @@ public class ResultViewServiceImpl implements ResultViewService {
                 return resultView;
 
             //Alan add some status below
-            case 30:
-                resultView = new ResultInfo<String>(200, "success", ResultEnum.ORDER_SHOW_SUCCESS.getMessage());
-                return resultView;
+//            case 30:
+//                resultView = new ResultInfo<String>(200, "success", ResultEnum.ORDER_SHOW_SUCCESS.getMessage());
+//                return resultView;
             default:
                 return null;
         }
