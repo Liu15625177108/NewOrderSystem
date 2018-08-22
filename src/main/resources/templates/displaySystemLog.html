@@ -329,13 +329,6 @@
 
 <script type="text/javascript">
     var product = [];
-    var productIndex;
-    //产品的更改后的发售起始日
-    var newSelldata;
-    //产品的更改后的发售截止日
-    var newDeadline;
-    //产品的更改后的到期日
-    var newDuedate;
     var app = angular.module('app', ['ui.bootstrap']);
     app.controller("customersCtrl", function ($scope, $http) {
         $http({
@@ -444,25 +437,6 @@
                 })
         }
 
-        // $scope.download = function() {
-        //     $http({
-        //         method:'GET',
-        //         url:"/download",
-        //         responseType: "arraybuffer"
-        //     })
-        //         .then( function ( data )
-        //     {     // 这里会弹出一个下载框，增强用户体验
-        //         var blob = new Blob([data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-        //         var objectUrl = URL.createObjectURL(blob);
-        //         //  创建a标签模拟下载
-        //         var aForExcel = $("<a><span class='forExcel'>下载excel</span></a>").attr("href",objectUrl);
-        //         $("body").append(aForExcel);
-        //         $(".forExcel").click();
-        //         aForExcel.remove();
-        //     });
-        //
-        // }
-        //
 
         /*clear choose*/
         $scope.clearChoose = function () {
@@ -508,15 +482,6 @@
 
     });
 
-
-    $('#dangerModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes  //get the index
-        var modal = $(this)
-        modal.find('.modal-body input#del_product_id').val(product[recipient].id)
-        modal.find('.modal-body input#del_ProductCode').val(product[recipient].productCode)
-        modal.find('.modal-body input#del_ProductDuedata').val(product[recipient].productDuedate)
-    });
 </script>
 
 </body>

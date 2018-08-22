@@ -22,7 +22,10 @@
     <script src="js/angular-route.min.js"></script>
 
     <title>Realia | HTML Template</title>
+    <script src="assets/js/jquery.js"></script>
 </head>
+
+
 <body ng-app="myApp" ng-controller="customersCtrl">
 <div id="wrapper-outer">
     <div id="wrapper">
@@ -161,7 +164,8 @@
                                     <input title="Enter the terms you wish to search for."
                                            class="search-query span2 form-text" placeholder="Search" type="text"
                                            name="" id="productCodeOrProductName">
-                                    <button type="submit" class="btn" ng-click="searchProduct()"><i class="icon-search"></i></button>
+                                    <button type="submit" class="btn" ng-click="searchProduct()"><i
+                                            class="icon-search"></i></button>
                                 </div><!-- /.input-append -->
                             </form><!-- /.site-search -->
                         </div><!-- /.navigation -->
@@ -239,13 +243,16 @@
                                                             <h2>产品代码：<a href="" ng-bind="pro.productCode"></a></h2>
                                                         </div><!-- /.title -->
                                                         <div class="" style="float: right;">
-                                                            <h4>价格:<a class="price" style="color: red" ng-bind="pro.productPrice"></a></h4>
+                                                            <h4>价格:<a class="price" style="color: red"
+                                                                      ng-bind="pro.productPrice"></a></h4>
                                                         </div>
                                                     </div>
 
                                                     <div class="location clearfix">
                                                         <div style="float: left;">描述</div>
-                                                        <div style="float: right;">产品类型:<a style="float: right;" ng-bind="pro.productType"></a></div>
+                                                        <div style="float: right;">产品类型:<a style="float: right;"
+                                                                                           ng-bind="pro.productType"></a>
+                                                        </div>
 
                                                     </div>
                                                     <p ng-bind="pro.description"></p>
@@ -261,7 +268,11 @@
                                                             <span class="value" ng-bind="pro.productDuedate"></span>
                                                         </div>
                                                         <div style="float: right">
-                                                            <button class="button btn-primary">购买</button>
+                                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                                    data-target="#primaryModal" data-whatever="{{$index}}"><i
+                                                                    class="fa fa-edit"></i>&nbsp;
+                                                                购买
+                                                            </button>
                                                             <!--<span class="value"></span>-->
                                                         </div>
                                                     </div><!-- /.area -->
@@ -495,158 +506,253 @@
             </div>
         </div>
     </div>
-    <script>
-        var totlePageNumber;//用来记录总共有多少页，进行翻页时，判断是否超出页数，如果超出页数，则不能翻页
-        var app = angular.module("myApp", []);
-        app.controller("customersCtrl", function ($scope, $http) {
-            $http({
-                method: 'POST',
-                url: "/user/get/products"
-            })
-                .then(function success(result) {
-                        //后台返回的数据
-                        $scope.products = result.data.content;
 
-                        //总页数
-                        $scope.totalPages = result.data.totalPages
+    <!--新增和编辑的模态框-->
+    <div class="modal fade" id="primaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-dialog modal-primary" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Pay...</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-add" enctype="multipart/form-data" productName="editProductInfoForm" novalidate>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="hidden" id="productcode" name="productcode">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-1">
+                                <span id="span_studentNameTip" style="color:#f00;display:inline-block;"></span>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">please input your pay password</span>
+                                </div>
+                                </br>
+                                <input type="password" id="paypassword" name="paypassword" ng-model="productCode" class="form-control" ng-minlength="6" ng-maxlength="6" required>
+                                </br>
+                            </div>
+                        </div>
 
-                        //总共有多少条记录
-                        $scope.totalElements = result.data.totalElements
-                        //当前页数
-                        $scope.currentPage = result.data.number;
-                        //用于控制上一页。下一页
-                        $scope.pageNumber = result.data.pageable.pageNumber
-                        totlePageNumber = result.data.totalPages
-                    },
-                    function error() {
-                        alert("出错了")
-                    }
-                );
-            //得到所有的产品类型
-            $http({
-                url: "/get/productType",
-                method: "get"
-            }).then(function (resp) {
-                $scope.productsType = resp.data;
-            })
-
-
-            $scope.pageFunction = function (pageNumber) {
-                if (pageNumber >= totlePageNumber) {
-                    alert("没有下一页了");
-                    return false;
-                }
-                if (pageNumber < 0) {
-                    alert("没有上一页了");
-                    return false;
-                }
-                var jsonData = {"pageNumber": pageNumber};
-                $http({
-                    url: "/user/get/products",
-                    method: "post",
-                    data: jsonData,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    transformRequest: function (obj) {
-                        var str = [];
-                        for (var p in obj) {
-                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                        }
-                        return str.join("&");
-                    }
-                }).then(function (result) {
-                    //后台返回的数据
-                    $scope.products = result.data.content;
-                    //总页数
-                    $scope.totalPages = result.data.totalPages
-                    //总共有多少条记录
-                    $scope.totalElements = result.data.totalElements
-                    //当前页数
-                    $scope.currentPage = result.data.number;
-                    //用于控制上一页。下一页
-                    $scope.pageNumber = result.data.pageable.pageNumber
-                    totlePageNumber = result.data.totalPages
-                })
-            }
-
-            //查找产品
-            $scope.searchProduct=function () {
-                var productCode;
-                var productName;
-                var productCodeOrProductName=$("#productCodeOrProductName").val();
-                var reg = /^[0-9]+.?[0-9]*$/;
-                if (reg.test(productCodeOrProductName)){
-                    productCode =productCodeOrProductName;
-                }else {
-                    productName=productCodeOrProductName;
-                }
-                var jsonData={productCode:productCode,productName:productName}
-                $http({
-                    url: "/findProduct/byProductCodeOrProductName",
-                    method: "post",
-                    data: jsonData,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    transformRequest: function (obj) {
-                        var str = [];
-                        for (var p in obj) {
-                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                        }
-                        return str.join("&");
-                    }
-                })
-                    .then(function (result) {
-                        //后台返回的数据
-                        $scope.products = result.data;
-
-                        /*   //总页数
-                           $scope.totalPages = result.data.length
-
-                           //总共有多少条记录
-                           $scope.totalElements = result.data.length
-                           //用于控制上一页。下一页
-                           $scope.pageNumber = result.data.length
-                           totlePageNumber = result.data.length*/
-                        product = result.data
-                    })
-            }
-
-
-            //根据选择的数据显示数量，从新获取数据
-            $scope.getDataNumberOrProductType = function () {
-                var productType = $("#productType").find("option:selected").text();//选中的文本
-                var dataNumber = $("#dataNumber").find("option:selected").text();//选中的文本
-                var jsonData = {"dataCount": dataNumber, "productType": productType};
-                $http({
-                    url: "/user/get/products",
-                    method: "post",
-                    data: jsonData,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    transformRequest: function (obj) {
-                        var str = [];
-                        for (var p in obj) {
-                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                        }
-                        return str.join("&");
-                    }
-                }).then(function (result) {
-                    //后台返回的数据
-                    $scope.products = result.data.content;
-                    //总页数
-                    $scope.totalPages = result.data.totalPages
-
-                    //总共有多少条记录
-                    $scope.totalElements = result.data.totalElements
-                    //当前页数
-                    $scope.currentPage = result.data.number;
-                    //用于控制上一页。下一页
-                    $scope.pageNumber = result.data.pageable.pageNumber
-                    totlePageNumber = result.data.totalPages
-                })
-            }
-
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="save" ng-model="pageNumber" ng-click="saveProduct()">confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+            </div>
+        </div>
+        <!--&lt;!&ndash; /.modal-content &ndash;&gt;ng-disabled="editProductInfoForm.productCode.$dirty && editProductInfoForm.productCode.$invalid "-->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="vendors/js/jquery.min.js"></script>
+<script src="vendors/js/bootstrap.min.js"></script>
+<script>
+    var totlePageNumber;//用来记录总共有多少页，进行翻页时，判断是否超出页数，如果超出页数，则不能翻页
+    /*define of messageFunction*/
+    /*error function*/
+    function warnMessage(msg){
+        $.message({
+            message: msg,
+            type: 'warning'
         });
+    }
+    function errorMessage(msg) {
+        $.message({
+            message: msg,
+            type: 'error'
+        });
+    }
 
-    </script>
+    var app = angular.module("myApp", []);
+    app.controller("customersCtrl", function ($scope, $http) {
+        $http({
+            method: 'POST',
+            url: "/user/get/products"
+        })
+            .then(function success(result) {
+                    //后台返回的数据
+                    $scope.products = result.data.content;
 
+                    //总页数
+                    $scope.totalPages = result.data.totalPages
+
+                    //总共有多少条记录
+                    $scope.totalElements = result.data.totalElements
+                    //当前页数
+                    $scope.currentPage = result.data.number;
+                    //用于控制上一页。下一页
+                    $scope.pageNumber = result.data.pageable.pageNumber
+                    totlePageNumber = result.data.totalPages
+                },
+                function error() {
+                    errorMessage("出错了")
+                }
+            );
+        //得到所有的产品类型
+        $http({
+            url: "/get/productType",
+            method: "get"
+        }).then(function (resp) {
+            $scope.productsType = resp.data;
+        })
+
+
+        $scope.pageFunction = function (pageNumber) {
+            if (pageNumber >= totlePageNumber) {
+                warnMessage("没有下一页了")
+                return false;
+            }
+            if (pageNumber < 0) {
+                warnMessage("没有上一页了")
+                return false;
+            }
+            var productType = $("#productType").find("option:selected").text();//选中的文本
+            var dataNumber = $("#dataNumber").find("option:selected").text();//选中的文本
+            var jsonData = {"pageNumber": pageNumber,productType:productType,dataNumber:dataNumber};
+            $http({
+                url: "/user/get/products",
+                method: "post",
+                data: jsonData,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function (result) {
+                //后台返回的数据
+                $scope.products = result.data.content;
+                //总页数
+                $scope.totalPages = result.data.totalPages
+                //总共有多少条记录
+                $scope.totalElements = result.data.totalElements
+                //当前页数
+                $scope.currentPage = result.data.number;
+                //用于控制上一页。下一页
+                $scope.pageNumber = result.data.pageable.pageNumber
+                totlePageNumber = result.data.totalPages
+            })
+        }
+
+
+        //查找产品
+        $scope.searchProduct=function () {
+            var productCode;
+            var productName;
+            var productCodeOrProductName=$("#productCodeOrProductName").val();
+            var reg = /^[0-9]+.?[0-9]*$/;
+            if (reg.test(productCodeOrProductName)){
+                productCode =productCodeOrProductName;
+            }else {
+                productName=productCodeOrProductName;
+            }
+            var jsonData={productCode:productCode,productName:productName}
+            $http({
+                url: "/findProduct/byProductCodeOrProductName",
+                method: "post",
+                data: jsonData,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            })
+                .then(function (result) {
+                    //后台返回的数据
+                    $scope.products = result.data;
+
+                    /*   //总页数
+                       $scope.totalPages = result.data.length
+
+                       //总共有多少条记录
+                       $scope.totalElements = result.data.length
+                       //用于控制上一页。下一页
+                       $scope.pageNumber = result.data.length
+                       totlePageNumber = result.data.length*/
+                    product = result.data
+                })
+        }
+
+        //根据选择的数据显示数量，从新获取数据
+        $scope.getDataNumberOrProductType = function () {
+            var productType = $("#productType").find("option:selected").text();//选中的文本
+            var dataNumber = $("#dataNumber").find("option:selected").text();//选中的文本
+            var jsonData = {"dataCount": dataNumber, "productType": productType};
+            $http({
+                url: "/user/get/products",
+                method: "post",
+                data: jsonData,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function (result) {
+                //后台返回的数据
+                $scope.products = result.data.content;
+                //总页数
+                $scope.totalPages = result.data.totalPages
+
+                //总共有多少条记录
+                $scope.totalElements = result.data.totalElements
+                //当前页数
+                $scope.currentPage = result.data.number;
+                //用于控制上一页。下一页
+                $scope.pageNumber = result.data.pageable.pageNumber
+                totlePageNumber = result.data.totalPages
+            })
+        }
+
+
+        //新增加菜单
+        $scope.saveProduct = function () {
+            //要再一次验证产品的产品代码、产品价格等信息
+            var productCode = $("#productcode").val();
+            var payPassword = $("#paypassword").val();
+            $http({
+                // url: "/manager/add/products",
+                url: "/order/toorder",
+                method: "post",
+                params: {'productCode': productCode, 'payPassword': payPassword},
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: angular.identity
+            }).then(function (result) {
+                 $("#primaryModal").modal('hide');
+                 alert("status: "+result.data.code+"  msg: "+result.data.msg+"  data: "+result.data.data)
+
+            });
+        }
+    });
+    var p;
+
+    // 修改产品的信息
+    $('#primaryModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes  //get the index
+        var modal = $(this)
+        modal.find('.modal-body input#productcode').val(product[recipient].productCode)
+        p = product[recipient].productCode
+        console.log(p)
+    });
+</script>
+</div>
 </body>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script type="text/javascript" src="assets/js/jquery.ezmark.js"></script>
@@ -665,4 +771,8 @@
 <script type="text/javascript"
         src="assets/libraries/bootstrap-fileupload/bootstrap-fileupload.js"></script>
 <script type="text/javascript" src="assets/js/realia.js"></script>
+
+<script src="myjquery/js/jquery.min.js"></script>
+<script src="myjquery/js/message.js"></script>
+<script src="myjquery/js/messageIE.js"></script>
 </html>

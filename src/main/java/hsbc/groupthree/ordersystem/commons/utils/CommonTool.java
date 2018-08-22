@@ -20,21 +20,25 @@ public class CommonTool {
      * @UpdateDate: 2018/8/5 22:10
      * @Version: 1.0
      */
-    public boolean checkUniqueOfProduct(ProductInfo product, List<ProductInfo> products) {
+    public boolean checkUniqueOfProduct(ProductInfo product,String originProductCode, List<ProductInfo> products) {
+        /*先得到所有产品的唯一属性：产品代码：productCode、产品名：name*/
         /*先得到所有产品的唯一属性：产品代码：productCode、产品名：name*/
         boolean tag = true;
-        if (products != null) {
-            for (int i = 0; i < products.size(); i++) {
-                if (product.getProductCode().equals(products.get(i).getProductCode()) && product.getProductName().equals(products.get(i).getProductName())) {
-                    tag = false;
-                    return tag;
-                }
-                if (!(product.getProductName().equals(products.get(i).getProductName())) && product.getProductCode().equals(products.get(i).getProductCode())) {
-                    tag = true;
-                    return tag;
+        if (product.getProductCode().equals(originProductCode)){
+            return true;
+        }
+        else{
+            if (products != null) {
+                for (int i = 0; i < products.size(); i++) {
+
+                    if (product.getProductCode().equals(products.get(i).getProductCode())) {
+                        tag = false;
+                        return tag;
+                    }
                 }
             }
         }
+
         return tag;
     }
 

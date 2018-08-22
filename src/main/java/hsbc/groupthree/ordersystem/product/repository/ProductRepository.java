@@ -4,11 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-
-import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @ClassName ProductRepository
@@ -31,7 +29,10 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
 
     List<ProductInfo> findByStatus(int i);
 
-  Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable);
+
+
+     Page<ProductInfo> findAll(Specification<ProductInfo> specification, Pageable pageable);
+
 
     /**
      * @param pageable
@@ -39,7 +40,7 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      */
     @Override
     Page<ProductInfo> findAll(Pageable pageable);
-    
+
     /**
      * @Author Chen
      * @Description //TODO get ProductInfo by ProductId
@@ -48,7 +49,7 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      **/
     ProductInfo findByProductCode(String productCode);
-    
+
     /**
      *
      * @param productCode
@@ -56,5 +57,5 @@ public interface ProductRepository extends JpaRepository<ProductInfo,String> {
      * @return
      */
     List<ProductInfo> findByProductCodeOrProductName(String productCode, String productName);
-    
+
 }

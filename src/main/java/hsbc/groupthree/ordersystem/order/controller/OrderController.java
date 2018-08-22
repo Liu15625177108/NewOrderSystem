@@ -1,5 +1,6 @@
 package hsbc.groupthree.ordersystem.order.controller;
 
+import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.order.service.OrderService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.service.ProductService;
@@ -9,11 +10,15 @@ import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.List;
+
+import java.text.ParseException;
+
 
 /**
  * @ClassName OrderController
@@ -23,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date 2018/8/16 23:16
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping(value = "/order")
 public class OrderController {
     @Autowired
@@ -37,10 +42,6 @@ public class OrderController {
 
     private ResultViewService resultViewService = new ResultViewServiceImpl();
 
-//    @GetMapping(value = "/toshoworder")
-//    public Object showOrder(@RequestParam("productId")String productId){
-//
-//    }
 
     /**
      * @return java.lang.Object
@@ -51,11 +52,11 @@ public class OrderController {
      **/
     @PostMapping(value = "/toorder")
     public @ResponseBody
-    Object toOrder(@RequestParam("productId") String productCode, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
+    Object toOrder(@RequestParam("productCode") String productCode, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         System.out.println(payPassword);
-        ProductInfo productInfo = productsService.getProductInfoByProductId(productCode);
+        ProductInfo productInfo = productsService.getProductInfoByProductCode(productCode);
         String userId = (String) request.getAttribute("userId");
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
@@ -63,19 +64,24 @@ public class OrderController {
             System.out.println(userInfo.getUsername() + "++");
             System.out.println(productInfo.getProductName());
         }
-        //To compare userMoney and orderPrice
-        if (userService.toValidateMoney(userInfo, productInfo)) {
+        if(payPassword!=null&&!payPassword.equals("")) {
             //to check userPayPassword
             if (userService.toValidatePayPassword(userInfo, payPassword)) {
-                if (orderService.insertOrder(productInfo, userInfo)) {
-                    return resultViewService.ResultSuccess(23);
+                //To compare userMoney and orderPrice
+                if ( userService.toValidateMoney(userInfo, productInfo)) {
+                    if (orderService.insertOrder(productInfo, userInfo)) {
+                        return resultViewService.ResultSuccess(23);
+                    }
+                    return resultViewService.ResultErrorView(14);
                 }
-                return resultViewService.ResultErrorView(14);
+                return resultViewService.ResultErrorView(27);
             }
             return resultViewService.ResultErrorView(26);
         }
-        return resultViewService.ResultErrorView(27);
-    }
+        return resultViewService.ResultErrorView(30);
+        }
+
+
 
     /**
      * @return java.lang.Object
@@ -86,15 +92,20 @@ public class OrderController {
      **/
     @PostMapping(value = "/tocancelorder")
     public @ResponseBody
-    Object toCancelOrder(@RequestParam("orderId") String orderId, HttpServletResponse response, HttpServletRequest request) {
+    Object toCancelOrder(@RequestParam("orderId") String orderId, @RequestParam("payPassword") String payPassword, HttpServletResponse response, HttpServletRequest request) throws ParseException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        String userId = (String) request.getAttribute("userId");
+        System.out.println(userId);
+        UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if (orderService.determineTime(orderId)) {
-                orderService.updateOrderStatus(orderId);
-                return resultViewService.ResultSuccess(22);
+            if(payPassword!=null&&!payPassword.equals("")) {
+                if (userService.toValidatePayPassword(userInfo, payPassword)) {
+                    return orderService.updateOrderStatus(orderId);
+                }
+                return resultViewService.ResultErrorView(26);
             }
-            return resultViewService.ResultErrorView(28);
+            return resultViewService.ResultErrorView(30);
         }
         return resultViewService.ResultErrorView(29);
     }
@@ -109,13 +120,14 @@ public class OrderController {
      * @Return java.lang.Object
      */
     @GetMapping(value = "/findorder")
-    public Object findOrderById(@RequestParam (defaultValue = "orderId")
+    public Object findOrderById(@RequestParam (value = "orderId",defaultValue = "A11")
                                    String orderId, HttpServletResponse response,HttpServletRequest request){
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (orderId != null){
+            System.out.println(orderService.getOrderInfoByOrderId(orderId).toString());
             return orderService.getOrderInfoByOrderId(orderId);
         }else {
             return resultViewService.ResultErrorView(33);
@@ -131,16 +143,55 @@ public class OrderController {
      * @Return java.lang.Object
      */
     @GetMapping(value = "/showuserorder")
-    public Object showAllOrderOfUser(@RequestParam(defaultValue = "userName")
-                                     String userName, HttpServletResponse response,HttpServletRequest request){
+    public List<OrderInfo> showAllOrderOfUser(@RequestParam(value = "userName",defaultValue = "小鑫")
+                                               String userName, HttpServletResponse response, HttpServletRequest request){
+
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (userName != null){
-            return this.orderService.findAllOrder(userName);
-        }else{
-            return this.resultViewService.ResultErrorView(34);
+            System.out.println(orderService.findAllOrder(userName).toString());
+            return orderService.findAllOrder(userName);
         }
+        return null;
+//        return resultViewService.ResultErrorView(34);
+
     }
 
+
+    /**
+     * @Method findOrderByDate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/21 17:02:35
+     * @Param [startTime, response, request]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @GetMapping("/findorderbydate")
+    public List<OrderInfo> findOrderByDate(@RequestParam(value = "startTime",defaultValue = "20180821")String startTime,
+                                           HttpServletResponse response, HttpServletRequest request){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (startTime != null){
+            System.out.println(orderService.findOrderByDate(startTime));
+            return orderService.findOrderByDate(startTime);
+        }
+        return null;
+    }
+
+
+    /**
+     * @Method show
+     * @Description //TODO    this is just a test , 之后再删掉
+     * @Author Alan Ruan
+     * @Date 2018/08/21 16:50:34
+     * @Param []
+     * @Return java.lang.String
+     */
+    @RequestMapping("/sayhello")
+    public  @ResponseBody
+    String show(){
+        return  "hello";
+    }
 }

@@ -3,6 +3,7 @@ package hsbc.groupthree.ordersystem.manager.controller;
 import hsbc.groupthree.ordersystem.manager.service.ManagerService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -10,19 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.util.List;
-
-import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
-import hsbc.groupthree.ordersystem.manager.service.ManagerService;
-import hsbc.groupthree.ordersystem.result.ResultInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -100,7 +90,7 @@ public class ManagerController {
      * @UpdateDate: 2018/8/5 21:57
      * @Version: 1.0
      */
-    @RequestMapping(value = "/manager/modify/products", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/manager/modify/products", method = RequestMethod.POST)
     public boolean modifyProduct(ProductInfo product, MultipartFile file) {
 //     Product product = new Product("ewfsdgsrhdfgxvadfgsfnxzdz", "200701", "中非让", 20.8, "稳", "这是一个", "http://8080", "2018-7-1", "2018-8-10", "2018-7-3", 1);
         boolean tag = false;
@@ -110,7 +100,7 @@ public class ManagerController {
             e.printStackTrace();
         }
         return tag;
-    }
+    }*/
 
     /**
      * @Description: manager add product
@@ -120,12 +110,12 @@ public class ManagerController {
      * @Version: 1.0
      */
     @RequestMapping(value = "/manager/add/products", method = RequestMethod.POST)
-    public Boolean addProduct(ProductInfo product, @RequestParam(value = "file") MultipartFile file) {
+    public Boolean addProduct(ProductInfo product,@RequestParam(value = "originProductCode") String originProductCode , @RequestParam(value = "file") MultipartFile file) {
         // @RequestBody Product product Product product = new Product("ewfsdgsrhdfgxvadfgsfnxzdz", "200701", "中海", 20.8, "稳健型", "这是一个值得1", "http://8080", "2018-7-1", "2018-8-10", "2018-7-3", 1);
         //@RequestParam(value = "name") String name,@RequestParam(value = "price") double price, @RequestParam(value = "type") String type,@RequestParam(value = "description") String description,@RequestParam(value = "sellData") String sellData,@RequestParam(value = "deadline") String deadline,@RequestParam(value = "dueDate") String dueDate
         boolean tag = false;
         try {
-            tag = managerService.addProduct(product, file);
+            tag = managerService.addProduct(product,originProductCode, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
