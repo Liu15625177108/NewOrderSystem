@@ -93,6 +93,14 @@ public interface OrderService {
     List<OrderInfo> findAllOrder(String userName);
 
 
+    /**
+     * @Method findOrderByDate
+     * @Description //TODO  list all order by date
+     * @Author Alan Ruan
+     * @Date 2018/08/22 11:45:33
+     * @Param [date]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
     List<OrderInfo> findOrderByDate(String date);
 
 

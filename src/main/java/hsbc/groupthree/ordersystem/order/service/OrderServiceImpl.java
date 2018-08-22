@@ -21,7 +21,6 @@ import hsbc.groupthree.ordersystem.product.repository.ProductTypeRepository;
 import hsbc.groupthree.ordersystem.result.ResultInfo;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
 import hsbc.groupthree.ordersystem.user.repository.UserRepository;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -231,7 +230,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-<<<<<<< HEAD
      * @Method findAllOrder
      * @Description //TODO list all order of this user(through userName)
      * @Author Alan Ruan
@@ -241,6 +239,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderInfo> findAllOrder(String userName){
+
 //        return orderRepository.findAllByUserName(userName);
         //因为远程库还没有数据，所以先造一些数据吧
 

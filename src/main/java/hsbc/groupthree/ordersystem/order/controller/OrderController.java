@@ -100,10 +100,13 @@ public class OrderController {
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if(userService.toValidatePayPassword(userInfo, payPassword)){
-                return orderService.updateOrderStatus(orderId);
+            if(payPassword!=null&&!payPassword.equals("")) {
+                if (userService.toValidatePayPassword(userInfo, payPassword)) {
+                    return orderService.updateOrderStatus(orderId);
+                }
+                return resultViewService.ResultErrorView(26);
             }
-            return resultViewService.ResultErrorView(26);
+            return resultViewService.ResultErrorView(30);
         }
         return resultViewService.ResultErrorView(29);
     }

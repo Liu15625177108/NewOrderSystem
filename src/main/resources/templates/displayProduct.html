@@ -513,7 +513,7 @@
         <div class="modal-dialog modal-primary" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">产品信息</h4>
+                    <h4 class="modal-title">Pay...</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -531,9 +531,10 @@
                             </div>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">支付密码</span>
+                                    <span class="input-group-text">please input your pay password</span>
                                 </div>
-                                <input type="text" id="paypassword" name="paypassword" ng-model="productCode" class="form-control" ng-minlength="6" ng-maxlength="6" required>
+                                </br>
+                                <input type="password" id="paypassword" name="paypassword" ng-model="productCode" class="form-control" ng-minlength="6" ng-maxlength="6" required>
                                 </br>
                             </div>
                         </div>
@@ -542,8 +543,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="save" ng-model="pageNumber" ng-click="saveProduct()">下单</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button class="btn btn-primary" id="save" ng-model="pageNumber" ng-click="saveProduct()">confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
             </div>
         </div>
         <!--&lt;!&ndash; /.modal-content &ndash;&gt;ng-disabled="editProductInfoForm.productCode.$dirty && editProductInfoForm.productCode.$invalid "-->
