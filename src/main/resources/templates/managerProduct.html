@@ -355,7 +355,7 @@
                                 <a class="input-group-text">类型</a>
                                 <a>
                                     <input type="text" id="type" name="type" style="size: 20px" class="form-control1 ">
-                                    <select>
+                                    <select id="selectProductType">
                                         <option ng-repeat="x in productsType">
                                             {{x.productType}}
                                         </option>
@@ -418,13 +418,14 @@
                         </div>
                         <input type="file" productName="file" id="file" style="width:150px;"/>
                     </div>
-                    <button class="btn btn-primary" id="save" ng-model="pageNumber" ng-click="saveProduct()">保存</button>
+                     <div class="modal-footer">
+                         <button class="btn btn-primary" id="save" ng-model="pageNumber" ng-click="saveProduct()">保存</button>
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    </div>
                 </form>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        </div>
+
     </div>
     <!--&lt;!&ndash; /.modal-content &ndash;&gt;ng-disabled="editProductInfoForm.productCode.$dirty && editProductInfoForm.productCode.$invalid "-->
 </div>
@@ -663,6 +664,8 @@
             var productName = $("#productName").val();
             var productPrice = $("#price").val();
             var productType = $("#type").val();
+            var selectProduct=$("#selectProductType").val()
+
             //产品的更改后的发售起始日
             newSelldata = document.getElementById("newSelldata").value;
             //产品的更改后的发售截止日
@@ -683,8 +686,7 @@
                 return
             }
             if (productType == "") {
-                errorMessage("请填写产品类型");
-                return
+                productType=selectProduct
             }
             //判断是新增还是编辑产品信息
             //如果是编辑，则取input type=text 和input type=date 之间的日期，如果input type=date为空，则取input type=text的时间，否则相反

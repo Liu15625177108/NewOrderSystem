@@ -111,9 +111,7 @@ public class ManagerController {
      */
     @RequestMapping(value = "/manager/add/products", method = RequestMethod.POST)
     public Boolean addProduct(ProductInfo product,@RequestParam(value = "originProductCode") String originProductCode , @RequestParam(value = "file") MultipartFile file) {
-        // @RequestBody Product product Product product = new Product("ewfsdgsrhdfgxvadfgsfnxzdz", "200701", "中海", 20.8, "稳健型", "这是一个值得1", "http://8080", "2018-7-1", "2018-8-10", "2018-7-3", 1);
-        //@RequestParam(value = "name") String name,@RequestParam(value = "price") double price, @RequestParam(value = "type") String type,@RequestParam(value = "description") String description,@RequestParam(value = "sellData") String sellData,@RequestParam(value = "deadline") String deadline,@RequestParam(value = "dueDate") String dueDate
-        boolean tag = false;
+     boolean tag = false;
         try {
             tag = managerService.addProduct(product,originProductCode, file);
         } catch (IOException e) {
