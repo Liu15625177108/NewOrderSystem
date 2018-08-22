@@ -1,5 +1,11 @@
 package hsbc.groupthree.ordersystem.commons.utils;
+import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
+import hsbc.groupthree.ordersystem.result.ResultViewService;
+import hsbc.groupthree.ordersystem.user.entity.UserInfo;
+import hsbc.groupthree.ordersystem.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +20,12 @@ import java.util.Date;
 @Component
 public class DataUtils {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    @Autowired
+    private ResultViewService resultViewService;
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * Format time
      */
@@ -60,4 +72,75 @@ public class DataUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return new Date();
     }
+
+    /**
+     * @return ResultInfo
+     * @Author Chen
+     * @Description //TODO reduce Money by time
+     * @Date 15:28 2018/8/4
+     * @Param [orderId]
+     **/
+    public ResultInfo reduceMoneyByTime(OrderInfo orderInfo) throws ParseException {
+        //get userinfo by username in order to rollback money
+        UserInfo userInfo = userRepository.findOneByUsername(orderInfo.getUserName());
+        double nowMoney = userInfo.getBalance();
+        //time determine
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = simpleDateFormat.parse(orderInfo.getProductSelldate());
+        //get current time
+        Date nowDate = new Date();
+        //get before time
+        Date after15Dates = new Date(date.getTime() + (long) 15 * 24 * 60 * 60 * 1000);
+        Date after30Dates = new Date(date.getTime() + (long) 30 * 24 * 60 * 60 * 1000);
+        Date after45Dates = new Date(date.getTime() + (long) 45 * 24 * 60 * 60 * 1000);
+        Date after60Dates = new Date(date.getTime() + (long) 60 * 24 * 60 * 60 * 1000);
+        Date after75Dates = new Date(date.getTime() + (long) 75 * 24 * 60 * 60 * 1000);
+
+//        System.out.println(date);
+//        System.out.println(after15Dates);
+
+        if (nowDate.before(after15Dates)||nowDate.equals(after15Dates)) {
+            // reduce 30%
+            double reduceMoney=orderInfo.getTotalMoney()*0.30;
+            userInfo.setBalance(nowMoney + orderInfo.getTotalMoney()- reduceMoney);
+            userRepository.save(userInfo);
+            return resultViewService.ResultSuccess(300);
+        }else if(nowDate.before(after30Dates)||nowDate.equals(after30Dates)){
+            // reduce 25%
+            double reduceMoney=orderInfo.getTotalMoney()*0.25;
+//            System.out.println("买家钱："+nowMoney);;
+//            System.out.println("产品钱:"+orderInfo.getTotalMoney());;
+//            System.out.println("剪掉剩余的钱:"+(orderInfo.getTotalMoney()- reduceMoney));
+//            System.out.println("剪掉剩余的钱:"+nowMoney + (orderInfo.getTotalMoney()- reduceMoney));;
+            userInfo.setBalance(nowMoney + orderInfo.getTotalMoney()- reduceMoney);
+            userRepository.save(userInfo);
+            return resultViewService.ResultSuccess(250);
+        }else if(nowDate.before(after45Dates)||nowDate.equals(after45Dates)){
+            //reduce 20%
+            double reduceMoney=orderInfo.getTotalMoney()*0.20;
+            userInfo.setBalance(nowMoney + orderInfo.getTotalMoney()- reduceMoney);
+            userRepository.save(userInfo);
+            return resultViewService.ResultSuccess(200);
+        }else if(nowDate.before(after60Dates)||nowDate.equals(after60Dates)){
+            //reduce 15%
+            double reduceMoney=orderInfo.getTotalMoney()*0.15;
+            userInfo.setBalance(nowMoney + orderInfo.getTotalMoney()- reduceMoney);
+            userRepository.save(userInfo);
+            return resultViewService.ResultSuccess(150);
+        }else if(nowDate.before(after75Dates)||nowDate.equals(after75Dates)){
+            //reduce 10%
+            double reduceMoney=orderInfo.getTotalMoney()*0.10;
+            userInfo.setBalance(nowMoney + orderInfo.getTotalMoney()- reduceMoney);
+            userRepository.save(userInfo);
+            return resultViewService.ResultSuccess(100);
+        }else{
+            //reduce 5%
+            double reduceMoney=orderInfo.getTotalMoney()*0.05;
+            userInfo.setBalance(nowMoney + orderInfo.getTotalMoney()- reduceMoney);
+            userRepository.save(userInfo);
+            return resultViewService.ResultSuccess(50);
+        }
+    }
+
+
 }

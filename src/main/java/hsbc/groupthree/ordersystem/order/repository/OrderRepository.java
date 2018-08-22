@@ -34,4 +34,16 @@ public interface OrderRepository extends JpaRepository<OrderInfo,String> {
      * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
      */
     List<OrderInfo> findAllByUserName(String userName);
+
+
+    /**
+     * @Method findAllByStartTime
+     * @Description //TODO  find order by time[it can be one or more]
+     * @Author Alan Ruan
+     * @Date 2018/08/20 17:20:58
+     * @Param [startTime]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    List<OrderInfo> findAllByStartTime(String startTime);
+
 }

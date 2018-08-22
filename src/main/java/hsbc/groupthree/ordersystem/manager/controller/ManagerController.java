@@ -1,8 +1,10 @@
 package hsbc.groupthree.ordersystem.manager.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import hsbc.groupthree.ordersystem.manager.service.ManagerService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
+import hsbc.groupthree.ordersystem.result.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -10,19 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.util.List;
-
-import hsbc.groupthree.ordersystem.manager.entity.ManagerInfo;
-import hsbc.groupthree.ordersystem.manager.service.ManagerService;
-import hsbc.groupthree.ordersystem.result.ResultInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 /**

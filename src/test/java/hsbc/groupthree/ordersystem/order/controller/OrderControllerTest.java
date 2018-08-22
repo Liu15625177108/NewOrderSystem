@@ -1,4 +1,5 @@
 package hsbc.groupthree.ordersystem.order.controller;
+
 import hsbc.groupthree.ordersystem.commons.utils.CommonsUtils;
 import hsbc.groupthree.ordersystem.commons.utils.DataUtils;
 import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
@@ -35,8 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(OrderController.class)
 @Slf4j
 public class OrderControllerTest {
-    private DataUtils dataUtils=new DataUtils();
-    private CommonsUtils commonsUtils=new CommonsUtils();
+    private DataUtils dataUtils = new DataUtils();
+    private CommonsUtils commonsUtils = new CommonsUtils();
     @Autowired
     private MockMvc mvc;
     @MockBean
@@ -54,17 +55,19 @@ public class OrderControllerTest {
                 "岗顶");
         ProductInfo productInfo = new ProductInfo("11",
                 100, "信用卡");
-        OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(),productInfo.getProductName(),
-                 userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
-                 1, dataUtils.getCurrentTime(),productInfo.getProductPrice()
-                 );
+        OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
+                userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
+                1, dataUtils.getCurrentTime(), productInfo.getProductDuedate(),
+                productInfo.getProductSelldata(), productInfo.getProductPrice(), productInfo.getProductCode()
+        );
+
         ResultInfo resultView = new ResultInfo<OrderInfo>(200, "success", orderInfo);
 
 
         given(this.userService.toValidatePayPassword(Mockito.any(UserInfo.class), eq("123"))).willReturn(true);
-        given(this.productService.getProductInfoByProductId(eq("11"))).willReturn(productInfo);
+        given(this.productService.getProductInfoByProductCode(eq("11"))).willReturn(productInfo);
         given(this.orderService.insertOrder(Mockito.any(ProductInfo.class), Mockito.any(UserInfo.class))).willReturn(true);
-        given(this.userService.toValidateMoney(Mockito.any(UserInfo.class),Mockito.any(ProductInfo.class))).willReturn(true);
+        given(this.userService.toValidateMoney(Mockito.any(UserInfo.class), Mockito.any(ProductInfo.class))).willReturn(true);
         given(this.orderService.getOrderPrice(Mockito.any(ProductInfo.class))).willReturn(300.0);
         given(this.userService.getUserInfoByUserId(eq("111"))).willReturn(userInfo);
 
@@ -78,7 +81,7 @@ public class OrderControllerTest {
 //                .content(jsonString)
                 .requestAttr("userId", "111")
 //                .sessionAttr("userId", "111")
-                .param("productCode","11")
+                .param("productCode", "345563")
                 .param("payPassword", "123"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(); //return response's value
@@ -88,19 +91,13 @@ public class OrderControllerTest {
 
     @Test
     public void cancelOrder() throws Exception {
-    /*    String beginTime=new String("2018-08-7 10:22:22");
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date bt=sdf.parse(beginTime);
-        OrdersInfo orderInfo=new OrdersInfo("01","信用卡",
-                12,"Chen","12313212312",
-                "岗顶",1000.0,1,bt);
 
-        given(this.orderService.getOrderInfoByOrderId(eq("123"))).willReturn(orderInfo);*/
-        given(this.orderService.determineTime(eq("01"))).willReturn(true);
-        given(this.orderService.updateOrderStatus(eq("01"))).willReturn(true);
+        given(this.orderService.determineTime(eq("11"))).willReturn(true);
+        given(this.orderService.updateOrderStatus(eq("11"))).willReturn(new ResultInfo());
 
         String result = this.mvc.perform(post("/order/tocancelorder")
-                .param("orderId", "01"))
+                .param("orderId", "11")
+                .param("payPassword", "1234567"))
                 .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -128,7 +125,7 @@ public class OrderControllerTest {
         log.info(orderInfo.toString());
 
         String result = this.mvc.perform(get("/order/findorder?orderId=A11").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(10))
+                .andExpect(status().isOk())//.andExpect(jsonPath("$.length()").value(10))
                 //.andExpect(content().string("还没写"))
                 .andReturn().getResponse().getContentAsString();
         log.info(result);
@@ -184,7 +181,7 @@ public class OrderControllerTest {
 
         log.info(orderInfoList.toString());
 
-        String result  = this.mvc.perform(get("/order/showuserorder?userName=小鑫").accept(MediaType.APPLICATION_JSON))
+        String result  = this.mvc.perform(get("/order/showuserorder").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                // .andExpect(content().string("还没写"))
                 .andReturn().getResponse().getContentAsString();
