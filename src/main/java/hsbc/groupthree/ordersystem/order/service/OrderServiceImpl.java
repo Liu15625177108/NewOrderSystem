@@ -144,6 +144,9 @@ public class OrderServiceImpl implements OrderService {
         orderInfo.setStartTime("2015年");
         orderInfo.setUserPhone("1234这是电话4321");
         orderInfo.setTotalMoney(13.32);
+        orderInfo.setProductCode("22BB22");
+        orderInfo.setProductSelldate("2018-08-21");
+        orderInfo.setProductDuelate("2018-08-22");
 
         return orderInfo;
     }
@@ -187,6 +190,7 @@ public class OrderServiceImpl implements OrderService {
         return dataUtils.reduceMoneyByTime(orderInfo);
     }
 
+
     /**
      * @return boolean
      * @Author Chen
@@ -198,6 +202,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderInfo> findAll() {
         return orderRepository.findAll();
     }
+
 
     /**
      * @return void
@@ -259,6 +264,9 @@ public class OrderServiceImpl implements OrderService {
         orderInfo.setStartTime("2015年");
         orderInfo.setUserPhone("1234这是电话4321");
         orderInfo.setTotalMoney(13.32);
+        orderInfo.setProductCode("11AA11");
+        orderInfo.setProductSelldate("2018-08-21");
+        orderInfo.setProductDuelate("2018-08-22");
 
         orderInfo1.setOrderId("B11");
         orderInfo1.setOrderStatus(1);
@@ -270,6 +278,9 @@ public class OrderServiceImpl implements OrderService {
         orderInfo1.setStartTime("2015年");
         orderInfo1.setUserPhone("1234这是电话4321");
         orderInfo1.setTotalMoney(6.66);
+        orderInfo1.setProductCode("22BB22");
+        orderInfo1.setProductSelldate("2018-08-21");
+        orderInfo1.setProductDuelate("2018-08-22");
 
         orderInfo2.setOrderId("C11");
         orderInfo2.setOrderStatus(1);
@@ -281,6 +292,9 @@ public class OrderServiceImpl implements OrderService {
         orderInfo2.setStartTime("2015年");
         orderInfo2.setUserPhone("1234这是电话4321");
         orderInfo2.setTotalMoney(13.32);
+        orderInfo2.setProductCode("33BB33");
+        orderInfo2.setProductSelldate("2018-08-21");
+        orderInfo2.setProductDuelate("2018-08-22");
 
         orderInfoList.add(orderInfo);
         orderInfoList.add(orderInfo1);
@@ -301,5 +315,33 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderInfo> findOrderByDate(String date) {
         return orderRepository.findAllByStartTime(date);
+    }
+
+
+    /**
+     * @Method findOrderByProductSellDate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/23 16:48:17
+     * @Param [productSellDate]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findOrderByProductSellDate(String productSellDate) {
+        return orderRepository.findAllByProductSelldate(productSellDate);
+    }
+
+
+    /**
+     * @Method findOrderByProductDuelate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/23 16:48:22
+     * @Param [productDuelate]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findOrderByProductDuelate(String productDuelate) {
+        return orderRepository.findAllByProductDuelate(productDuelate);
     }
 }

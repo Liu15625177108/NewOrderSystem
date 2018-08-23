@@ -110,7 +110,7 @@ public class OrderController {
 
     /**
      * @Method findOrderById
-     * @Description //TODO   这是根据订单号来找订单，先用着中文注释，之后再改
+     * @Description //TODO   这是根据订单号来找订单，肯定只有一个，先用着中文注释，之后再改
      * @Author Alan Ruan
      * @Date 2018/08/20 11:51:55
      * @Param [orderId]
@@ -158,7 +158,7 @@ public class OrderController {
 
     /**
      * @Method findOrderByDate
-     * @Description //TODO
+     * @Description //TODO   find order by order-start-time订单下单时间
      * @Author Alan Ruan
      * @Date 2018/08/21 17:02:35
      * @Param [startTime, response, request]
@@ -173,6 +173,31 @@ public class OrderController {
         if (startTime != null){
             System.out.println(orderService.findOrderByDate(startTime));
             return orderService.findOrderByDate(startTime);
+        }
+        return null;
+    }
+
+    @GetMapping("/findorderbyproductselldate")
+    public List<OrderInfo> findOrderByProductSellDate(@RequestParam(value = "productSelldate",defaultValue = "20180822")
+                                                      String productSelldate,HttpServletRequest request,HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (productSelldate != null){
+            return orderService.findOrderByProductSellDate(productSelldate);
+        }
+        return null;
+    }
+
+
+    @GetMapping("/findorderbyproductduelate")
+    public List<OrderInfo> findOrderByProductDuelate(@RequestParam(value = "productDuelate",defaultValue = "20180822")
+                                                     String productDuelate, HttpServletResponse response, HttpServletRequest request){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (productDuelate != null){
+            return orderService.findOrderByProductDuelate(productDuelate);
         }
         return null;
     }

@@ -95,7 +95,7 @@ public interface OrderService {
 
     /**
      * @Method findOrderByDate
-     * @Description //TODO  list all order by date
+     * @Description //TODO  find order by time 订单下单时间 [it can be one or more]
      * @Author Alan Ruan
      * @Date 2018/08/22 11:45:33
      * @Param [date]
@@ -103,5 +103,23 @@ public interface OrderService {
      */
     List<OrderInfo> findOrderByDate(String date);
 
+    /**
+     * @Method findOrderByProductSellDate
+     * @Description //TODO find order by productSellDate 产品开始售卖时间 [it can be one or more]
+     * @Author Alan Ruan
+     * @Date 2018/08/22 15:05:55
+     * @Param [productSellDate]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    List<OrderInfo> findOrderByProductSellDate(String productSellDate);
 
+    /**
+     * @Method findOrderByProductDuelate
+     * @Description //TODO find order by productDuelate 产品截止售卖时间 [it can be one or more]
+     * @Author Alan Ruan
+     * @Date 2018/08/22 15:07:17
+     * @Param [productDuelate]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    List<OrderInfo> findOrderByProductDuelate(String productDuelate);
 }
