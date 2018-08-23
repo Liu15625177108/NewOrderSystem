@@ -1,5 +1,6 @@
 
 package hsbc.groupthree.ordersystem.product.service;
+
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.repository.ProductRepository;
 import hsbc.groupthree.ordersystem.product.service.ProductService;
@@ -9,6 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
@@ -26,11 +30,17 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
+    /**
+     * @Author:Chen @Describe：set bean of redis
+     **/
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Override
     public Page<ProductInfo> getProductListByPage(int page, String productType, int count, Sort sort) {
@@ -48,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
                 Predicate predicate1 = criteriaBuilder.equal(path, productType);
                 predicates.add(predicate1);
                 return criteriaBuilder.and(predicates
-                        .toArray(new Predicate[] {}));
+                        .toArray(new Predicate[]{}));
             }
         };
 
@@ -58,22 +68,37 @@ public class ProductServiceImpl implements ProductService {
 //        Page<Product> products= productRepository.findAll();
 
     }
-    
+
     /**
+     * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      * @Author Chen
      * @Description //TODO getProductInfo by productId
      * @Date 15:13 2018/8/18
      * @Param [productId]
-     * @return hsbc.groupthree.ordersystem.product.entity.ProductInfo
      **/
     @Override
     public ProductInfo getProductInfoByProductCode(String productCode) {
-        return productRepository.findByProductCode(productCode);
+        // String serializer
+        RedisSerializer redisSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(redisSerializer);
+        //get productinfo from redis cache
+        ProductInfo productInfo = (ProductInfo) redisTemplate.opsForValue().get("getProductInfo");
+        //Prevent cache to penetrate
+        if (productInfo == null) {
+            synchronized (this) {
+                productInfo = (ProductInfo) redisTemplate.opsForValue().get("getProductInfo");
+                if (productInfo == null) {
+                    productInfo = productRepository.findByProductCode(productCode);
+                    redisTemplate.opsForValue().set("getProductInfo", productInfo);
+                }
+            }
+        }
+        return productInfo;
     }
 
 
     @Override
     public List<ProductInfo> findByProductCodeOrProductName(String productCode, String productName) {
-        return productRepository.findByProductCodeOrProductName(productCode,productName);
+        return productRepository.findByProductCodeOrProductName(productCode, productName);
     }
 }
