@@ -9,6 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +33,11 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
+    /**
+     * @Author:Chen @Describe：set bean of redis
+     **/
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Override
     public Page<ProductInfo> getProductListByPage(int page, String productType, int count, Sort sort) {
@@ -49,7 +57,22 @@ public class ProductServiceImpl implements ProductService {
      **/
     @Override
     public ProductInfo getProductInfoByProductCode(String productCode) {
-        return productRepository.findByProductCode(productCode);
+        // String serializer
+        RedisSerializer redisSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(redisSerializer);
+        //get productinfo from redis cache
+        ProductInfo productInfo = (ProductInfo) redisTemplate.opsForValue().get("getProductInfo");
+        //Prevent cache to penetrate
+        if (productInfo == null) {
+            synchronized (this) {
+                productInfo = (ProductInfo) redisTemplate.opsForValue().get("getProductInfo");
+                if (productInfo == null) {
+                    productInfo = productRepository.findByProductCode(productCode);
+                    redisTemplate.opsForValue().set("getProductInfo", productInfo);
+                }
+            }
+        }
+        return productInfo;
     }
 
 

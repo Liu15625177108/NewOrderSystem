@@ -7,7 +7,7 @@ import hsbc.groupthree.ordersystem.product.service.ProductService;
 import hsbc.groupthree.ordersystem.result.ResultViewService;
 import hsbc.groupthree.ordersystem.result.ResultViewServiceImpl;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
-import hsbc.groupthree.ordersystem.user.service.UserServiceImpl;
+import hsbc.groupthree.ordersystem.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.List;
-
 
 /**
  * @ClassName OrderController
@@ -31,13 +30,12 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private UserServiceImpl userService;
+
+    private UserService userService;
     @Autowired
     private ProductService productsService;
 //    @Autowired
 //    private ResultViewService resultViewService;
-
     private ResultViewService resultViewService = new ResultViewServiceImpl();
 
 
@@ -57,16 +55,13 @@ public class OrderController {
         ProductInfo productInfo = productsService.getProductInfoByProductCode(productCode);
         String userId = (String) request.getAttribute("userId");
         System.out.println(userId);
-        UserInfo userInfo = userService.getUserInfoByUserId("11");
-        if (userInfo != null) {
-            System.out.println(userInfo.getUsername() + "++");
-            System.out.println(productInfo.getProductName());
-        }
-        if(payPassword!=null&&!payPassword.equals("")) {
+        UserInfo userInfo = userService.getUserInfoByUserId("userId");
+        //to check the pay password is'n null
+        if (payPassword != null && !payPassword.equals("")) {
             //to check userPayPassword
             if (userService.toValidatePayPassword(userInfo, payPassword)) {
                 //To compare userMoney and orderPrice
-                if ( userService.toValidateMoney(userInfo, productInfo)) {
+                if (userService.toValidateMoney(userInfo, productInfo)) {
                     if (orderService.insertOrder(productInfo, userInfo)) {
                         return resultViewService.ResultSuccess(23);
                     }
@@ -77,8 +72,7 @@ public class OrderController {
             return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(30);
-        }
-
+    }
 
 
     /**
@@ -97,13 +91,10 @@ public class OrderController {
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if(payPassword!=null&&!payPassword.equals("")) {
-                if (userService.toValidatePayPassword(userInfo, payPassword)) {
-                    return orderService.updateOrderStatus(orderId);
-                }
-                return resultViewService.ResultErrorView(26);
+            if (userService.toValidatePayPassword(userInfo, payPassword)) {
+                return orderService.updateOrderStatus(orderId);
             }
-            return resultViewService.ResultErrorView(30);
+            return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(29);
     }
@@ -248,4 +239,6 @@ public class OrderController {
     String show(){
         return  "hello";
     }
+
+
 }
