@@ -46,16 +46,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/user/get/products", method = RequestMethod.POST)
-    @ResponseBody
     public Page<ProductInfo> getProduct(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNum, @RequestParam(name = "dataCount", defaultValue = "2") int dataCount, @RequestParam(name = "productType", defaultValue = "短期型") String productType) {
-        System.out.println(productType);
-        //        List<Product> list = this.productService.getAllProduct();
-        //*sort by product's type*//*
-//        SortUtils.sort(list, "type", null);
-//       PageRequest request = PageRequest.of(pageNum, 2, sort);
-        // @RequestParam(value = "pageNum", defaultValue = "0") int pageNum
-//        Page<Product> products = productService.getProductListByPage(request);
-
         Sort sort = Sort.by("productType");
         Page<ProductInfo> products = productService.getProductListByPage(pageNum,productType,dataCount, sort);
 

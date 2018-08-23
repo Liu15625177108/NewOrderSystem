@@ -4,15 +4,11 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Aviators - byaviators.com">
-    <link href='http://fonts.useso.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" href="assets/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="assets/css/bootstrap-responsive.css" type="text/css">
     <link rel="stylesheet" href="assets/libraries/chosen/chosen.css" type="text/css">
-    <link rel="stylesheet" href="assets/libraries/bootstrap-fileupload/bootstrap-fileupload.css" type="text/css">
-    <link rel="stylesheet"
-          href="assets/libraries/jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.min.css"
-          type="text/css">
+    <link rel="stylesheet" href="assets/libraries/jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.min.css" type="text/css">
     <link rel="stylesheet" href="assets/css/realia-blue.css" type="text/css" id="color-variant-default">
     <link rel="stylesheet" href="#" type="text/css" id="color-variant">
 
@@ -23,26 +19,6 @@
 <div id="wrapper-outer">
     <div id="wrapper">
         <div id="wrapper-inner">
-            <!-- BREADCRUMB -->
-            <div class="breadcrumb-wrapper">
-                <div class="container">
-                    <div class="row">
-                        <div class="span12">
-                            <ul class="breadcrumb pull-left">
-                                <li><a href="index.html">Home</a></li>
-                            </ul><!-- /.breadcrumb -->
-
-                            <div class="account pull-right">
-                                <ul class="nav nav-pills">
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="registration.html">Registration</a></li>
-                                </ul>
-                            </div>
-                        </div><!-- /.span12 -->
-                    </div><!-- /.row -->
-                </div><!-- /.container -->
-            </div><!-- /.breadcrumb-wrapper -->
-
             <!-- HEADER -->
             <div id="header-wrapper">
                 <div id="header">
@@ -55,17 +31,17 @@
                                             <a href="#nav" class="hidden-desktop" id="btn-nav">Toggle navigation</a>
 
                                             <div class="logo">
-                                                <a href="index.html" title="Home">
-                                                    <img src="assets/img/logo.png" alt="Home">
+                                                <a href="#" title="Home">
+                                                    <img src="assets/img/logo.png" alt="HSBC Home">
                                                 </a>
                                             </div><!-- /.logo -->
 
                                             <div class="site-productName">
-                                                <a href="/" title="Home" class="brand">Realia</a>
+                                                <a href="/" title="HSBC" class="brand">HSBC</a>
                                             </div><!-- /.site-productName -->
 
                                             <div class="site-slogan">
-                                                <span>Real estate &amp; Rental<br>made easy</span>
+                                                <span>HSBC Financial&amp; Earn Money<br>Made Easy</span>
                                             </div><!-- /.site-slogan -->
                                         </div><!-- /.logo-wrapper -->
 
@@ -142,16 +118,6 @@
                                 <li><a href="http://www.cssmoban.com">More theme</a></li>
                             </ul><!-- /.nav -->
 
-                            <div class="language-switcher">
-                                <div class="current en"><a href="/" lang="en">English</a></div><!-- /.current -->
-                                <div class="options">
-                                    <ul>
-                                        <li class="fr"><a href="#">Français</a></li>
-                                        <li class="de"><a href="#">Deutsch</a></li>
-                                    </ul>
-                                </div><!-- /.options -->
-                            </div><!-- /.language-switcher -->
-
                             <form method="get" class="site-search" action="?">
                                 <div class="input-append">
                                     <input title="Enter the terms you wish to search for."
@@ -219,7 +185,7 @@
                                     </div><!-- /.filter -->
                                 </div><!-- /.properties-rows -->
 
-                                <div class="properties-rows clearfix">
+                                <div class="properties-rows">
                                     <div class="row">
                                         <div class="property span9 clearfix"
                                              ng-repeat="pro in products | orderBy:'productPrice'">
@@ -276,151 +242,124 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="pagination pagination-centered">
+                                    <ul>
+                                        <!--<a ng-model="totalElements">第{{}}页</a>-->
+                                        <li><a ng-model="totalElements">总共{{totalElements}}条数据</a></li>
+                                        <li><a ng-model="totalPages">总共{{totalPages}}页</a></li>
+                                        <li><a ng-model="pageNumber" ng-click="pageFunction(pageNumber-1)">上一页</a></li>
+                                        <li><a ng-model="pageNumber" ng-click="pageFunction(pageNumber+1)">下一页</a></li>
+                                        <li><a>最后一页</a></li>
+                                    </ul>
+                                </div><!-- /.pagination -->
                             </div><!-- /.properties-rows -->
-                            <div class="pagination pagination-centered">
-                                <ul>
-                                    <!--<a ng-model="totalElements">第{{}}页</a>-->
-                                    <li><a ng-model="totalElements">总共{{totalElements}}条数据</a></li>
-                                    <li><a ng-model="totalPages">总共{{totalPages}}页</a></li>
-                                    <li><a ng-model="pageNumber" ng-click="pageFunction(pageNumber-1)">上一页</a></li>
-                                    <li><a ng-model="pageNumber" ng-click="pageFunction(pageNumber+1)">下一页</a></li>
-                                    <li><a>最后一页</a></li>
-                                </ul>
-                            </div><!-- /.pagination -->
-                        </div>
-                        <div class="sidebar span3 clearfix">
-                            <h2>Property filter</h2>
-                            <div class="property-filter widget">
-                                <div class="content">
-                                    <form method="get" action="?">
-                                        <div class="location control-group">
-                                            <label class="control-label" for="inputLocation">
-                                                Location
-                                            </label>
-                                            <div class="controls">
-                                                <select id="inputLocation">
-                                                    <option id="malibu">Malibu, CA</option>
-                                                    <option id="palo-alto">Palo Alto, CA</option>
-                                                </select>
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
-
-                                        <div class="type control-group">
-                                            <label class="control-label" for="inputType">
-                                                Type
-                                            </label>
-                                            <div class="controls">
-                                                <select id="inputType">
-                                                    <option id="apartment">Apartment</option>
-                                                    <option id="condo">Condo</option>
-                                                </select>
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
-
-                                        <div class="beds control-group">
-                                            <label class="control-label" for="inputBeds">
-                                                Beds
-                                            </label>
-                                            <div class="controls">
-                                                <select id="inputBeds">
-                                                    <option id="11">1</option>
-                                                    <option id="22">2</option>
-                                                </select>
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
-
-                                        <div class="baths control-group">
-                                            <label class="control-label" for="inputBaths">
-                                                Baths
-                                            </label>
-                                            <div class="controls">
-                                                <select id="inputBaths">
-                                                    <option id="1">1</option>
-                                                    <option id="2">2</option>
-                                                </select>
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
-
-
-                                        <div class="rent control-group">
-                                            <div class="controls">
-                                                <label class="checkbox" for="inputRent">
-                                                    <input type="checkbox" id="inputRent"> Rent
+                            <div class="sidebar span3 ">
+                                <h2>Property filter</h2>
+                                <div class="property-filter widget">
+                                    <div class="content">
+                                        <form method="get" action="?">
+                                            <div class="location control-group">
+                                                <label class="control-label" for="inputLocation">
+                                                    Location
                                                 </label>
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
+                                                <div class="controls">
+                                                    <select id="inputLocation">
+                                                        <option id="malibu">Malibu, CA</option>
+                                                        <option id="palo-alto">Palo Alto, CA</option>
+                                                    </select>
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
 
-                                        <div class="sale control-group">
-                                            <div class="controls">
-                                                <label class="checkbox" for="inputSale">
-                                                    <input type="checkbox" id="inputSale"> Sale
+                                            <div class="type control-group">
+                                                <label class="control-label" for="inputType">
+                                                    Type
                                                 </label>
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
+                                                <div class="controls">
+                                                    <select id="inputType">
+                                                        <option id="apartment">Apartment</option>
+                                                        <option id="condo">Condo</option>
+                                                    </select>
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
 
-                                        <div class="productPrice-from control-group">
-                                            <label class="control-label" for="inputPriceFrom">
-                                                Price from
-                                            </label>
-                                            <div class="controls">
-                                                <input type="text" id="inputPriceFrom" productName="inputPriceFrom">
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
+                                            <div class="beds control-group">
+                                                <label class="control-label" for="inputBeds">
+                                                    Beds
+                                                </label>
+                                                <div class="controls">
+                                                    <select id="inputBeds">
+                                                        <option id="11">1</option>
+                                                        <option id="22">2</option>
+                                                    </select>
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
 
-                                        <div class="productPrice-to control-group">
-                                            <label class="control-label" for="inputPriceTo">
-                                                Price to
-                                            </label>
-                                            <div class="controls">
-                                                <input type="text" id="inputPriceTo" productName="inputPriceTo">
-                                            </div><!-- /.controls -->
-                                        </div><!-- /.control-group -->
+                                            <div class="baths control-group">
+                                                <label class="control-label" for="inputBaths">
+                                                    Baths
+                                                </label>
+                                                <div class="controls">
+                                                    <select id="inputBaths">
+                                                        <option id="1">1</option>
+                                                        <option id="2">2</option>
+                                                    </select>
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
 
-                                        <div class="productPrice-value">
-                                            <span class="from"></span><!-- /.from -->
-                                            -
-                                            <span class="to"></span><!-- /.to -->
-                                        </div><!-- /.productPrice-value -->
 
-                                        <div class="productPrice-slider"></div><!-- /.productPrice-slider -->
-                                        <div class="form-actions">
-                                            <input type="submit" value="Filter now!"
-                                                   class="btn btn-primary btn-large">
-                                        </div><!-- /.form-actions -->
-                                    </form>
-                                </div><!-- /.content -->
-                            </div><!-- /.property-filter -->
-                            <div class="widget our-agents">
-                                <div class="title">
-                                    <h2>Our Agents</h2>
-                                </div><!-- /.title -->
+                                            <div class="rent control-group">
+                                                <div class="controls">
+                                                    <label class="checkbox" for="inputRent">
+                                                        <input type="checkbox" id="inputRent"> Rent
+                                                    </label>
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
 
-                                <div class="content">
-                                    <div class="agent">
-                                        <div class="image">
-                                            <img src="assets/img/photos/emma-small.png" alt="">
-                                        </div><!-- /.image -->
-                                        <div class="productName">Victoria Summer</div><!-- /.productName -->
-                                        <div class="phone">333-666-777</div><!-- /.phone -->
-                                        <div class="email"><a
-                                                href="mailto:victoria@example.com">victoria@example.com</a>
-                                        </div><!-- /.email -->
-                                    </div><!-- /.agent -->
+                                            <div class="sale control-group">
+                                                <div class="controls">
+                                                    <label class="checkbox" for="inputSale">
+                                                        <input type="checkbox" id="inputSale"> Sale
+                                                    </label>
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
 
-                                    <div class="agent">
-                                        <div class="image">
-                                            <img src="assets/img/photos/john-small.png" alt="">
-                                        </div><!-- /.image -->
-                                        <div class="productName">John Doe</div><!-- /.productName -->
-                                        <div class="phone">111-222-333</div><!-- /.phone -->
-                                        <div class="email"><a
-                                                href="mailto:john.doe@example.com">victoria@example.com</a>
-                                        </div><!-- /.email -->
-                                    </div><!-- /.agent -->
-                                </div><!-- /.content -->
-                            </div><!-- /.our-agents --
+                                            <div class="productPrice-from control-group">
+                                                <label class="control-label" for="inputPriceFrom">
+                                                    Price from
+                                                </label>
+                                                <div class="controls">
+                                                    <input type="text" id="inputPriceFrom" productName="inputPriceFrom">
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
+
+                                            <div class="productPrice-to control-group">
+                                                <label class="control-label" for="inputPriceTo">
+                                                    Price to
+                                                </label>
+                                                <div class="controls">
+                                                    <input type="text" id="inputPriceTo" productName="inputPriceTo">
+                                                </div><!-- /.controls -->
+                                            </div><!-- /.control-group -->
+
+                                            <div class="productPrice-value">
+                                                <span class="from"></span><!-- /.from -->
+                                                -
+                                                <span class="to"></span><!-- /.to -->
+                                            </div><!-- /.productPrice-value -->
+
+                                            <div class="productPrice-slider"></div><!-- /.productPrice-slider -->
+                                            <div class="form-actions">
+                                                <input type="submit" value="Filter now!"
+                                                       class="btn btn-primary btn-large">
+                                            </div><!-- /.form-actions -->
+                                        </form>
+                                    </div><!-- /.content -->
+                                </div><!-- /.property-filter -->
                             </div><!-- /#wrapper-inner -->
-                        </div><!-- /#wrapper -->
+                            </div><!-- /#wrapper -->
+
+                        </div>
+
                     </div><!-- /#wrapper-outer -->
 
                     <div class="palette clearfix">
@@ -612,7 +551,7 @@
             }
             var productType = $("#productType").find("option:selected").text();//选中的文本
             var dataNumber = $("#dataNumber").find("option:selected").text();//选中的文本
-            var jsonData = {"pageNumber": pageNumber, productType: productType, dataNumber: dataNumber};
+            var jsonData = {"pageNumber": pageNumber, productType: productType, dataCount: dataNumber};
             $http({
                 url: "/user/get/products",
                 method: "post",
