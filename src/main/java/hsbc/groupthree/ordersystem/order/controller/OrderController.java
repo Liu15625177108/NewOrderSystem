@@ -33,7 +33,7 @@ public class OrderController {
     private UserService userService;
     @Autowired
     private ProductService productsService;
-//    @Autowired
+    //    @Autowired
 //    private ResultViewService resultViewService;
     private ResultViewService resultViewService = new ResultViewServiceImpl();
 
@@ -55,15 +55,12 @@ public class OrderController {
         String userId = (String) request.getAttribute("userId");
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("userId");
-        if (userInfo != null) {
-            System.out.println(userInfo.getUsername() + "++");
-            System.out.println(productInfo.getProductName());
-        }
-        if(payPassword!=null&&!payPassword.equals("")) {
+        //to check the pay password is'n null
+        if (payPassword != null && !payPassword.equals("")) {
             //to check userPayPassword
             if (userService.toValidatePayPassword(userInfo, payPassword)) {
                 //To compare userMoney and orderPrice
-                if ( userService.toValidateMoney(userInfo, productInfo)) {
+                if (userService.toValidateMoney(userInfo, productInfo)) {
                     if (orderService.insertOrder(productInfo, userInfo)) {
                         return resultViewService.ResultSuccess(23);
                     }
@@ -74,8 +71,7 @@ public class OrderController {
             return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(30);
-        }
-
+    }
 
 
     /**
@@ -94,7 +90,7 @@ public class OrderController {
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if(userService.toValidatePayPassword(userInfo, payPassword)){
+            if (userService.toValidatePayPassword(userInfo, payPassword)) {
                 return orderService.updateOrderStatus(orderId);
             }
             return resultViewService.ResultErrorView(26);
