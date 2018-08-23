@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
      **/
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public synchronized boolean insertOrder(ProductInfo productInfo, UserInfo userInfo) {
+    public  boolean insertOrder(ProductInfo productInfo, UserInfo userInfo) {
         OrderInfo orderInfo = new OrderInfo(commonsUtils.getUUID(), productInfo.getProductName(),
                 userInfo.getUsername(), userInfo.getPhone(), userInfo.getAddress(),
                 1, dataUtils.getCurrentTime(), productInfo.getProductDuedate(),

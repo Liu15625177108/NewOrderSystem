@@ -2,6 +2,7 @@ package hsbc.groupthree.ordersystem.product.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * @ClassName ProductInfo
@@ -11,7 +12,7 @@ import javax.persistence.Id;
  * @Date 2018/8/16 23:18
  */
 @Entity
-public class ProductInfo {
+public class ProductInfo implements Serializable {
     /**
      * id--UUID
      */
