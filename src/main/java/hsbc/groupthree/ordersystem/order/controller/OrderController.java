@@ -7,17 +7,15 @@ import hsbc.groupthree.ordersystem.product.service.ProductService;
 import hsbc.groupthree.ordersystem.result.ResultViewService;
 import hsbc.groupthree.ordersystem.result.ResultViewServiceImpl;
 import hsbc.groupthree.ordersystem.user.entity.UserInfo;
-import hsbc.groupthree.ordersystem.user.service.UserService;
+import hsbc.groupthree.ordersystem.user.service.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.List;
-
 import java.text.ParseException;
+import java.util.List;
 
 
 /**
@@ -34,7 +32,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
     @Autowired
     private ProductService productsService;
 //    @Autowired
@@ -99,10 +97,13 @@ public class OrderController {
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if(userService.toValidatePayPassword(userInfo, payPassword)){
-                return orderService.updateOrderStatus(orderId);
+            if(payPassword!=null&&!payPassword.equals("")) {
+                if (userService.toValidatePayPassword(userInfo, payPassword)) {
+                    return orderService.updateOrderStatus(orderId);
+                }
+                return resultViewService.ResultErrorView(26);
             }
-            return resultViewService.ResultErrorView(26);
+            return resultViewService.ResultErrorView(30);
         }
         return resultViewService.ResultErrorView(29);
     }
@@ -177,6 +178,14 @@ public class OrderController {
         return null;
     }
 
+    /** 
+     * @Method findOrderByProductSellDate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/23 16:56:50
+     * @Param [productSelldate, request, response]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
     @GetMapping("/findorderbyproductselldate")
     public List<OrderInfo> findOrderByProductSellDate(@RequestParam(value = "productSelldate",defaultValue = "20180822")
                                                       String productSelldate,HttpServletRequest request,HttpServletResponse response){
@@ -190,6 +199,14 @@ public class OrderController {
     }
 
 
+    /** 
+     * @Method findOrderByProductDuelate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/23 16:56:56
+     * @Param [productDuelate, response, request]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
     @GetMapping("/findorderbyproductduelate")
     public List<OrderInfo> findOrderByProductDuelate(@RequestParam(value = "productDuelate",defaultValue = "20180822")
                                                      String productDuelate, HttpServletResponse response, HttpServletRequest request){

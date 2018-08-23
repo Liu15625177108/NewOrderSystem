@@ -1,15 +1,19 @@
 package hsbc.groupthree.ordersystem.commons.scheduled;
+
 import hsbc.groupthree.ordersystem.commons.utils.DataUtils;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 /**
  * @Author:Evan
  * @Date:2018/8/19 21:13
@@ -33,8 +37,11 @@ public class ScheduledTasks {
 
     /**
      * @Scheduled(cron="0 0 0 * * ?")//每天0点开始
+     * @Scheduled(fixedRate = 5000) //each 5 second  will excutor
+     * @Scheduled(cron = "0 30 23 * * *") at 23:30 perform in each day
      */
-//    @Scheduled(fixedRate = 5000)
+
+    @Scheduled(cron = "0 30 23 * * *")
     public void reportCurrent() {
         logger.info("现在时间：{}", dateFormat.format(new Date()));
         /*get the product which its status is 1 ,2*/
@@ -56,11 +63,13 @@ public class ScheduledTasks {
                 Date productDeadline = dataUtils.formatTime(product.getProductDeadline());
                 if (getCurrentTime.getTime() >= productDeadline.getTime()) {
                     product.setStatus(2);
+                    logger.info("现在时间：{}"+"chance the product to deadline of productCode is "+product.getProductCode(), dateFormat.format(new Date()));
                 }
                 /**if the currentTime is dueline,set the status to 3*/
                 Date productDuedate = dataUtils.formatTime(product.getProductDuedate());
                 if (getCurrentTime.getTime() >= productDuedate.getTime()) {
                     product.setStatus(3);
+                    logger.info("现在时间：{}"+"chance the product to duedate of productCode is "+product.getProductCode(), dateFormat.format(new Date()));
                 }
                 productRepository.saveAndFlush(product);
             }

@@ -20,7 +20,6 @@ public class PageableTool {
             @Override
             public Predicate toPredicate(Root<ProductInfo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 //                return criteriaBuilder.in(root.get("status")).value(1);
-
                 List<Predicate> predicates = new ArrayList<Predicate>();
                 Path<Long> status = root.get("status");
                 Predicate predicate = criteriaBuilder.equal(status, 1);

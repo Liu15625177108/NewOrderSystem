@@ -1,5 +1,7 @@
 package hsbc.groupthree.ordersystem.manager.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+import hsbc.groupthree.ordersystem.commons.utils.JwtTool;
 import hsbc.groupthree.ordersystem.manager.service.ManagerService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.entity.ProductTypeInfo;
@@ -24,10 +26,14 @@ import java.util.List;
  */
 @RestController
 public class ManagerController {
+
+    private final JwtTool jwtTool;
+
+    private final ManagerService managerService;
     @Autowired
-    private ManagerService managerService;
-    public ManagerController(ManagerService managerService) {
+    public ManagerController(ManagerService managerService, JwtTool jwtTool) {
         this.managerService = managerService;
+        this.jwtTool = jwtTool;
     }
 
 
@@ -41,11 +47,15 @@ public class ManagerController {
     */
     @RequestMapping("manager/login")
     public ResultInfo login(@RequestParam(value = "workernum",required = true)String workerNum,
-                            @RequestParam(value ="password" ,required = true)String passwod, HttpServletResponse httpServletResponse){
+                            @RequestParam(value ="password" ,required = true)String passwod,
+                            HttpServletResponse httpServletResponse){
 
         httpServletResponse.addHeader("Access-Control-Allow-Origin","*");
         httpServletResponse.addHeader("Access-Control-Allow-Headers","Origin,X-Requespted-With,Content-Type,Accept");
-                if(managerService.login(workerNum,passwod)==true) {
+                if(managerService.login(workerNum,passwod)) {
+                    httpServletResponse.setHeader("Authorization", "Bearer " +
+                            jwtTool.generateToken(workerNum, workerNum));
+
                     return managerService.findByworkerNum(workerNum);
                 }
                 return new ResultInfo(500,"fial",null);
@@ -53,18 +63,18 @@ public class ManagerController {
 
 
 
-    /**
-     * @Description:
-     * @Author: @Evan
-     * @CreateDate: 2018/8/5 21:56
-     * @UpdateDate: 2018/8/5 21:56
-     * @Version: 1.0
-     */
-    @RequestMapping(value = "/manager-index", method = RequestMethod.GET)
-    public ModelAndView managerIndexPage() {
-        ModelAndView modelAndView = new ModelAndView("managerProduct.html");
-        return modelAndView;
-    }
+//    /**
+//     * @Description:
+//     * @Author: @Evan
+//     * @CreateDate: 2018/8/5 21:56
+//     * @UpdateDate: 2018/8/5 21:56
+//     * @Version: 1.0
+//     */
+//    @RequestMapping(value = "/manager-index", method = RequestMethod.GET)
+//    public ModelAndView managerIndexPage() {
+//        ModelAndView modelAndView = new ModelAndView("managerProduct.html");
+//        return modelAndView;
+//    }
 
 
     /**
@@ -90,7 +100,7 @@ public class ManagerController {
      * @UpdateDate: 2018/8/5 21:57
      * @Version: 1.0
      */
-    @RequestMapping(value = "/manager/modify/products", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/manager/modify/products", method = RequestMethod.POST)
     public boolean modifyProduct(ProductInfo product, MultipartFile file) {
 //     Product product = new Product("ewfsdgsrhdfgxvadfgsfnxzdz", "200701", "中非让", 20.8, "稳", "这是一个", "http://8080", "2018-7-1", "2018-8-10", "2018-7-3", 1);
         boolean tag = false;
@@ -100,7 +110,7 @@ public class ManagerController {
             e.printStackTrace();
         }
         return tag;
-    }
+    }*/
 
     /**
      * @Description: manager add product
@@ -110,12 +120,10 @@ public class ManagerController {
      * @Version: 1.0
      */
     @RequestMapping(value = "/manager/add/products", method = RequestMethod.POST)
-    public Boolean addProduct(ProductInfo product, @RequestParam(value = "file") MultipartFile file) {
-        // @RequestBody Product product Product product = new Product("ewfsdgsrhdfgxvadfgsfnxzdz", "200701", "中海", 20.8, "稳健型", "这是一个值得1", "http://8080", "2018-7-1", "2018-8-10", "2018-7-3", 1);
-        //@RequestParam(value = "name") String name,@RequestParam(value = "price") double price, @RequestParam(value = "type") String type,@RequestParam(value = "description") String description,@RequestParam(value = "sellData") String sellData,@RequestParam(value = "deadline") String deadline,@RequestParam(value = "dueDate") String dueDate
-        boolean tag = false;
+    public Boolean addProduct(ProductInfo product,@RequestParam(value = "originProductCode") String originProductCode , @RequestParam(value = "file") MultipartFile file) {
+     boolean tag = false;
         try {
-            tag = managerService.addProduct(product, file);
+            tag = managerService.addProduct(product,originProductCode, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
