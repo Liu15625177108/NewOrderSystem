@@ -118,7 +118,7 @@
                                 <li><a href="http://www.cssmoban.com">More theme</a></li>
                             </ul><!-- /.nav -->
 
-                            <form method="get" class="site-search" action="?">
+                            <form  class="site-search" action="#">
                                 <div class="input-append">
                                     <input title="Enter the terms you wish to search for."
                                            class="search-query span2 form-text" placeholder="Search" type="text"
@@ -141,46 +141,41 @@
                             <div class="span9">
                                 <div class="properties-rows">
                                     <div class="filter">
-                                        <form action="?" method="get" class="form-horizontal">
-                                            <div class="control-group">
-                                                <label class="control-label" for="inputSortBy">
-                                                    排序-
-                                                    <span class="form-required" title="This field is required.">*</span>
-                                                </label>
-                                                <div class="controls">
-                                                    <select id="inputSortBy">
-                                                        <option id="productPrice">Price</option>
-                                                        <option id="published">Published</option>
-                                                    </select>
-                                                </div><!-- /.controls -->
-                                            </div><!-- /.control-group -->
-                                            <div class="control-group">
-                                                <label class="control-label"> <!--for="inputOrder"-->
-                                                    产品类型筛选-
-                                                    <span class="form-required" title="This field is required.">*</span>
-                                                </label>
-                                                <div class="controls">
-                                                    <select id="productType" ng-blur="getDataNumberOrProductType()">
-                                                        <option ng-repeat="x in productsType"
-                                                                ng-bind="x.productType"></option>
-                                                    </select>
-                                                </div><!-- /.controls -->
-                                            </div><!-- /.control-group -->
-
-                                            <div class="control-group">
-                                                <label class="control-label"> <!--for="inputOrder"-->
-                                                    显示数据条数-
-                                                    <span class="form-required" title="This field is required.">*</span>
-                                                </label>
-                                                <div class="controls">
-                                                    <select id="dataNumber" ng-blur="getDataNumberOrProductType()">
-                                                        <option>2</option>
-                                                        <option>5</option>
-                                                        <option>10</option>
-                                                        <option>15</option>
-                                                    </select>
-                                                </div><!-- /.controls -->
-                                            </div><!-- /.control-group -->
+                                        <form action="#" class="form-horizontal">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="control-group">
+                                                            <label class="control-label"> <!--for="inputOrder"-->
+                                                                Product type selection -
+                                                                <a class="form-required" title="This field is required.">*</a>
+                                                            </label>
+                                                            <div class="controls">
+                                                                <select id="productType" ng-blur="getDataNumberOrProductType()">
+                                                                    <option ng-repeat="x in productsType"
+                                                                            ng-bind="x.productType"></option>
+                                                                </select>
+                                                            </div><!-- /.controls -->
+                                                        </div><!-- /.control-group -->
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="control-group">
+                                                            <label class="control-label"> <!--for="inputOrder"-->
+                                                                Article display the data -
+                                                                <a class="form-required" title="This field is required.">*</a>
+                                                            </label>
+                                                            <div class="controls">
+                                                                <select id="dataNumber" ng-blur="getDataNumberOrProductType()">
+                                                                    <option>2</option>
+                                                                    <option>5</option>
+                                                                    <option>10</option>
+                                                                    <option>15</option>
+                                                                </select>
+                                                            </div><!-- /.controls -->
+                                                        </div><!-- /.control-group -->
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </form>
                                     </div><!-- /.filter -->
                                 </div><!-- /.properties-rows -->
@@ -217,14 +212,14 @@
                                                     <p ng-bind="pro.description"></p>
                                                     <div class="">
                                                         <span class="key">发售起始日：</span>
-                                                        <span class="value" ng-bind="pro.productSelldata"></span>
+                                                        <span class="value" style="color: red" ng-bind="pro.productSelldata"></span>
                                                         <div style="float:right">
-                                                            <span class="key">发售截止日:</span>
-                                                            <span class="value" ng-bind="pro.productDeadline"></span>
+                                                            <span class="key">发售截止日：</span>
+                                                            <span class="value" style="color: red" ng-bind="pro.productDeadline"></span>
                                                         </div>
                                                         <div>
-                                                            <span class="key">产品到期日:</span>
-                                                            <span class="value" ng-bind="pro.productDuedate"></span>
+                                                            <span class="key">产品到期日：</span>
+                                                            <span class="value" style="color: red" ng-bind="pro.productDuedate"></span>
                                                         </div>
                                                         <div style="float: right">
                                                             <button type="button" class="btn btn-primary"
