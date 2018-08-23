@@ -111,7 +111,7 @@ public class OrderController {
 
     /**
      * @Method findOrderById
-     * @Description //TODO   这是根据订单号来找订单，肯定只有一个，先用着中文注释，之后再改
+     * @Description //find order by orderId, it must be null or one
      * @Author Alan Ruan
      * @Date 2018/08/20 11:51:55
      * @Param [orderId]
@@ -125,8 +125,12 @@ public class OrderController {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (orderId != null){
+            OrderInfo orderInfo = orderService.getOrderInfoByOrderId(orderId);
             System.out.println(orderService.getOrderInfoByOrderId(orderId).toString());
-            return orderService.getOrderInfoByOrderId(orderId);
+            if (orderInfo != null){
+                return orderInfo;
+            }
+            return null;
         }else {
             return resultViewService.ResultErrorView(33);
         }
@@ -134,7 +138,7 @@ public class OrderController {
 
     /**
      * @Method showAllOrderOfUser
-     * @Description //TODO 这是根据用户名字列出所有用户订单,List
+     * @Description //find order by username [list]
      * @Author Alan Ruan
      * @Date 2018/08/20 12:05:06
      * @Param [userId]
@@ -148,18 +152,20 @@ public class OrderController {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (userName != null){
+            List<OrderInfo> list = orderService.findAllOrder(userName);
             System.out.println(orderService.findAllOrder(userName).toString());
-            return orderService.findAllOrder(userName);
+            if (list != null){
+                return list;
+            }
         }
         return null;
 //        return resultViewService.ResultErrorView(34);
-
     }
 
 
     /**
      * @Method findOrderByDate
-     * @Description //TODO   find order by order-start-time订单下单时间
+     * @Description //  find order by order-start-time[list]
      * @Author Alan Ruan
      * @Date 2018/08/21 17:02:35
      * @Param [startTime, response, request]
@@ -172,15 +178,18 @@ public class OrderController {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (startTime != null){
+            List<OrderInfo> list = orderService.findOrderByDate(startTime);
             System.out.println(orderService.findOrderByDate(startTime));
-            return orderService.findOrderByDate(startTime);
+            if (list != null){
+                return list;
+            }
         }
         return null;
     }
 
-    /** 
+    /**
      * @Method findOrderByProductSellDate
-     * @Description //TODO
+     * @Description //find order by productSellDate[list]
      * @Author Alan Ruan
      * @Date 2018/08/23 16:56:50
      * @Param [productSelldate, request, response]
@@ -193,17 +202,20 @@ public class OrderController {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (productSelldate != null){
-            return orderService.findOrderByProductSellDate(productSelldate);
+            List<OrderInfo> list = orderService.findOrderByProductSellDate(productSelldate);
+            if (list != null){
+                return list;
+            }
         }
         return null;
     }
 
 
-    /** 
+    /**
      * @Method findOrderByProductDuelate
-     * @Description //TODO
+     * @Description // find order by productDuelate[List]
      * @Author Alan Ruan
-     * @Date 2018/08/23 16:56:56
+     * @Date 2018/08/23 17:03:48
      * @Param [productDuelate, response, request]
      * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
      */
@@ -214,7 +226,10 @@ public class OrderController {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         if (productDuelate != null){
-            return orderService.findOrderByProductDuelate(productDuelate);
+            List<OrderInfo> list = orderService.findOrderByProductDuelate(productDuelate);
+            if (list != null){
+                return list;
+            }
         }
         return null;
     }
@@ -222,7 +237,7 @@ public class OrderController {
 
     /**
      * @Method show
-     * @Description //TODO    this is just a test , 之后再删掉
+     * @Description //    this is just a test , remember to delete it
      * @Author Alan Ruan
      * @Date 2018/08/21 16:50:34
      * @Param []
