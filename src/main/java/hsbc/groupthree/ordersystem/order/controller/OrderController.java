@@ -54,7 +54,7 @@ public class OrderController {
         ProductInfo productInfo = productsService.getProductInfoByProductCode(productCode);
         String userId = (String) request.getAttribute("userId");
         System.out.println(userId);
-        UserInfo userInfo = userService.getUserInfoByUserId("userId");
+        UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (userInfo != null) {
             System.out.println(userInfo.getUsername() + "++");
             System.out.println(productInfo.getProductName());
