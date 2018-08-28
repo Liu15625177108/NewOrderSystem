@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="semantic.css">
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="jquery.js"></script>
+    <script src="semantic.js"></script>
+
+    <style>
+        .contentdiv{
+            position:relative;
+            left:50%;
+            transform: translate(-50%,0);
+            margin-top:3%;
+            width:60%;
+            /*float:clear;*/
+        }
+        #information{
+            position:absolute;
+            right:0;
+        }
+		
+    </style>
+</head>
+
+<body ng-app="orderApp" ng-controller="orderController" ng-init="orderList=null">
+<div class="ui left sidebar inverted vertical  menu">
+    <div class="item">
+        <a class="ui icon image" href="#">
+            <img src="hsbc.png" height="80px" width="80px"/>
+        </a>
+        <a href="#">
+            <b>&nbsp;&nbsp;&nbsp;HSBC</b>
+        </a>
+    </div>
+  <a class="item" id="language" href='orderlist.html'>
+        Order/订单
+        <i class="sellsy icon"></i>
+    </a>
+    <a class="item" id="area" href="log.html">
+        Log/日志
+        <i class="pagelines icon"></i>
+    </a>
+    <a class="item" id="repository" >
+        Product/产品
+        <i class="simplybuilt icon"></i>
+    </a>
+ 
+
+</div>
+
+<div class="pusher">
+    <!--这是顶部菜单-->
+    <div class="ui inverted vertical masthead center aligned segment" style="padding: 8px 8px;">
+        <div class="ui container" >
+            <div class="ui large secondary inverted pointing menu">
+                <a class="item" id="my_menu">
+                    Menu
+                    <i class="sidebar icon"></i>
+                </a>
+                <a class="item" id="home" href="homepage.html">Home</a>
+				 		 <a class="item" id="summary" href="summary.html">Summary</a>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <h2 class="ui center aligned icon header"><i class="circular icon"><img src="hsbc.png"></img></i> Orders </h2>
+
+
+    <div class='contentdiv'>
+        <div>
+            <table class="ui celled table">
+                <thead>
+                <tr>
+                        <th>
+                        <div class="ui icon mini input">
+                            <input type="text" placeholder=" OrderId..." ng-model="orderId">
+                        </div>
+						</th>
+						
+                        <th>
+						<div class="ui icon mini input"  >
+                            <input type="text" placeholder=" OrderDate(xxxx-xx-xx).." ng-model='starttime'>
+                        </div>
+						</th>
+						
+						<th>
+                        <div class="ui icon mini input " >
+                            <input type="text" placeholder=" UserName..." ng-model='userName'>
+                        </div>
+                        </th>
+
+                    <th>
+                        <div class="ui action mini input">
+                            <input type="text" placeholder="Search All……">
+                           <button class="ui  red mini button" ng-click="showOrderList()">Search</button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+        <br/>
+		
+
+        <!--table class="ui red table" >
+            <thead>
+            <tr>
+                <th>OrderNumber</th>
+                <th>UserNumber</th>
+                <th>OrderStatus</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="x in orderList">
+                <td>{{x.orderid}}</td>
+                <td>{{x.username}}</td>
+                <td>{{x.orderstatus}}</td>
+                <td>{{x.starttime}}</td>
+            </tr>
+
+            </tbody>
+        </table-->
+		
+		<!--这块是订单展示-->
+		<div class="ui three stackable cards">
+
+  <div class="card" ng-repeat="y in orderList">
+    <div class="content">
+      <img class="right floated small ui image" src="hsbc1.png">
+      <div class="header">
+       {{y.username}}
+      </div>
+	   <div class="meta">
+       {{y.orderid}}
+      </div>
+      <div class="meta">
+       {{y.starttime}}
+      </div>
+	  <div class="meta">
+	   {{y.productname}}
+	  </div>
+      <div class="description">
+		Address: {{y.useraddress}}
+		</br>
+		Phone: {{y.userphone}}
+      </div>
+    </div>
+    <div class="extra content" >
+      <div class="ui two buttons" >
+        <div class="ui  red button" ng-click = "showDetails(y.orderid, y.productname, y.username)">Show details</div>
+		<div class="ui black button" ng-click = "deleteOrder(y.orderid)">Delete orders</div>
+      </div>
+    </div>
+  </div>
+
+		</div>
+		
+		
+    </div>
+
+</div>
+
+<!--这是弹框询问是否删除订单-->
+  <div class="ui mini test modal" id='del'>
+    <div class="header">
+      Cancel Your Order "{{ordernum}}"?
+    </div>
+    <div class="content">
+      <p>Please input your pay password and there will be deducted from your money</p>
+        <input type="password" ng-model="payPassword">
+    </div>
+    <div class="actions">
+      <div class="ui negative button">
+        No
+      </div>
+      <div class="ui positive right labeled icon button" ng-click = "yesToCancel(ordernum)">
+        Yes
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+  
+  
+<!--这是弹框展示order详情-->
+
+  <div class="ui test modal" id='detail'> 
+    <div class="header">
+      {{user}}'s Order: {{ordernumber}}
+    </div>
+	
+	<div class = "header">
+		Consumer's Details:
+	</div>
+    <div class="content">
+	<!--    <div class="header">ProductName: {{productname}}----------------------ProductNumber: {{productnumber}}</div>    -->
+			<div class=" blue description">
+				ConsumerName:        {{user}}
+				</br>
+				ConsumerPhone:        {{phone}}
+				</br>
+				ConsumerAddress:        {{address}}			
+			</div>
+    </div>
+	<div class = "header">
+		Product's Details:
+	</div>
+	<div class="content">
+			<div class = "blue description">
+				ProductName:        {{pname}}
+				</br>
+				ProductNumber:        {{pnum}}
+				</br>
+				ProductPrice:        {{pprice}}
+				</br>
+				ProductStartToSellTime:        {{pselltime}}
+				</br>
+				ProductEndToSellTime:        {{pendtime}}
+			</div>
+	</div>
+	<div class = "header">
+		Order's Details:
+	</div>
+	<div class = "content">
+			<div class = "blue description">
+				OrderId:        {{ordernumber}}
+				</br>
+				OrderStatus:        {{ostatus}}
+				</br>
+				TotalCost:        {{cost}}
+				</br>
+				OrderTime:        {{otime}}
+		</div>
+	</div>
+	
+    <div class="actions">
+      <div class="ui positive right labeled icon button">
+        Ok, I know!
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+
+    $('#my_menu').click(function () {
+        $('.ui.sidebar').sidebar('toggle');
+    });
+	
+	
+	var app=angular.module('orderApp',[]);
+	app.controller('orderController',function($scope,$http){
+		
+		<!--这是showorders方法-->
+		$scope.showOrderList=function(){
+		
+			alert("hello, you are searching orders !");
+		
+		$http({
+			method:'GET',
+
+			 url: 'http://localhost:8080/order/showuserorder'
+		}).then(function successCallback(reponse){
+				alert("successful");
+				$scope.orderList=reponse.data;
+				
+		},function errorCallback(reponse){
+				alert("error");
+				
+		});
+		
+		};
+		
+		
+		$scope.deleteOrder=function(x){
+			$('#del').modal('show');
+			$scope.ordernum=x;
+			
+		};
+		
+		$scope.showDetails=function(x,y,z){
+			$('#detail').modal('show');
+			$scope.ordernumber=x;
+			$scope.productname=y;
+			$scope.user=z;
+
+		};
+
+		$scope.yesToCancel=function (x) {
+		    alert($scope.payPassword+","+x)
+            $http({
+                method:'POST',
+                url: '/order/tocancelorder',
+                params:{payPassword:$scope.payPassword,orderId:x}
+            }).then(function successCallback(reponse){
+                alert("successful");
+                alert("code:"+reponse.data.code+" msg:"+reponse.data.msg+" data:"+reponse.data.data);
+                $scope.payPassword = "";
+            },function errorCallback(reponse){
+                alert("error");
+                $scope.payPassword = "";
+            });
+        }
+		
+	});
+</script>
+</body>
+
+</html>

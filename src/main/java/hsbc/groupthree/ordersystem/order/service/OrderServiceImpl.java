@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -213,13 +214,114 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * @return void
-     * @Author Chen
-     * @Description //TODO test
-     * @Date 11:39 2018/8/10
-     * @Param
-     **/
-    @Test
-    public void test1() {
+     * @Method findAllOrder
+     * @Description //TODO list all order of this user(through userName)
+     * @Author Alan Ruan
+     * @Date 2018/08/20 11:49:18
+     * @Param [userId]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findAllOrder(String userName){
+
+
+       return orderRepository.findAllByUserName(userName);
+        //因为远程库还没有数据，所以先造一些数据吧
+
+//        OrderInfo orderInfo = new OrderInfo();
+//        OrderInfo orderInfo1 = new OrderInfo();
+//        OrderInfo orderInfo2 = new OrderInfo();
+//
+//        List<OrderInfo> orderInfoList = new ArrayList<>();
+
+//        orderInfo.setOrderId("A11");
+//        orderInfo.setOrderStatus(1);
+//        orderInfo.setProductName("龙卡VIP");
+//        orderInfo.setProductNumber(2);
+//        orderInfo.setProductPrice(6.66);
+//        orderInfo.setUserName("小鑫");
+//        orderInfo.setUserAddress("华南师范大学西三425");
+//        orderInfo.setStartTime("2015年");
+//        orderInfo.setUserPhone("1234这是电话4321");
+//        orderInfo.setTotalMoney(13.32);
+//        orderInfo.setProductCode("11AA11");
+//        orderInfo.setProductSelldate("2018-08-21");
+//        orderInfo.setProductDuelate("2018-08-22");
+//
+//        orderInfo1.setOrderId("B11");
+//        orderInfo1.setOrderStatus(1);
+//        orderInfo1.setProductName("黑卡VIP");
+//        orderInfo1.setProductNumber(1);
+//        orderInfo1.setProductPrice(6.66);
+//        orderInfo1.setUserName("小鑫");
+//        orderInfo1.setUserAddress("华南师范大学西三425");
+//        orderInfo1.setStartTime("2015年");
+//        orderInfo1.setUserPhone("1234这是电话4321");
+//        orderInfo1.setTotalMoney(6.66);
+//        orderInfo1.setProductCode("22BB22");
+//        orderInfo1.setProductSelldate("2018-08-21");
+//        orderInfo1.setProductDuelate("2018-08-22");
+//
+//        orderInfo2.setOrderId("C11");
+//        orderInfo2.setOrderStatus(1);
+//        orderInfo2.setProductName("Super VIP");
+//        orderInfo2.setProductNumber(2);
+//        orderInfo2.setProductPrice(6.66);
+//        orderInfo2.setUserName("小鑫");
+//        orderInfo2.setUserAddress("华南师范大学西三425");
+//        orderInfo2.setStartTime("2015年");
+//        orderInfo2.setUserPhone("1234这是电话4321");
+//        orderInfo2.setTotalMoney(13.32);
+//        orderInfo2.setProductCode("33BB33");
+//        orderInfo2.setProductSelldate("2018-08-21");
+//        orderInfo2.setProductDuelate("2018-08-22");
+//
+//        orderInfoList.add(orderInfo);
+//        orderInfoList.add(orderInfo1);
+//        orderInfoList.add(orderInfo2);
+
+//        return orderInfoList;
+
+    }
+
+    /**
+     * @Method findOrderByDate
+     * @Description //TODO  get orderinfo by date
+     * @Author Alan Ruan
+     * @Date 2018/08/21 16:49:53
+     * @Param [date]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findOrderByDate(String date) {
+        return orderRepository.findAllByStartTime(date);
+    }
+
+
+    /**
+     * @Method findOrderByProductSellDate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/23 16:48:17
+     * @Param [productSellDate]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findOrderByProductSellDate(String productSellDate) {
+        return orderRepository.findAllByProductSelldate(productSellDate);
+    }
+
+
+    /**
+     * @Method findOrderByProductDuelate
+     * @Description //TODO
+     * @Author Alan Ruan
+     * @Date 2018/08/23 16:48:22
+     * @Param [productDuelate]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @Override
+    public List<OrderInfo> findOrderByProductDuelate(String productDuelate) {
+        return orderRepository.findAllByProductDuelate(productDuelate);
     }
 }
