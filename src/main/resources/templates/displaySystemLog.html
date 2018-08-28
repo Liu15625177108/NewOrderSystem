@@ -168,30 +168,27 @@
                 <p>Please Choose Data</p>
                 <div class="container">
                     <div class="row">
-
-                            <div class="col-3">
+                        <div class="col-3">
                           <span>
                               <input type="radio" id="fiveDays" name="radio" class="radio_sync" value="5"/>Five Days
                          </span>
-                            </div>
-                            <div class="col-4">
+                        </div>
+                        <div class="col-4">
                           <span>
                               <input type="radio" id="fifteenDays" name="radio" class="radio_sync" value="15"/>Fifteen Days
                          </span>
-                            </div>
+                        </div>
                         <div class="col-5">
                           <span>
-                             自定义 ：<input type="text" id="MySelect" size="10px" class="radio_sync"/>
+                             自定义 ：<input type="text" id="MySelect" name="radio" size="10px" class="radio_sync"/>
                          </span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" ng-click="clearChoose()">Clear Choose</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-info" ng-click="OutputSystemLog()">Save changes</button>
-
             </div>
         </div>
         <!-- /.modal-content -->
@@ -341,14 +338,6 @@
             }
             if (MySelect != "") {
                 mychoose = MySelect;
-            }
-            if (MySelect != "" && checkvale != "undefined") {
-                alert("只能选择一个日期")
-                return
-            }
-            if (MySelect == "" && checkvale == "undefined") {
-                alert("请选择一个日期")
-                return
             }
             Number(mychoose)
             var data = new Object;

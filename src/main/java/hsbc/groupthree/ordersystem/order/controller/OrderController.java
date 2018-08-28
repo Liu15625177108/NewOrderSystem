@@ -1,5 +1,6 @@
 package hsbc.groupthree.ordersystem.order.controller;
 
+import hsbc.groupthree.ordersystem.order.entity.OrderInfo;
 import hsbc.groupthree.ordersystem.order.service.OrderService;
 import hsbc.groupthree.ordersystem.product.entity.ProductInfo;
 import hsbc.groupthree.ordersystem.product.service.ProductService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * @ClassName OrderController
@@ -33,7 +35,7 @@ public class OrderController {
     private UserService userService;
     @Autowired
     private ProductService productsService;
-//    @Autowired
+    //    @Autowired
 //    private ResultViewService resultViewService;
     private ResultViewService resultViewService = new ResultViewServiceImpl();
 
@@ -59,11 +61,11 @@ public class OrderController {
             System.out.println(userInfo.getUsername() + "++");
             System.out.println(productInfo.getProductName());
         }
-        if(payPassword!=null&&!payPassword.equals("")) {
+        if (payPassword != null && !payPassword.equals("")) {
             //to check userPayPassword
             if (userService.toValidatePayPassword(userInfo, payPassword)) {
                 //To compare userMoney and orderPrice
-                if ( userService.toValidateMoney(userInfo, productInfo)) {
+                if (userService.toValidateMoney(userInfo, productInfo)) {
                     if (orderService.insertOrder(productInfo, userInfo)) {
                         return resultViewService.ResultSuccess(23);
                     }
@@ -74,9 +76,7 @@ public class OrderController {
             return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(30);
-        }
-
-
+    }
 
     /**
      * @return java.lang.Object
@@ -94,11 +94,111 @@ public class OrderController {
         System.out.println(userId);
         UserInfo userInfo = userService.getUserInfoByUserId("11");
         if (orderId != null && !orderId.equals("")) {
-            if(userService.toValidatePayPassword(userInfo, payPassword)){
+            if (userService.toValidatePayPassword(userInfo, payPassword)) {
                 return orderService.updateOrderStatus(orderId);
             }
             return resultViewService.ResultErrorView(26);
         }
         return resultViewService.ResultErrorView(29);
     }
+
+    /**
+     * @Method showAllOrderOfUser
+     * @Description //find order by username [list]
+     * @Author Alan Ruan
+     * @Date 2018/08/20 12:05:06
+     * @Param [userId]
+     * @Return java.lang.Object
+     */
+    @GetMapping(value = "/showuserorder")
+    @ResponseBody
+    public List<OrderInfo> showAllOrderOfUser(@RequestParam(value = "userName",defaultValue = "chenzebin")
+                                                      String userName, HttpServletResponse response, HttpServletRequest request){
+
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (userName != null){
+            List<OrderInfo> list = orderService.findAllOrder(userName);
+            System.out.println(orderService.findAllOrder(userName).toString());
+            if (list != null){
+                return list;
+            }
+        }
+        return null;
+//        return resultViewService.ResultErrorView(34);
+    }
+
+
+    /**
+     * @Method findOrderByDate
+     * @Description //  find order by order-start-time[list]
+     * @Author Alan Ruan
+     * @Date 2018/08/21 17:02:35
+     * @Param [startTime, response, request]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @GetMapping("/findorderbydate")
+    public List<OrderInfo> findOrderByDate(@RequestParam(value = "startTime",defaultValue = "20180821")String startTime,
+                                           HttpServletResponse response, HttpServletRequest request){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (startTime != null){
+            List<OrderInfo> list = orderService.findOrderByDate(startTime);
+            System.out.println(orderService.findOrderByDate(startTime));
+            if (list != null){
+                return list;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @Method findOrderByProductSellDate
+     * @Description //find order by productSellDate[list]
+     * @Author Alan Ruan
+     * @Date 2018/08/23 16:56:50
+     * @Param [productSelldate, request, response]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @GetMapping("/findorderbyproductselldate")
+    public List<OrderInfo> findOrderByProductSellDate(@RequestParam(value = "productSelldate",defaultValue = "20180822")
+                                                              String productSelldate,HttpServletRequest request,HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (productSelldate != null){
+            List<OrderInfo> list = orderService.findOrderByProductSellDate(productSelldate);
+            if (list != null){
+                return list;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * @Method findOrderByProductDuelate
+     * @Description // find order by productDuelate[List]
+     * @Author Alan Ruan
+     * @Date 2018/08/23 17:03:48
+     * @Param [productDuelate, response, request]
+     * @Return java.util.List<hsbc.groupthree.ordersystem.order.entity.OrderInfo>
+     */
+    @GetMapping("/findorderbyproductduelate")
+    public List<OrderInfo> findOrderByProductDuelate(@RequestParam(value = "productDuelate",defaultValue = "20180822")
+                                                             String productDuelate, HttpServletResponse response, HttpServletRequest request){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        if (productDuelate != null){
+            List<OrderInfo> list = orderService.findOrderByProductDuelate(productDuelate);
+            if (list != null){
+                return list;
+            }
+        }
+        return null;
+    }
+
 }
